@@ -1,5 +1,5 @@
 const Item = require('./Item')
-const  ItemsTypes = require('adex-constants').items.ItemsTypes
+const ItemsTypes = require('adex-constants').items.ItemsTypes
 
 class AdSlot extends Item {
     constructor({
@@ -28,7 +28,7 @@ class AdSlot extends Item {
             _id: _id,
             _ipfs: _ipfs,
             _description: _description,
-            _items:_items,
+            _items: _items,
             _meta: _meta,
             _syncedIpfs: _syncedIpfs
         })

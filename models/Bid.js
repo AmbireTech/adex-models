@@ -1,4 +1,4 @@
-const ItemsTypes = require('adex-constants').exchange.BID_STATES
+const BID_STATES = require('adex-constants').exchange.BID_STATES
 
 // TODO: extend Base?
 class Bid {
@@ -33,7 +33,7 @@ class Bid {
     }
 
     plainObj() {
-        return { ...this }
+        return Object.assign({}, this)
     }
 
     static updateBid(bid, key, value, dirtyProps) {

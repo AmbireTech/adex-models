@@ -79,6 +79,19 @@ class Item extends Base {
         this.imgUrlStr(this.img)
     }
 
+    get sizeAndType() {
+        return sizeAndType({ adType: this.adType, size: this.size })
+    }
+
+    static sizeAndType({ adType, size }) {
+        let sizeAndType = 0
+        if (adType && size) {
+            parseInt(adType + '' + size)
+        }
+
+        return sizeAndType
+    }
+
     // TODO: change it to work with the new models
     // TODO: item type when add/remove ?
     static addItem(item, toAdd) {

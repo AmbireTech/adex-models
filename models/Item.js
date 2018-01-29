@@ -86,7 +86,7 @@ class Item extends Base {
     static sizeAndType({ adType, size }) {
         let sizeAndType = 0
         if (adType && size) {
-            parseInt(adType + '' + size)
+            sizeAndType = parseInt(adType + '' + size)
         }
 
         return sizeAndType

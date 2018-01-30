@@ -35,8 +35,9 @@ class Campaign extends Item {
             _syncedIpfs: _syncedIpfs
         })
 
-        this.from = _from
-        this.to = _to
+        //TODO:  decide to keep it in meta or not
+        this.from = _from || _meta.from
+        this.to = _to || _meta.to
     }
 
     get from() { return this._from }

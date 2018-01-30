@@ -6,7 +6,7 @@ const Channel = require('./models/Account')
 const Item = require('./models/Item')
 const Base = require('./models/Base')
 const Bid = require('./models/Bid')
-const Helper = require('./models/Helper')
+const Models = require('./models/Models')
 
 module.exports = {
     Account,
@@ -17,5 +17,5 @@ module.exports = {
     Item,
     Base,
     Bid,
-    Helper
+    Models
 }

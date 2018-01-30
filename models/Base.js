@@ -86,9 +86,10 @@ class Base {
     }
 
     // NOTE: update without mutating the item (required by redux)
-    static updateObject({ item = {}, ownProps = {}, meta = {}, newValues = {}, objModel = Base, dirtyProps } = {}) {
-        let newData = Object.assign({}, meta, ownProps, newValues) //TODO: fix it
+    static updateObject({ item = {}, ownProps = {}, meta = {}, newValues = {}, objModel = null, dirtyProps } = {}) {
+        if (!objModel) throw 'objModel is required!'
 
+        let newData = Object.assign({}, meta, ownProps, newValues) //TODO: fix it - use one
         let newItem = new objModel(item)
 
         // console.log('newItem', newItem)

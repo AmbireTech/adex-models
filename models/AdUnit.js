@@ -43,8 +43,8 @@ class AdUnit extends Item {
     get banner() { return this._meta.banner }
     set banner(value) { this._meta.banner = value }
 
-    get ad_url() { return this._meta.ad_url }
-    set ad_url(value) { this._meta.ad_url = value }
+    get adUrl() { return this._meta.ad_url }
+    set adUrl(value) { this._meta.ad_url = value }
 
     get targets() { return this._meta.targets }
     set targets(value) { this._meta.targets = value || DefaultTargets }

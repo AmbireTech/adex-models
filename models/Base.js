@@ -53,30 +53,13 @@ class Base {
     get deleted() { return this._deleted }
     set deleted(value) { this._deleted = value }
 
+    get ipfsMetaUrl() {
+        return Base.getIpfsMetaUrl(this.ipfs)
+    }
+
     plainObj() {
         let plain = Object.assign({}, this)
         return plain
-    }
-
-    static getImgUrl(img) {
-        // TODO: GET ipfs gateway from some config!!!
-        if (!img) return null
-        if (img.url) return img.url
-        if (img.ipfs) return `http://localhost:8080/ipfs/${img.ipfs}`
-        if (img.type && img.type_id) {
-            switch (img.type) {
-                case 'ipfs':
-                    return `http://localhost:8080/ipfs/${img.type_id}`
-                default: return ''
-            }
-        }
-        if (typeof img === 'string') {
-            return img
-        }
-        // TEMP
-        if (img.tempUrl) {
-            return img.tempUrl
-        }
     }
 
     static getIpfsMetaUrl(ipfs) {

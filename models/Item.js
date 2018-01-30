@@ -74,7 +74,29 @@ class Item extends Base {
 
     // UI props    
     get imgUrl() {
-        this.imgUrlStr(this.img)
+        return Item.getImgUrl(this.img)
+    }
+
+    //NOTE: Keep it because in the UI are used plain objects and for listing more items they are not instances ot Item
+    static getImgUrl(img) {
+        // TODO: GET ipfs gateway from some config!!!
+        if (!img) return null
+        if (img.url) return img.url
+        if (img.ipfs) return `http://localhost:8080/ipfs/${img.ipfs}`
+        if (img.type && img.type_id) {
+            switch (img.type) {
+                case 'ipfs':
+                    return `http://localhost:8080/ipfs/${img.type_id}`
+                default: return ''
+            }
+        }
+        if (typeof img === 'string') {
+            return img
+        }
+        // TEMP
+        if (img.tempUrl) {
+            return img.tempUrl
+        }
     }
 
     get sizeAndType() {

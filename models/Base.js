@@ -5,7 +5,7 @@ const Helper = require('./../helpers')
  * and use validations with setters but keep plain object in redux store
  */
 class Base {
-    constructor({ fullName = '', _ipfs = '', _meta = {}, _syncedIpfs = false, _modifiedOn, _deleted, _archived } = {}) {
+    constructor({ fullName = '', _ipfs = '', _meta = {}, _modifiedOn, _deleted, _archived } = {}) {
         /**
          * NOTE: The meta field is the one saved into ipfs and it cannot be changed
          * ipfs field will corresponding to the value of meta field
@@ -23,7 +23,6 @@ class Base {
 
         this.ipfs = _ipfs
         this.modifiedOn = _modifiedOn
-        this.syncedIpfs = _syncedIpfs
         this.deleted = _deleted || false
         this.archived = _archived || false
     }
@@ -53,12 +52,6 @@ class Base {
 
     get deleted() { return this._deleted }
     set deleted(value) { this._deleted = value }
-
-    get syncedIpfs() { return this._syncedIpfs }
-    set syncedIpfs(value) { this._syncedIpfs = value }
-
-    // get syncedAdexNode() { return this._syncedAdexNode }
-    // set syncedAdexNode(value) { this._syncedAdexNode = value }
 
     plainObj() {
         let plain = Object.assign({}, this)

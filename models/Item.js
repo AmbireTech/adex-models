@@ -14,7 +14,6 @@ class Item extends Base {
         _id = '',
         _ipfs = '',
         _modifiedOn,
-        _syncedIpfs,
         _deleted,
         _archived,
         _items
@@ -23,7 +22,6 @@ class Item extends Base {
             fullName: fullName,
             _ipfs: _ipfs,
             _meta: _meta,
-            _syncedIpfs: _syncedIpfs,
             _modifiedOn: _modifiedOn,
             _deleted: _deleted,
             _archived: _archived

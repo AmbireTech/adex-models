@@ -13,7 +13,6 @@ class Campaign extends Item {
         _ipfs,
         _description,
         _bids,
-        _syncedIpfs,
         _deleted,
         _items,
         _archived,
@@ -31,8 +30,7 @@ class Campaign extends Item {
             _ipfs: _ipfs,
             _description: _description,
             _items: _items,
-            _meta: _meta,
-            _syncedIpfs: _syncedIpfs
+            _meta: _meta
         })
 
         //TODO:  decide to keep it in meta or not

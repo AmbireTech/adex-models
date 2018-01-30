@@ -20,7 +20,6 @@ class Channel extends Item {
         _description,
         _items,
         _bids,
-        _syncedIpfs,
         _deleted,
         _archived,
     } = {}) {
@@ -35,8 +34,7 @@ class Channel extends Item {
             _ipfs: _ipfs,
             _description: _description,
             _items: _items,
-            _meta: _meta,
-            _syncedIpfs: _syncedIpfs
+            _meta: _meta
         })
     }
 }

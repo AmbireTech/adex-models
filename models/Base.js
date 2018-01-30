@@ -62,7 +62,6 @@ class Base {
 
     plainObj() {
         let plain = Object.assign({}, this)
-        console.log(plain)
         return plain
     }
 
@@ -93,21 +92,20 @@ class Base {
         return url
     }
 
-    // TODO: make it recursive for all props
-    static updateObject({ item = {}, ownProps = {}, meta = {}, objModel = Base, dirtyProps } = {}) {
-        meta = Object.assign({}, meta, ownProps) //TODO: fix it
+    // NOTE: update without mutating the item (required by redux)
+    static updateObject({ item = {}, ownProps = {}, meta = {}, newValues = {}, objModel = Base, dirtyProps } = {}) {
+        let newData = Object.assign({}, meta, ownProps, newValues) //TODO: fix it
 
         let newItem = new objModel(item)
 
-        // console.log('newItem', newItem)
+        console.log('newItem', newItem)
         let hasDirtyProps = Array.isArray(dirtyProps)
         if (hasDirtyProps) dirtyProps = dirtyProps.slice(0)
 
-        // TODO: Handle remove key value
-        for (let key in meta) {
-            if (meta.hasOwnProperty(key) && key in newItem) {
+        for (let key in newData) {
+            if (newData.hasOwnProperty(key) && key in newItem) {
 
-                let value = meta[key]
+                let value = newData[key]
 
                 if (value instanceof Date) {
                     value = value.getTime()

@@ -39,11 +39,17 @@ class Campaign extends Item {
         this.to = _to
     }
 
-    get from() { return this._meta.from }
-    set from(value) { this._meta.from = value }
+    get from() { return this._from }
+    set from(value) {
+        this._from = value
+        this._meta.from = value
+    }
 
-    get to() { return this._meta.to }
-    set to(value) { this._meta.to = value }
+    get to() { return this._to }
+    set to(value) {
+        this._to = value
+        this._meta.to = value
+    }
 }
 
 module.exports = Campaign

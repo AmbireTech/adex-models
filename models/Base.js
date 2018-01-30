@@ -98,7 +98,7 @@ class Base {
 
         let newItem = new objModel(item)
 
-        console.log('newItem', newItem)
+        // console.log('newItem', newItem)
         let hasDirtyProps = Array.isArray(dirtyProps)
         if (hasDirtyProps) dirtyProps = dirtyProps.slice(0)
 

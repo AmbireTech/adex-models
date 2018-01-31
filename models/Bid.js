@@ -1,4 +1,4 @@
-const BID_STATES = require('adex-constants').exchange.BID_STATES
+const { BID_STATES } = require('adex-constants').exchange
 
 // TODO: extend Base?
 class Bid {
@@ -17,6 +17,7 @@ class Bid {
         advertiserConfirmation = false,//bytes32
     } = {}) {
         // TODO: validate types!!!
+        // TODO: getters/setters
         this.id = id
         this.state = state
         this.amount = parseInt(amount)
@@ -26,7 +27,7 @@ class Bid {
         this.adSlot = parseInt(adSlot)
         this.acceptedTime = acceptedTime
         this.target = parseInt(target)
-        this.timeout = timeout
+        this.timeout = parseInt(timeout)
         this.publisherConfirmation = publisherConfirmation
         this.advertiserConfirmation = advertiserConfirmation
         return this

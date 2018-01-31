@@ -57,29 +57,7 @@ class AdUnit extends Item {
             target.weight = newWeight
         }
 
-        targets = Object.assign({}, targets)
-        let hasThisTarget = false
-
-        for (let i = 0; i < targets.length; i++) {
-            let currentTarget = targets[i]
-            if (currentTarget.name === target.name) {
-                targets[i] = target
-                hasThisTarget = true
-                break
-            }
-        }
-
-        if (!hasThisTarget) targets.push(target)
-
-        return targets
-    }
-
-    static updateTargetsWeight(targets, target, newWeight) {
-        // TODO: validate target
-        target = Object.assign({}, target)
-        target.weight = newWeight
-
-        targets = Object.assign({}, targets)
+        targets = targets.slice(0)
         let hasThisTarget = false
 
         for (let i = 0; i < targets.length; i++) {

@@ -1,4 +1,5 @@
 const Base = require('./Base')
+const { AdSizesByValue } = require('adex-constants').items
 
 // ITEM will be AdSlot or AdUnit (Channel/Campaign will be collections)
 class Item extends Base {
@@ -51,11 +52,14 @@ class Item extends Base {
     get img() { return this._meta.img }
     set img(value) { this._meta.img = value }
 
+    // TODO: labels
     get size() { return this._meta.size }
-    set size(value) { this._meta.size = value }
+    set size(value) { this._meta.size = parseInt(value) }
+
+    get sizeTxtValue() { return AdSizesByValue[this.size].valueTxt }
 
     get adType() { return this._meta.adType }
-    set adType(value) { this._meta.adType = value }
+    set adType(value) { this._meta.adType = parseInt(value) }
 
     // Dapp/adex-node fields (can be changed)
     get id() { return this._id }

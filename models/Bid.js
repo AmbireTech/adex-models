@@ -54,16 +54,16 @@ class Bid {
     set adSlot(value) { this._adSlot = value }
 
     get acceptedTime() { return this._acceptedTime }
-    set acceptedTime(value) { this._acceptedTime = parseInt(value) }
+    set acceptedTime(value) { this._acceptedTime = parseInt(value || 0) }
 
     get amount() { return this._amount }
-    set amount(value) { this._amount = parseInt(value) }
+    set amount(value) { this._amount = parseInt(value || 0) }
 
     get target() { return this._target }
-    set target(value) { this._target = parseInt(value) }
+    set target(value) { this._target = parseInt(value || 0) }
 
     get timeout() { return this._timeout }
-    set timeout(value) { this._timeout = parseInt(value) }
+    set timeout(value) { this._timeout = parseInt(value || 0) }
 
     get publisherConfirmation() { return this._publisherConfirmation }
     set publisherConfirmation(value) { this._publisherConfirmation = value }

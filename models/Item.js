@@ -81,6 +81,10 @@ class Item extends Base {
         return Item.getImgUrl(this.img)
     }
 
+    get sizeAndType() {
+        return Item.sizeAndType({ adType: this.adType, size: this.size })
+    }
+
     //NOTE: Keep it because in the UI are used plain objects and for listing more items they are not instances ot Item
     static getImgUrl(img) {
         // TODO: GET ipfs gateway from some config!!!
@@ -101,10 +105,6 @@ class Item extends Base {
         if (img.tempUrl) {
             return img.tempUrl
         }
-    }
-
-    get sizeAndType() {
-        return sizeAndType({ adType: this.adType, size: this.size })
     }
 
     static sizeAndType({ adType, size }) {

@@ -3,33 +3,35 @@ const { BID_STATES } = require('adex-constants').exchange
 // TODO: extend Base?
 class Bid {
     constructor({
-        _id = null,
+        _id,
         _state = BID_STATES.DoesNotExist.id,
         _advertiser = null, //address
         _adUnit = null,//bytes32 (ipfs hash or node id)
         _publisher = null, //address
         _adSlot = null,//bytes32
-        _acceptedTime = null,//uint
+        _acceptedTime = 0,//uint
         _amount = 0,//uint
         _target = 0,//uint
         _timeout = 0,//uint
-        _publisherConfirmation = false,//bytes32
-        _advertiserConfirmation = false,//bytes32
+        _publisherConfirmation = null,//bytes32
+        _advertiserConfirmation = null,//bytes32
+        sizeAndType = 0 // only node
     } = {}) {
         // TODO: validate types!!!
         // TODO: getters/setters
         this.id = _id
         this.state = _state
-        this.amount = _amount
         this.advertiser = _advertiser
         this.adUnit = _adUnit
         this.publisher = _publisher
         this.adSlot = _adSlot
         this.acceptedTime = _acceptedTime
+        this.amount = _amount
         this.target = _target
         this.timeout = _timeout
         this.publisherConfirmation = _publisherConfirmation
         this.advertiserConfirmation = _advertiserConfirmation
+        this.sizeAndType = sizeAndType
         return this
     }
 
@@ -38,9 +40,6 @@ class Bid {
 
     get state() { return this._state }
     set state(value) { this._state = parseInt(value) }
-
-    get amount() { return this._amount }
-    set amount(value) { this._amount = parseInt(value) }
 
     get advertiser() { return this._advertiser }
     set advertiser(value) { this._advertiser = value }
@@ -56,6 +55,9 @@ class Bid {
 
     get acceptedTime() { return this._acceptedTime }
     set acceptedTime(value) { this._acceptedTime = parseInt(value) }
+
+    get amount() { return this._amount }
+    set amount(value) { this._amount = parseInt(value) }
 
     get target() { return this._target }
     set target(value) { this._target = parseInt(value) }

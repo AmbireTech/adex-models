@@ -5,16 +5,16 @@ class Bid {
     constructor({
         _id,
         _state = BID_STATES.DoesNotExist.id,
-        _advertiser = null, //address
-        _adUnit = null,//bytes32 (ipfs hash or node id)
-        _publisher = null, //address
-        _adSlot = null,//bytes32
+        _advertiser = '', //address
+        _adUnit = '',//bytes32 (ipfs hash or node id)
+        _publisher = '', //address
+        _adSlot = '',//bytes32
         _acceptedTime = 0,//uint
         _amount = 0,//uint
         _target = 0,//uint
         _timeout = 0,//uint
-        _publisherConfirmation = null,//bytes32
-        _advertiserConfirmation = null,//bytes32
+        _publisherConfirmation = '',//bytes32
+        _advertiserConfirmation = '',//bytes32
         sizeAndType = 0 // only node
     } = {}) {
         // TODO: validate types!!!
@@ -42,16 +42,16 @@ class Bid {
     set state(value) { this._state = parseInt(value) }
 
     get advertiser() { return this._advertiser }
-    set advertiser(value) { this._advertiser = value }
+    set advertiser(value) { this._advertiser = value || '' }
 
     get adUnit() { return this._adUnit }
-    set adUnit(value) { this._adUnit = value }
+    set adUnit(value) { this._adUnit = value._ipfs || value || '' }
 
     get publisher() { return this._publisher }
-    set publisher(value) { this._publisher = value }
+    set publisher(value) { this._publisher = value || '' }
 
     get adSlot() { return this._adSlot }
-    set adSlot(value) { this._adSlot = value }
+    set adSlot(value) { this._adSlot = value = '' }
 
     get acceptedTime() { return this._acceptedTime }
     set acceptedTime(value) { this._acceptedTime = parseInt(value || 0) }
@@ -66,24 +66,25 @@ class Bid {
     set timeout(value) { this._timeout = parseInt(value || 0) }
 
     get publisherConfirmation() { return this._publisherConfirmation }
-    set publisherConfirmation(value) { this._publisherConfirmation = value }
+    set publisherConfirmation(value) { this._publisherConfirmation = value || '' }
 
     get advertiserConfirmation() { return this._advertiserConfirmation }
-    set advertiserConfirmation(value) { this._advertiserConfirmation = value }
+    set advertiserConfirmation(value) { this._advertiserConfirmation = value || '' }
 
     // web3 sign
+    //TODO: maybe hex values
     get typed() {
         return [
-            { type: 'address', name: 'advertiser', value: this.advertiser },
-            { type: 'bytes32 ', name: 'adUnit', value: this.adUnit },
-            { type: 'address', name: 'publisher', value: this.publisher },
-            { type: 'bytes32', name: 'adSlot', value: this.adSlot },
-            { type: 'uint', name: 'acceptedTime', value: this.acceptedTime },
-            { type: 'uint', name: 'amount', value: this.amount },
-            { type: 'uint ', name: 'target', value: this.target },
-            { type: 'uint ', name: 'timeout', value: this.timeout },
-            { type: 'bytes32', name: 'publisherConfirmation', value: this.publisherConfirmation },
-            { type: 'bytes32', name: 'advertiserConfirmation', value: this.advertiserConfirmation }
+            { type: 'address', name: 'Advertiser', value: this.advertiser },
+            { type: 'bytes32 ', name: 'Ad Unit', value: this.adUnit },
+            // { type: 'address', name: 'Publisher', value: this.publisher },
+            // { type: 'bytes32', name: 'Ad Slot', value: this.adSlot },
+            // { type: 'uint', name: 'Accepted Time', value: this.acceptedTime },
+            { type: 'uint', name: 'Amount', value: this.amount },
+            { type: 'uint ', name: 'Target', value: this.target },
+            { type: 'uint ', name: 'Timeout', value: this.timeout },
+            // { type: 'bytes32', name: 'Publisher Confirmation', value: this.publisherConfirmation },
+            // { type: 'bytes32', name: 'Advertiser Confirmation', value: this.advertiserConfirmation }
         ]
     }
 

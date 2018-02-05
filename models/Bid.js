@@ -76,15 +76,11 @@ class Bid {
     get typed() {
         return [
             { type: 'address', name: 'Advertiser', value: this.advertiser },
-            { type: 'bytes32 ', name: 'Ad Unit', value: this.adUnit },
-            // { type: 'address', name: 'Publisher', value: this.publisher },
-            // { type: 'bytes32', name: 'Ad Slot', value: this.adSlot },
-            // { type: 'uint', name: 'Accepted Time', value: this.acceptedTime },
-            { type: 'uint', name: 'Amount', value: this.amount },
-            { type: 'uint ', name: 'Target', value: this.target },
-            { type: 'uint ', name: 'Timeout', value: this.timeout },
-            // { type: 'bytes32', name: 'Publisher Confirmation', value: this.publisherConfirmation },
-            // { type: 'bytes32', name: 'Advertiser Confirmation', value: this.advertiserConfirmation }
+            { type: 'bytes32', name: 'Ad Unit (ipfs in hex)', value: this.adUnit },
+            { type: 'uint', name: 'Opened (UTC in ms)', value: Date.now().toString() },
+            { type: 'uint', name: 'Amount / 10000 = ADX (Decimals of precision: 4)', value: this.amount.toString() },
+            { type: 'uint', name: 'Target (clicks)', value: this.target.toString() },
+            { type: 'uint', name: 'Timeout (in ms)', value: this.timeout.toString() }
         ]
     }
 

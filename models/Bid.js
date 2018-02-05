@@ -1,4 +1,5 @@
 const { BID_STATES } = require('adex-constants').exchange
+const { ipfsHashTo32BytesHex} = require('./../helpers')
 
 // TODO: extend Base?
 class Bid {
@@ -77,11 +78,10 @@ class Bid {
     set opened(value) { this._opened = value || Date.now() }
 
     // web3 sign
-    //TODO: maybe hex values
     get typed() {
         return [
             { type: 'address', name: 'Advertiser', value: this.advertiser },
-            { type: 'bytes32', name: 'Ad Unit (ipfs in hex)', value: this.adUnit },
+            { type: 'bytes32', name: 'Ad Unit (ipfs in hex)', value: ipfsHashTo32BytesHex(this.adUnit) },
             { type: 'uint', name: 'Opened (UTC in ms)', value: this.opened },
             { type: 'uint', name: 'Amount / 10000 = ADX (Decimals of precision: 4)', value: this.amount.toString() },
             { type: 'uint', name: 'Target (clicks)', value: this.target.toString() },

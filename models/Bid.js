@@ -71,6 +71,22 @@ class Bid {
     get advertiserConfirmation() { return this._advertiserConfirmation }
     set advertiserConfirmation(value) { this._advertiserConfirmation = value }
 
+    // web3 sign
+    get typed() {
+        return [
+            { type: 'address', name: 'advertiser', value: this.advertiser },
+            { type: 'bytes32 ', name: 'adUnit', value: this.adUnit },
+            { type: 'address', name: 'publisher', value: this.publisher },
+            { type: 'bytes32', name: 'adSlot', value: this.adSlot },
+            { type: 'uint', name: 'acceptedTime', value: this.acceptedTime },
+            { type: 'uint', name: 'amount', value: this.amount },
+            { type: 'uint ', name: 'target', value: this.target },
+            { type: 'uint ', name: 'timeout', value: this.timeout },
+            { type: 'bytes32', name: 'publisherConfirmation', value: this.publisherConfirmation },
+            { type: 'bytes32', name: 'advertiserConfirmation', value: this.advertiserConfirmation }
+        ]
+    }
+
     plainObj() {
         return Object.assign({}, this)
     }

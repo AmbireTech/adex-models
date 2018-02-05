@@ -15,6 +15,7 @@ class Bid {
         _timeout = 0,//uint
         _publisherConfirmation = '',//bytes32
         _advertiserConfirmation = '',//bytes32
+        _opened,
         sizeAndType = 0 // only node
     } = {}) {
         // TODO: validate types!!!
@@ -32,6 +33,7 @@ class Bid {
         this.publisherConfirmation = _publisherConfirmation
         this.advertiserConfirmation = _advertiserConfirmation
         this.sizeAndType = sizeAndType
+        this.opened = _opened
         return this
     }
 
@@ -71,13 +73,16 @@ class Bid {
     get advertiserConfirmation() { return this._advertiserConfirmation }
     set advertiserConfirmation(value) { this._advertiserConfirmation = value || '' }
 
+    get opened() { return this._opened }
+    set opened(value) { this._opened = value || Date.now() }
+
     // web3 sign
     //TODO: maybe hex values
     get typed() {
         return [
             { type: 'address', name: 'Advertiser', value: this.advertiser },
             { type: 'bytes32', name: 'Ad Unit (ipfs in hex)', value: this.adUnit },
-            { type: 'uint', name: 'Opened (UTC in ms)', value: Date.now().toString() },
+            { type: 'uint', name: 'Opened (UTC in ms)', value: this.opened },
             { type: 'uint', name: 'Amount / 10000 = ADX (Decimals of precision: 4)', value: this.amount.toString() },
             { type: 'uint', name: 'Target (clicks)', value: this.target.toString() },
             { type: 'uint', name: 'Timeout (in ms)', value: this.timeout.toString() }

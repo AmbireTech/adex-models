@@ -5,17 +5,3 @@
 "adex-constants@git+https://git@github.com/AdExBlockchain/adex-constants.git#342db0a3523c80f0c9764d5ea967a8e388b5341a":
   version "1.0.0"
   resolved "git+https://git@github.com/AdExBlockchain/adex-constants.git#342db0a3523c80f0c9764d5ea967a8e388b5341a"
-
-slug@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/slug/-/slug-0.9.1.tgz#af08f608a7c11516b61778aa800dce84c518cfda"
-  dependencies:
-    unicode ">= 0.3.1"
-
-"unicode@>= 0.3.1":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/unicode/-/unicode-10.0.0.tgz#e5d51c1db93b6c71a0b879e0b0c4af7e6fdf688e"
-
-unidecode@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/unidecode/-/unidecode-0.1.8.tgz#efbb301538bc45246a9ac8c559d72f015305053e"

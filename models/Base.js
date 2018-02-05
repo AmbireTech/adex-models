@@ -13,7 +13,6 @@ class Base {
          */
         this._meta = {}
 
-        this.name = _meta.fullName || fullName || _meta.name
         this.fullName = _meta.fullName || fullName
         this.createdOn = _meta.createdOn
 
@@ -32,10 +31,6 @@ class Base {
 
     get createdOn() { return this._meta.createdOn }
     set createdOn(value) { this._meta.createdOn = value }
-
-    //TODO: Do we need this slugified name?
-    get name() { return this._meta.name }
-    set name(value) { this._meta.name = Helper.slugify(value) }
 
     get fullName() { return this._meta.fullName }
     set fullName(value) { this._meta.fullName = value }

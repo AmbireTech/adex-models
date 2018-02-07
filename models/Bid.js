@@ -1,5 +1,5 @@
 const { BID_STATES } = require('adex-constants').exchange
-const { ipfsHashTo32BytesHex} = require('./../helpers')
+const { ipfsHashTo32BytesHex } = require('./../helpers')
 
 // TODO: extend Base?
 class Bid {
@@ -17,7 +17,8 @@ class Bid {
         _publisherConfirmation = '',//bytes32
         _advertiserConfirmation = '',//bytes32
         _opened,
-        sizeAndType = 0 // only node
+        sizeAndType = 0, // only node
+        _signature = {}
     } = {}) {
         // TODO: validate types!!!
         // TODO: getters/setters
@@ -35,6 +36,7 @@ class Bid {
         this.advertiserConfirmation = _advertiserConfirmation
         this.sizeAndType = sizeAndType
         this.opened = _opened
+        this.signature = _signature
         return this
     }
 
@@ -76,6 +78,9 @@ class Bid {
 
     get opened() { return this._opened }
     set opened(value) { this._opened = value || Date.now() }
+
+    get signature() { return this._signature }
+    set signature(value) { this._signature = value }
 
     // web3 sign
     get typed() {

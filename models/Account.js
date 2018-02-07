@@ -8,12 +8,13 @@ class Account extends Base {
     *   - _stats will be used only at the client model for easier access to account data from 
     *   smart contracts (balance of rth/adx, register status, approved adx for transfer etc...)        
     */
-    constructor({ _name, _addr, _wallet, _ipfs, _meta, _temp, _stats = { balanceEth: 0, balanceAdx: 0, allowance: 0, isRegistered: false }, _settings = {} } = {}) {
+    constructor({ _name, _addr, _authMode, _wallet, _ipfs, _meta, _temp, _stats = { balanceEth: 0, balanceAdx: 0, allowance: 0, isRegistered: false }, _settings = {} } = {}) {
         super({ _name, _meta, _ipfs })
         this._addr = _addr
         this._wallet = _wallet || _addr
         this._stats = _stats
         this.settings = _settings
+        this.authMode = _authMode
 
         this._items = {}
 
@@ -31,6 +32,9 @@ class Account extends Base {
 
     get addr() { return this._addr }
     set addr(value) { this._addr = value }
+
+    get authMode() { return this._authMode }
+    set authMode(value) { this._authMode = value }
 
     get items() { return this._items }
     set items(value) { this._items = value }

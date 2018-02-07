@@ -1,14 +1,15 @@
 const Base = require('./Base')
 const ItemsTypes = require('adex-constants').items.ItemsTypes
 
-class Account {
+class Account extends Base {
     /**
     * NOTE:
     *   - _temp prop will be used for easy development at the moment to keep account data
     *   - _stats will be used only at the client model for easier access to account data from 
     *   smart contracts (balance of rth/adx, register status, approved adx for transfer etc...)        
     */
-    constructor({ _name, _addr, _authMode, _authSig, _temp, _stats = { balanceEth: 0, balanceAdx: 0, allowance: 0, isRegistered: false }, _settings = {} } = {}) {
+    constructor({ _name, _meta, _ipfs, _addr, _authMode, _authSig, _temp, _stats = { balanceEth: 0, balanceAdx: 0, allowance: 0, isRegistered: false }, _settings = {} } = {}) {
+        super({ _name, _meta, _ipfs })
         this._addr = _addr
         this._stats = _stats
         this.settings = _settings
@@ -17,8 +18,6 @@ class Account {
 
         // Temp we will keep here some addr data 
         this._temp = _temp
-
-        return this
     }
 
     get addr() { return this._addr }

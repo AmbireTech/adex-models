@@ -18,6 +18,8 @@ class Account extends Base {
 
         // Temp we will keep here some addr data 
         this._temp = _temp
+
+        return this
     }
 
     get addr() { return this._addr }

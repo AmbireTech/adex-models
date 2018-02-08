@@ -32,6 +32,8 @@ class AdSlot extends Item {
         })
 
         this.bids = _meta.bids || []
+
+        return this
     }
 
     get bids() { return this._bids }

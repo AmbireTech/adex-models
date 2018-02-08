@@ -36,6 +36,8 @@ class Campaign extends Item {
         //TODO:  decide to keep it in meta or not
         this.from = _from || _meta.from
         this.to = _to || _meta.to
+
+        return this
     }
 
     get from() { return this._from }

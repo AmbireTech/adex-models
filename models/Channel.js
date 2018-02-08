@@ -36,6 +36,8 @@ class Channel extends Item {
             _items: _items,
             _meta: _meta
         })
+
+        return this
     }
 }
 

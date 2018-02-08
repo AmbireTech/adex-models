@@ -38,6 +38,8 @@ class AdUnit extends Item {
         this.banner = _meta.banner || img
         this.ad_url = _meta.ad_url || ad_url
         this.targets = _meta.targets || targets
+
+        return this
     }
 
     get banner() { return this._meta.banner }

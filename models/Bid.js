@@ -63,7 +63,7 @@ class Bid {
     set publisher(value) { this._publisher = value || '' }
 
     get adSlot() { return this._adSlot }
-    set adSlot(value) { this._adSlot = value._ipfs || value = '' }
+    set adSlot(value) { this._adSlot = value._ipfs || value || '' }
 
     get adSlotId() { return this._adSlotId }
     set adSlotId(value) { this._adSlotId = value._id || value || '' }

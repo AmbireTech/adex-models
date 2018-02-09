@@ -1,6 +1,8 @@
 const { BID_STATES } = require('adex-constants').exchange
 const { ipfsHashTo32BytesHex } = require('./../helpers')
 
+console.log('BID_STATES', BID_STATES)
+
 // TODO: extend Base?
 class Bid {
     constructor({
@@ -26,8 +28,10 @@ class Bid {
         this.state = _state
         this.advertiser = _advertiser
         this.adUnit = _adUnit
+        this.adUnitId = _adUnitId
         this.publisher = _publisher
         this.adSlot = _adSlot
+        this.adSlotId = _adSlotId
         this.acceptedTime = _acceptedTime
         this.amount = _amount
         this.target = _target
@@ -52,11 +56,17 @@ class Bid {
     get adUnit() { return this._adUnit }
     set adUnit(value) { this._adUnit = value._ipfs || value || '' }
 
+    get adUnitId() { return this._adUnitId }
+    set adUnitId(value) { this._adUnitId = value._id || value || '' }
+
     get publisher() { return this._publisher }
     set publisher(value) { this._publisher = value || '' }
 
     get adSlot() { return this._adSlot }
-    set adSlot(value) { this._adSlot = value = '' }
+    set adSlot(value) { this._adSlot = value._ipfs || value = '' }
+
+    get adSlotId() { return this._adSlotId }
+    set adSlotId(value) { this._adSlotId = value._id || value || '' }
 
     get acceptedTime() { return this._acceptedTime }
     set acceptedTime(value) { this._acceptedTime = parseInt(value || 0) }

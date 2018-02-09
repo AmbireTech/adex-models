@@ -9,9 +9,11 @@ class Bid {
         _id,
         _state = BID_STATES.DoesNotExist.id,
         _advertiser = '', //address
-        _adUnit = '',//bytes32 (ipfs hash or node id)
+        _adUnit = '',//bytes32 (ipfs hash)
+        _adUnitId = '',//only node
         _publisher = '', //address
         _adSlot = '',//bytes32
+        _adSlotId = '',//only node 
         _acceptedTime = 0,//uint
         _amount = 0,//uint
         _target = 0,//uint

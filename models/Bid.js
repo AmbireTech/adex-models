@@ -94,15 +94,15 @@ class Bid {
     get signature() { return this._signature }
     set signature(value) { this._signature = value }
 
-    // web3 sign
+    //NOTE: web3 eip sign schema - DO NOT CHANGE !!!
     get typed() {
         return [
             { type: 'address', name: 'Advertiser', value: this.advertiser },
-            { type: 'bytes32', name: 'Ad Unit (ipfs in hex)', value: ipfsHashTo32BytesHex(this.adUnit) },
-            { type: 'uint', name: 'Opened (UTC in ms)', value: this.opened },
-            { type: 'uint', name: 'Amount / 10000 = ADX (Decimals of precision: 4)', value: this.amount.toString() },
-            { type: 'uint', name: 'Target (clicks)', value: this.target.toString() },
-            { type: 'uint', name: 'Timeout (in ms)', value: this.timeout.toString() }
+            { type: 'bytes32', name: 'Ad Unit ID', value: ipfsHashTo32BytesHex(this.adUnit) },
+            { type: 'uint', name: 'Opened', value: this.opened.toString() },
+            { type: 'uint', name: 'Amount', value: this.amount.toString() },
+            { type: 'uint', name: 'Target', value: this.target.toString() },
+            { type: 'uint', name: 'Timeout', value: this.timeout.toString() }
         ]
     }
 

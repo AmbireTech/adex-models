@@ -22,7 +22,8 @@ class Bid {
         _advertiserConfirmation = '',//bytes32
         _opened,
         sizeAndType = 0, // only node
-        _signature = {}
+        _signature = {},
+        _exchangeAddr
     } = {}) {
         // TODO: validate types!!!
         // TODO: getters/setters
@@ -43,6 +44,7 @@ class Bid {
         this.sizeAndType = sizeAndType
         this.opened = _opened
         this.signature = _signature
+        this.exchangeAddr = _exchangeAddr
         return this
     }
 
@@ -94,15 +96,19 @@ class Bid {
     get signature() { return this._signature }
     set signature(value) { this._signature = value }
 
+    get exchangeAddr() { return this._exchangeAddr }
+    set exchangeAddr(value) { this._exchangeAddr = value }
+
     //NOTE: web3 eip sign schema - DO NOT CHANGE !!!
     get typed() {
         return [
             { type: 'address', name: 'Advertiser', value: this.advertiser },
             { type: 'bytes32', name: 'Ad Unit ID', value: ipfsHashTo32BytesHex(this.adUnit) },
             { type: 'uint', name: 'Opened', value: this.opened.toString() },
-            { type: 'uint', name: 'Amount', value: this.amount.toString() },
             { type: 'uint', name: 'Target', value: this.target.toString() },
-            { type: 'uint', name: 'Timeout', value: this.timeout.toString() }
+            { type: 'uint', name: 'Amount', value: this.amount.toString() },
+            { type: 'uint', name: 'Timeout', value: this.timeout.toString() },
+            { type: 'address', name: 'Exchange', value: this.exchangeAddr },
         ]
     }
 

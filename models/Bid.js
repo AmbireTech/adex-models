@@ -7,6 +7,7 @@ console.log('BID_STATES', BID_STATES)
 class Bid {
     constructor({
         _id,
+        _contractId,
         _state = BID_STATES.DoesNotExist.id,
         _advertiser = '', //address
         _adUnit = '',//bytes32 (ipfs hash)
@@ -23,11 +24,13 @@ class Bid {
         _opened,
         sizeAndType = 0, // only node
         _signature = {},
-        _exchangeAddr
+        _exchangeAddr,
+        clicksCount = 0 // only node
     } = {}) {
         // TODO: validate types!!!
         // TODO: getters/setters
         this.id = _id
+        this.contractId = _contractId
         this.state = _state
         this.advertiser = _advertiser
         this.adUnit = _adUnit
@@ -45,11 +48,15 @@ class Bid {
         this.opened = _opened
         this.signature = _signature
         this.exchangeAddr = _exchangeAddr
+        this.clicksCount = clicksCount //maybe get/set
         return this
     }
 
     get id() { return this._id }
     set id(value) { this._id = value }
+
+    get contractId() { return this._contractId }
+    set contractId(value) { this._contractId = value }
 
     get state() { return this._state }
     set state(value) { this._state = parseInt(value) }

@@ -15,7 +15,9 @@ class AdSlot extends Item {
         _items,
         _bids,
         _deleted,
-        _archived
+        _archived,
+        _fallbackImageUrl,
+        _fallbackAdUrl
     } = {}) {
         super({
             fullName: fullName,
@@ -32,12 +34,21 @@ class AdSlot extends Item {
         })
 
         this.bids = _meta.bids || []
+        //TODO: Ad it with img obj
+        this.fallbackImageUrl = _fallbackImageUrl
+        this.fallbackAdUrl = _fallbackAdUrl
 
         return this
     }
 
     get bids() { return this._bids }
     set bids(value) { this._bids = value }
+
+    get fallbackImageUrl() { return this._fallbackImageUrl }
+    set fallbackImageUrl(value) { this._fallbackImageUrl = value }
+
+    get fallbackAdUrl() { return this._fallbackAdUrl }
+    set fallbackAdUrl(value) { this._fallbackAdUrl = value }
 }
 
 module.exports = AdSlot

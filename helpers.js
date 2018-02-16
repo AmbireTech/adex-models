@@ -19,7 +19,13 @@ const from32BytesHexIpfs = (ipfsHex) => {
     return ipfsHash
 }
 
+const toLowerCaseString = (obj) => {
+    //Maybe defaut value ot validation but for its current use case is good to throw
+    return obj.toString().toLowerCase()
+}
+
 module.exports = {
     ipfsHashTo32BytesHex: ipfsHashTo32BytesHex,
-    from32BytesHexIpfs: from32BytesHexIpfs
+    from32BytesHexIpfs: from32BytesHexIpfs,
+    toLowerCaseString: toLowerCaseString
 }

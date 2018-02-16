@@ -1,5 +1,5 @@
 const { BID_STATES } = require('adex-constants').exchange
-const { ipfsHashTo32BytesHex } = require('./../helpers')
+const { ipfsHashTo32BytesHex, toLowerCaseString } = require('./../helpers')
 
 console.log('BID_STATES', BID_STATES)
 
@@ -109,13 +109,13 @@ class Bid {
     //NOTE: web3 eip sign schema - DO NOT CHANGE !!!
     get typed() {
         return [
-            { type: 'address', name: 'Advertiser', value: this.advertiser },
-            { type: 'bytes32', name: 'Ad Unit ID', value: ipfsHashTo32BytesHex(this.adUnit) },
-            { type: 'uint', name: 'Opened', value: this.opened.toString() },
-            { type: 'uint', name: 'Target', value: this.target.toString() },
-            { type: 'uint', name: 'Amount', value: this.amount.toString() },
-            { type: 'uint', name: 'Timeout', value: this.timeout.toString() },
-            { type: 'address', name: 'Exchange', value: this.exchangeAddr },
+            { type: 'address', name: 'Advertiser', value: toLowerCaseString(this.advertiser) },
+            { type: 'bytes32', name: 'Ad Unit ID', value: toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) },
+            { type: 'uint', name: 'Opened', value: toLowerCaseString(this.opened) },
+            { type: 'uint', name: 'Target', value: toLowerCaseString(this.target) },
+            { type: 'uint', name: 'Amount', value: toLowerCaseString(this.amount) },
+            { type: 'uint', name: 'Timeout', value: toLowerCaseString(this.timeout) },
+            { type: 'address', name: 'Exchange', value: toLowerCaseString(this.exchangeAddr) },
         ]
     }
 

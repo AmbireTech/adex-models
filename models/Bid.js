@@ -6,8 +6,7 @@ console.log('BID_STATES', BID_STATES)
 // TODO: extend Base?
 class Bid {
     constructor({
-        _id,
-        _contractId,
+        _id,//Adex exchange contract id (getBidID) also used ad db id because it's meant to be unique
         _state = BID_STATES.DoesNotExist.id,
         _advertiser = '', //address
         _adUnit = '',//bytes32 (ipfs hash)
@@ -30,7 +29,6 @@ class Bid {
         // TODO: validate types!!!
         // TODO: getters/setters
         this.id = _id
-        this.contractId = _contractId
         this.state = _state
         this.advertiser = _advertiser
         this.adUnit = _adUnit
@@ -55,14 +53,11 @@ class Bid {
     get id() { return this._id }
     set id(value) { this._id = value }
 
-    get contractId() { return this._contractId }
-    set contractId(value) { this._contractId = value }
-
     get state() { return this._state }
     set state(value) { this._state = parseInt(value) }
 
     get advertiser() { return this._advertiser }
-    set advertiser(value) { this._advertiser = value || '' }
+    set advertiser(value) { this._advertiser = toLowerCaseString(value || '') }
 
     get adUnit() { return this._adUnit }
     set adUnit(value) { this._adUnit = value._ipfs || value || '' }
@@ -71,7 +66,7 @@ class Bid {
     set adUnitId(value) { this._adUnitId = value._id || value || '' }
 
     get publisher() { return this._publisher }
-    set publisher(value) { this._publisher = value || '' }
+    set publisher(value) { this._publisher = toLowerCaseString(value || '') }
 
     get adSlot() { return this._adSlot }
     set adSlot(value) { this._adSlot = value._ipfs || value || '' }

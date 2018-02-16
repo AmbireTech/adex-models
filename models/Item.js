@@ -1,5 +1,6 @@
 const Base = require('./Base')
 const { AdSizesByValue } = require('adex-constants').items
+const IPFS_GATE = 'http://localhost:8080/ipfs/' // Config
 
 // ITEM will be AdSlot or AdUnit (Channel/Campaign will be collections)
 class Item extends Base {
@@ -18,7 +19,7 @@ class Item extends Base {
         _deleted,
         _archived,
         _items
-        } = {}) {
+    } = {}) {
         super({
             fullName: fullName,
             _ipfs: _ipfs,
@@ -41,7 +42,7 @@ class Item extends Base {
 
     // Meta (ipfs) props (can NOT be changed)
     get owner() { return this._meta.owner }
-    set owner(value) { this._meta.owner = value }
+    set owner(value) { this._meta.owner = toLowerCaseString(value || '') }
 
     get type() { return this._meta.type }
     set type(value) {
@@ -86,22 +87,22 @@ class Item extends Base {
     }
 
     //NOTE: Keep it because in the UI are used plain objects and for listing more items they are not instances ot Item
-    static getImgUrl(img) {
+    static getImgUrl(img, ipfsGate = IPFS_GATE) {
         // TODO: GET ipfs gateway from some config!!!
         if (!img) return null
         if (img.url) return img.url
-        if (img.ipfs) return `http://localhost:8080/ipfs/${img.ipfs}`
+        if (img.ipfs) return ipfsGate + img.ipfs
         if (img.type && img.type_id) {
             switch (img.type) {
                 case 'ipfs':
-                    return `http://localhost:8080/ipfs/${img.type_id}`
+                    return ipfsGate + img.type_id
                 default: return ''
             }
         }
         if (typeof img === 'string') {
             return img
         }
-        // TEMP
+        // used for temp url in the dapp, must be deleted before 
         if (img.tempUrl) {
             return img.tempUrl
         }

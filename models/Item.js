@@ -1,5 +1,6 @@
 const Base = require('./Base')
 const { AdSizesByValue } = require('adex-constants').items
+const { toLowerCaseString } = require('./../helpers')
 const IPFS_GATE = 'http://localhost:8080/ipfs/' // Config
 
 // ITEM will be AdSlot or AdUnit (Channel/Campaign will be collections)

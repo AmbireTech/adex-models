@@ -41,6 +41,7 @@ class AdSlot extends Item {
         return this
     }
 
+    //TODO: check if it is used and delete it!!
     get bids() { return this._bids }
     set bids(value) { this._bids = value }
 

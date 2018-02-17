@@ -7,6 +7,7 @@ const Item = require('./models/Item')
 const Base = require('./models/Base')
 const Bid = require('./models/Bid')
 const Models = require('./models/Models')
+const helpers = require('./helpers')
 
 module.exports = {
     Account,
@@ -17,5 +18,6 @@ module.exports = {
     Item,
     Base,
     Bid,
-    Models
+    Models,
+    helpers
 }

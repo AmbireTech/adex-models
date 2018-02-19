@@ -1,5 +1,5 @@
 const { BID_STATES } = require('adex-constants').exchange
-const { ipfsHashTo32BytesHex, toLowerCaseString } = require('./../helpers')
+const { ipfsHashTo32BytesHex, toLowerCaseString, adxAmoutStrToPrecison } = require('./../helpers')
 
 console.log('BID_STATES', BID_STATES)
 
@@ -75,16 +75,16 @@ class Bid {
     set adSlotId(value) { this._adSlotId = value._id || value || '' }
 
     get acceptedTime() { return this._acceptedTime }
-    set acceptedTime(value) { this._acceptedTime = parseInt(value || 0) }
+    set acceptedTime(value) { this._acceptedTime = value }
 
     get amount() { return this._amount }
-    set amount(value) { this._amount = parseInt(value || 0) }
+    set amount(value) { this._amount = value }
 
     get target() { return this._target }
-    set target(value) { this._target = parseInt(value || 0) }
+    set target(value) { this._target = value }
 
     get timeout() { return this._timeout }
-    set timeout(value) { this._timeout = parseInt(value || 0) }
+    set timeout(value) { this._timeout = value }
 
     get publisherConfirmation() { return this._publisherConfirmation }
     set publisherConfirmation(value) { this._publisherConfirmation = value || '' }

@@ -10,7 +10,7 @@ class Item extends Base {
         fullName,
         owner = '',
         type,
-        img = { url: null, ipfs: null, type: null, type_id: null }, // TODO: fix img props
+        img = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
         size,
         adType,
         _description = '',

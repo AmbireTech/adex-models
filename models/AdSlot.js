@@ -16,7 +16,7 @@ class AdSlot extends Item {
         _bids,
         _deleted,
         _archived,
-        _fallbackImageUrl,
+        _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
         _fallbackAdUrl
     } = {}) {
         super({
@@ -33,20 +33,14 @@ class AdSlot extends Item {
             _meta: _meta
         })
 
-        this.bids = _meta.bids || []
-        //TODO: Ad it with img obj
-        this.fallbackImageUrl = _fallbackImageUrl
+        this._fallbackAdImg = _fallbackAdImg
         this.fallbackAdUrl = _fallbackAdUrl
 
         return this
     }
 
-    //TODO: check if it is used and delete it!!
-    get bids() { return this._bids }
-    set bids(value) { this._bids = value }
-
-    get fallbackImageUrl() { return this._fallbackImageUrl }
-    set fallbackImageUrl(value) { this._fallbackImageUrl = value }
+    get fallbackAdImg() { return this._fallbackAdImg }
+    set fallbackAdImg(value) { this._fallbackAdImg = value }
 
     get fallbackAdUrl() { return this._fallbackAdUrl }
     set fallbackAdUrl(value) { this._fallbackAdUrl = value }

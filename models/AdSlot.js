@@ -9,6 +9,7 @@ class AdSlot extends Item {
         img,
         size,
         adType,
+        slotUrl,
         _id,
         _ipfs,
         _description,
@@ -33,11 +34,15 @@ class AdSlot extends Item {
             _meta: _meta
         })
 
+        this.slotUrl = _meta.slotUrl || slotUrl
         this._fallbackAdImg = _fallbackAdImg
         this.fallbackAdUrl = _fallbackAdUrl
 
         return this
     }
+
+    get slotUrl() { return this._meta.slotUrl }
+    set slotUrl(value) { this._meta.slotUrl = value }
 
     get fallbackAdImg() { return this._fallbackAdImg }
     set fallbackAdImg(value) { this._fallbackAdImg = value }

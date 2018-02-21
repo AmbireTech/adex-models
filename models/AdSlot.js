@@ -16,7 +16,7 @@ class AdSlot extends Item {
         _bids,
         _deleted,
         _archived,
-        _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null, width: 0, height: 0 },
+        _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
         _fallbackAdUrl
     } = {}) {
         super({

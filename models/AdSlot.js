@@ -9,7 +9,6 @@ class AdSlot extends Item {
         img,
         size,
         adType,
-        slotUrl,
         _id,
         _ipfs,
         _description,
@@ -17,7 +16,7 @@ class AdSlot extends Item {
         _bids,
         _deleted,
         _archived,
-        _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
+        _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null, width: 0, height: 0 },
         _fallbackAdUrl
     } = {}) {
         super({
@@ -34,15 +33,11 @@ class AdSlot extends Item {
             _meta: _meta
         })
 
-        this.slotUrl = _meta.slotUrl || slotUrl
         this._fallbackAdImg = _fallbackAdImg
         this.fallbackAdUrl = _fallbackAdUrl
 
         return this
     }
-
-    get slotUrl() { return this._meta.slotUrl }
-    set slotUrl(value) { this._meta.slotUrl = value }
 
     get fallbackAdImg() { return this._fallbackAdImg }
     set fallbackAdImg(value) { this._fallbackAdImg = value }

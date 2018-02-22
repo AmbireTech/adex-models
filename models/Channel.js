@@ -26,7 +26,7 @@ class Channel extends Item {
         super({
             fullName: fullName,
             owner: owner,
-            type: ItemsTypes.Channel.id,
+            _type: ItemsTypes.Channel.id,
             img: img,
             size: size,
             adType: adType,

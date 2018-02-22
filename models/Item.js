@@ -9,7 +9,7 @@ class Item extends Base {
         _meta = {},
         fullName,
         owner = '',
-        type,
+        _type,
         img = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
         size,
         adType,
@@ -31,7 +31,7 @@ class Item extends Base {
         })
 
         this.owner = _meta.owner || owner //TODO: set this on the node?
-        this.type = _meta.type || type
+        this.type = _meta.type || _type
         this.img = _meta.img || img
         this.size = _meta.size || size
         this.adType = _meta.adType || adType
@@ -48,7 +48,7 @@ class Item extends Base {
     get type() { return this._meta.type }
     set type(value) {
         this._meta.type = value
-        this._type = value // TEMP: to keep the UI working
+        this._type = value // NOTE: used in the db for faster lookup
     }
 
     get img() { return this._meta.img }

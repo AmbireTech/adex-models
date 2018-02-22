@@ -22,7 +22,7 @@ class Campaign extends Item {
         super({
             fullName: fullName,
             owner: owner,
-            type: ItemsTypes.Campaign.id,
+            _type: ItemsTypes.Campaign.id,
             img: img,
             size: size,
             adType: adType,

@@ -22,7 +22,7 @@ class AdSlot extends Item {
         super({
             fullName: fullName,
             owner: owner,
-            type: ItemsTypes.AdSlot.id,
+            _type: ItemsTypes.AdSlot.id,
             img: img,
             size: size,
             adType: adType,

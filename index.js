@@ -10,14 +10,14 @@ const Models = require('./models/Models')
 const helpers = require('./helpers')
 
 module.exports = {
-    Account,
-    AdSlot,
-    AdUnit,
-    Campaign,
-    Channel,
-    Item,
-    Base,
-    Bid,
-    Models,
-    helpers
+    Account: Account,
+    AdSlot: AdSlot,
+    AdUnit: AdUnit,
+    Campaign: Campaign,
+    Channel: Channel,
+    Item: Item,
+    Base: Base,
+    Bid: Bid,
+    Models: Models,
+    helpers: helpers
 }

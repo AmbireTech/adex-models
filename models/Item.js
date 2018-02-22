@@ -127,7 +127,7 @@ class Item extends Base {
         if (itemIndex > -1) return
 
         let newItem = Object.assign({}, item)
-        let newItems = [...newItem._items]
+        let newItems = newItem._items.slice(0)
         newItems.push(toAdd)
         newItem._items = newItems
         newItem.modifiedOn = Date.now()

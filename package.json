@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/AdExBlockchain/adex-models#readme",
   "dependencies": {
-    "adex-constants": "git+https://git@github.com/AdExBlockchain/adex-constants.git#5df23277fee22b9c3be0dbe5b6657ca824e032bb",
+    "adex-constants": "git+https://git@github.com/AdExBlockchain/adex-constants.git#02f43fff03a16ec0caed7095f211b477e8c4cbde",
     "bs58": "^4.0.1"
   },
   "devDependencies": {

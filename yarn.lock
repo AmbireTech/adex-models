@@ -6,9 +6,9 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-adex-constants@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/adex-constants/-/adex-constants-1.0.1.tgz#b72e046fe6b44e10df9d8b29dc8c4f215ec1e99c"
+adex-constants@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/adex-constants/-/adex-constants-1.0.4.tgz#bea496e0cdccb2711c0496b10fd4109247135a22"
   dependencies:
     country-data "^0.0.31"
 

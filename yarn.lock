@@ -6,9 +6,9 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-"adex-constants@git+https://git@github.com/AdExBlockchain/adex-constants.git#02f43fff03a16ec0caed7095f211b477e8c4cbde":
-  version "1.0.0"
-  resolved "git+https://git@github.com/AdExBlockchain/adex-constants.git#02f43fff03a16ec0caed7095f211b477e8c4cbde"
+adex-constants@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/adex-constants/-/adex-constants-1.0.1.tgz#b72e046fe6b44e10df9d8b29dc8c4f215ec1e99c"
   dependencies:
     country-data "^0.0.31"
 

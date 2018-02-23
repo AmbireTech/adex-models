@@ -54,7 +54,7 @@ class Bid {
     set id(value) { this._id = value }
 
     get state() { return this._state }
-    set state(value) { this._state = parseInt(value) }
+    set state(value) { this._state = parseInt(value, 10) }
 
     get advertiser() { return this._advertiser }
     set advertiser(value) { this._advertiser = toLowerCaseString(value || '') }

@@ -56,12 +56,12 @@ class Item extends Base {
 
     // TODO: labels
     get size() { return this._meta.size }
-    set size(value) { this._meta.size = parseInt(value) }
+    set size(value) { this._meta.size = parseInt(value, 10) }
 
     get sizeTxtValue() { return AdSizesByValue[this.size].valueTxt }
 
     get adType() { return this._meta.adType }
-    set adType(value) { this._meta.adType = parseInt(value) }
+    set adType(value) { this._meta.adType = parseInt(value, 10) }
 
     // Dapp/adex-node fields (can be changed)
     get id() { return this._id }
@@ -112,7 +112,7 @@ class Item extends Base {
     static sizeAndType({ adType, size }) {
         let sizeAndType = 0
         if (adType && size) {
-            sizeAndType = parseInt(adType + '' + size)
+            sizeAndType = parseInt(adType + '' + size, 10)
         }
 
         return sizeAndType

@@ -1,6 +1,6 @@
 {
   "name": "adex-models",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "adex data models",
   "main": "./dist/index.js",
   "scripts": {

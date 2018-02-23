@@ -1,7 +1,6 @@
 const Base = require('./Base')
 const { AdSizesByValue } = require('adex-constants').items
 const { toLowerCaseString } = require('./../helpers')
-const IPFS_GATE = 'http://localhost:8080/ipfs/' // Config
 
 // ITEM will be AdSlot or AdUnit (Channel/Campaign will be collections)
 class Item extends Base {
@@ -78,18 +77,12 @@ class Item extends Base {
     get items() { return this._items }
     set items(value) { this._items = value }
 
-    // UI props    
-    get imgUrl() {
-        return Item.getImgUrl(this.img)
-    }
-
     get sizeAndType() {
         return Item.sizeAndType({ adType: this.adType, size: this.size })
     }
 
     //NOTE: Keep it because in the UI are used plain objects and for listing more items they are not instances ot Item
-    static getImgUrl(img, ipfsGate = IPFS_GATE) {
-        // TODO: GET ipfs gateway from some config!!!
+    static getImgUrl(img, ipfsGate) {
         if (!img) return null
         if (img.url) return img.url
         if (img.ipfs) return ipfsGate + img.ipfs

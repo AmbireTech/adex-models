@@ -48,17 +48,13 @@ class Base {
     get deleted() { return this._deleted }
     set deleted(value) { this._deleted = value }
 
-    get ipfsMetaUrl() {
-        return Base.getIpfsMetaUrl(this.ipfs)
-    }
-
     plainObj() {
         let plain = Object.assign({}, this)
         return plain
     }
 
-    static getIpfsMetaUrl(ipfs) {
-        let url = `http://localhost:8080/ipfs/${ipfs}`
+    static getIpfsMetaUrl(ipfs, ipfsGate) {
+        let url = ipfsGate + ipfs
 
         return url
     }

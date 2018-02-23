@@ -1,12 +1,9 @@
 const { BID_STATES } = require('adex-constants').exchange
-const { ipfsHashTo32BytesHex, toLowerCaseString, adxAmoutStrToPrecison } = require('./../helpers')
+const { ipfsHashTo32BytesHex, toLowerCaseString } = require('./../helpers')
 
-console.log('BID_STATES', BID_STATES)
-
-// TODO: extend Base?
 class Bid {
     constructor({
-        _id,//Adex exchange contract id (getBidID) also used ad db id because it's meant to be unique
+        _id,//Adex exchange contract id (getBidID) also used as db id because it's meant to be unique
         _state = BID_STATES.DoesNotExist.id,
         _advertiser = '', //address
         _adUnit = '',//bytes32 (ipfs hash)
@@ -26,8 +23,6 @@ class Bid {
         _exchangeAddr,
         clicksCount = 0 // only node
     } = {}) {
-        // TODO: validate types!!!
-        // TODO: getters/setters
         this.id = _id
         this.state = _state
         this.advertiser = _advertiser

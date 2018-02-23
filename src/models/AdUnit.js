@@ -1,8 +1,6 @@
 const Item = require('./Item')
 const { ItemsTypes, DefaultTargets } = require('adex-constants').items
 
-// console.log('item', Item)
-
 class AdUnit extends Item {
     constructor({
         _meta = {},

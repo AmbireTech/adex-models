@@ -14,6 +14,7 @@ class AdSlot extends Item {
         _description,
         _items,
         _bids,
+        _modifiedOn,
         _deleted,
         _archived,
         _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
@@ -30,7 +31,10 @@ class AdSlot extends Item {
             _ipfs: _ipfs,
             _description: _description,
             _items: _items,
-            _meta: _meta
+            _meta: _meta,
+            _modifiedOn: _modifiedOn,
+            _deleted: _deleted,
+            _archived: _archived
         })
 
         this._fallbackAdImg = _fallbackAdImg

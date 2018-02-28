@@ -16,6 +16,7 @@ class AdUnit extends Item {
         _description,
         _items,
         _bids,
+        _modifiedOn,
         _deleted,
         _archived
      } = {}) {
@@ -30,7 +31,10 @@ class AdUnit extends Item {
             _ipfs: _ipfs,
             _description: _description,
             _items: _items,
-            _meta: _meta
+            _meta: _meta,
+            _modifiedOn: _modifiedOn,
+            _deleted: _deleted,
+            _archived: _archived
         })
 
         this.banner = _meta.banner || img

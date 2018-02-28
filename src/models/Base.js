@@ -60,15 +60,11 @@ class Base {
     }
 
     // NOTE: update without mutating the item (required by redux)
-    static updateObject({ item = {}, ownProps = {}, meta = {}, newValues = {}, objModel = null, dirtyProps } = {}) {
+    static updateObject({ item = {}, ownProps = {}, meta = {}, newValues = {}, objModel = null } = {}) {
         if (!objModel) throw 'objModel is required!'
 
-        let newData = Object.assign({}, meta, ownProps, newValues) //TODO: fix it - use one
+        let newData = Object.assign({}, meta, ownProps, newValues) //TODO: fix it - use only newValues
         let newItem = new objModel(item)
-
-        // console.log('newItem', newItem)
-        let hasDirtyProps = Array.isArray(dirtyProps)
-        if (hasDirtyProps) dirtyProps = dirtyProps.slice(0)
 
         for (let key in newData) {
             if (newData.hasOwnProperty(key) && key in newItem) {
@@ -80,15 +76,10 @@ class Base {
                 }
 
                 newItem[key] = value
-
-                if (hasDirtyProps && dirtyProps.indexOf(key) < 0) {
-                    dirtyProps.push(key)
-                }
             }
         }
 
         newItem.modifiedOn = Date.now()
-        newItem.dirtyProps = dirtyProps
         let plainObj = newItem.plainObj()
 
         return plainObj

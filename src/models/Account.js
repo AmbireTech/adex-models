@@ -13,8 +13,14 @@ class Account extends Base {
         _meta,
         _ipfs,
         _addr,
-        _authMode,
+        _hdWalletAddrIdx, // HD wallet addr index
+        _hdWalletAddrPath, // HD wallet Path
+        _authMode, // TODO: Deprecate
+        _chainId, // Blockchain Id
+        _signType, // Sing type (Eip, Trezor, personal, etc..)
+        _authType, // Auth type (Metamask, Trezor, Ledger) 
         _authSig,
+        _nonce,
         _temp,
         _modifiedOn,
         _deleted,
@@ -25,10 +31,15 @@ class Account extends Base {
 
         super({ fullName, _meta, _ipfs, _modifiedOn, _deleted, _archived })
         this._addr = _addr
+        this.hdWalletAddrIdx = _hdWalletAddrIdx
+        this.hdWalletAddrPath = _hdWalletAddrPath
+        this.authMode = _authMode
+        this.chainId = _chainId
+        this.signType = _signType
+        this.authType = _authType
+        this.authSig = _authSig
         this._stats = _stats
         this.settings = _settings
-        this.authMode = _authMode
-        this.authSig = _authSig
 
         // Temp we will keep here some addr data 
         this._temp = _temp
@@ -39,8 +50,23 @@ class Account extends Base {
     get addr() { return this._addr }
     set addr(value) { this._addr = value }
 
+    get hdWalletAddrIdx() { return this._hdWalletAddrIdx }
+    set hdWalletAddrIdx(value) { this._hdWalletAddrIdx = value }
+
+    get hdWalletAddrPath() { return this._hdWalletAddrPath }
+    set hdWalletAddrPath(value) { this._hdWalletAddrPath = value }
+
     get authMode() { return this._authMode }
     set authMode(value) { this._authMode = value }
+
+    get chainId() { return this._chainId }
+    set chainId(value) { this._chainId = value }
+
+    get signType() { return this._signType }
+    set signType(value) { this._signType = value }
+
+    get authType() { return this._authType }
+    set authType(value) { this._authType = value }
 
     get authSig() { return this._authSig }
     set authSig(value) { this._authSig = value }

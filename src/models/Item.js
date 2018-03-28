@@ -100,6 +100,8 @@ class Item extends Base {
         if (img.tempUrl) {
             return img.tempUrl
         }
+        
+        return ''
     }
 
     static sizeAndType({ adType, size }) {

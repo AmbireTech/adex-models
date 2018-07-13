@@ -18,7 +18,8 @@ class AdUnit extends Item {
         _bids,
         _modifiedOn,
         _deleted,
-        _archived
+        _archived,
+        tags
      } = {}) {
         super({
             fullName: fullName,
@@ -40,6 +41,7 @@ class AdUnit extends Item {
         this.banner = _meta.banner || img
         this.ad_url = _meta.ad_url || ad_url
         this.targets = _meta.targets || targets
+        this.tags = _meta.tags || tags
 
         return this
     }
@@ -55,6 +57,9 @@ class AdUnit extends Item {
 
     get targets() { return this._meta.targets }
     set targets(value) { this._meta.targets = value || DefaultTargets }
+
+    get tags() { return this._meta.tags }
+    set tags(value) { this._meta.tags = value }
 
     static updateTargets(targets, target, newValue, newWeight) {
         // TODO: validate target

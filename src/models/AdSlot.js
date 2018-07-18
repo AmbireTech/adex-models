@@ -9,6 +9,7 @@ class AdSlot extends Item {
         img,
         size,
         adType,
+        tags,
         _id,
         _ipfs,
         _description,
@@ -18,8 +19,7 @@ class AdSlot extends Item {
         _deleted,
         _archived,
         _fallbackAdImg = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
-        _fallbackAdUrl,
-        tags
+        _fallbackAdUrl
     } = {}) {
         super({
             fullName: fullName,
@@ -28,6 +28,7 @@ class AdSlot extends Item {
             img: img,
             size: size,
             adType: adType,
+            tags: tags,
             _id: _id,
             _ipfs: _ipfs,
             _description: _description,
@@ -40,7 +41,6 @@ class AdSlot extends Item {
 
         this._fallbackAdImg = _fallbackAdImg
         this.fallbackAdUrl = _fallbackAdUrl
-        this.tags = this._meta.tags || tags
 
         return this
     }
@@ -50,9 +50,6 @@ class AdSlot extends Item {
 
     get fallbackAdUrl() { return this._fallbackAdUrl }
     set fallbackAdUrl(value) { this._fallbackAdUrl = value }
-
-    get tags() { return this._meta.tags }
-    set tags(value) { this._meta.tags = value }
 }
 
 module.exports = AdSlot

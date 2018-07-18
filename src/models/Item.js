@@ -12,6 +12,7 @@ class Item extends Base {
         img = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
         size,
         adType,
+        tags,
         _description = '',
         _id = '',
         _ipfs = '',
@@ -34,6 +35,7 @@ class Item extends Base {
         this.img = _meta.img || img
         this.size = _meta.size || size
         this.adType = _meta.adType || adType
+        this.tags = _meta.tags || tags
 
         this.id = _id
         this.items = _items || []
@@ -52,6 +54,9 @@ class Item extends Base {
 
     get img() { return this._meta.img }
     set img(value) { this._meta.img = value }
+
+    get tags() { return this._meta.tags }
+    set tags(value) { this._meta.tags = value }
 
     // TODO: labels
     get size() { return this._meta.size }

@@ -56,7 +56,7 @@ class Item extends Base {
     set img(value) { this._meta.img = value }
 
     get tags() { return this._meta.tags }
-    set tags(value) { this._meta.tags = value }
+    set tags(value) { this._meta.tags = [...value] }
 
     // TODO: labels
     get size() { return this._meta.size }

@@ -75,9 +75,15 @@ class Base {
                     value = value.getTime()
                 }
 
+                if (Array.isArray(value)) {
+                    value = [...value]
+                }
+
                 newItem[key] = value
             }
         }
+
+        console.log('kor', newItem)
 
         newItem.modifiedOn = Date.now()
         let plainObj = newItem.plainObj()
@@ -102,6 +108,10 @@ class Base {
                     value = value.getTime()
                 }
 
+                if (Array.isArray(value)) {
+                    value = [...value]
+                }
+
                 newMeta[key] = value
 
                 if (hasDirtyProps && dirtyProps.indexOf(key) < 0) {
@@ -109,6 +119,8 @@ class Base {
                 }
             }
         }
+
+        console.log('kor', newItem)
 
         newItem.dirtyProps = dirtyProps
         newItem._meta = newMeta

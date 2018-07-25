@@ -83,7 +83,6 @@ class Base {
             }
         }
 
-        console.log('kor', newItem)
 
         newItem.modifiedOn = Date.now()
         let plainObj = newItem.plainObj()
@@ -119,8 +118,6 @@ class Base {
                 }
             }
         }
-
-        console.log('kor', newItem)
 
         newItem.dirtyProps = dirtyProps
         newItem._meta = newMeta

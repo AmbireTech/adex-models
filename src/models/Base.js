@@ -83,7 +83,6 @@ class Base {
             }
         }
 
-
         newItem.modifiedOn = Date.now()
         let plainObj = newItem.plainObj()
 

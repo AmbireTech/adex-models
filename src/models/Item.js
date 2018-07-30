@@ -12,7 +12,7 @@ class Item extends Base {
         img = { url: null, ipfs: null, type: null, type_id: null, mime: null, originalName: null },
         size,
         adType,
-        tags = [],
+        tags,
         _description = '',
         _id = '',
         _ipfs = '',

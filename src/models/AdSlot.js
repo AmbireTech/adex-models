@@ -9,6 +9,7 @@ class AdSlot extends Item {
         img,
         size,
         adType,
+        tags,
         _id,
         _ipfs,
         _description,
@@ -27,6 +28,7 @@ class AdSlot extends Item {
             img: img,
             size: size,
             adType: adType,
+            tags: tags,
             _id: _id,
             _ipfs: _ipfs,
             _description: _description,
@@ -37,7 +39,7 @@ class AdSlot extends Item {
             _archived: _archived
         })
 
-        this._fallbackAdImg = _fallbackAdImg
+        this.fallbackAdImg = _fallbackAdImg
         this.fallbackAdUrl = _fallbackAdUrl
 
         return this

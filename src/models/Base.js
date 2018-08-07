@@ -75,6 +75,10 @@ class Base {
                     value = value.getTime()
                 }
 
+                if (Array.isArray(value)) {
+                    value = [...value]
+                }
+
                 newItem[key] = value
             }
         }
@@ -100,6 +104,10 @@ class Base {
 
                 if (value instanceof Date) {
                     value = value.getTime()
+                }
+
+                if (Array.isArray(value)) {
+                    value = [...value]
                 }
 
                 newMeta[key] = value

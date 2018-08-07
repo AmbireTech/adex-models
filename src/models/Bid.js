@@ -21,7 +21,8 @@ class Bid {
         sizeAndType = 0, // only node
         _signature = {},
         _exchangeAddr,
-        clicksCount = 0 // only node
+        clicksCount = 0, // only node
+        tags
     } = {}) {
         this.id = _id
         this.state = _state
@@ -42,6 +43,7 @@ class Bid {
         this.signature = _signature
         this.exchangeAddr = _exchangeAddr
         this.clicksCount = clicksCount //maybe get/set
+        this.tags = tags
         return this
     }
 

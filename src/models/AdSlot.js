@@ -39,7 +39,7 @@ class AdSlot extends Item {
             _archived: _archived
         })
 
-        this._fallbackAdImg = _fallbackAdImg
+        this.fallbackAdImg = _fallbackAdImg
         this.fallbackAdUrl = _fallbackAdUrl
 
         return this

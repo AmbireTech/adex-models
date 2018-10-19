@@ -8,15 +8,13 @@ class Bid {
         _advertiser = '', //address
         _adUnit = '',//bytes32 (ipfs hash)
         _adUnitId = '',//only node
-        _publisher = '', //address
-        _adSlot = '',//bytes32
-        _adSlotId = '',//only node 
-        _acceptedTime = 0,//uint
-        _amount = 0,//uint
-        _target = 0,//uint
+        _tokenAddr = 0,//address
+        _tokenAmount = 0,//uint
+        _validators = [],//address[]
+        _validatorRewards = [],//uint[]
+        _nonce = 0, // unit
+        _goal = 0,//uint
         _timeout = 0,//uint
-        _publisherConfirmation = '',//bytes32
-        _advertiserConfirmation = '',//bytes32
         _opened,
         sizeAndType = 0, // only node
         _signature = {},
@@ -29,15 +27,13 @@ class Bid {
         this.advertiser = _advertiser
         this.adUnit = _adUnit
         this.adUnitId = _adUnitId
-        this.publisher = _publisher
-        this.adSlot = _adSlot
-        this.adSlotId = _adSlotId
-        this.acceptedTime = _acceptedTime
-        this.amount = _amount
-        this.target = _target
+        this.tokenAddr = _tokenAddr
+        this.tokenAmount = _tokenAmount
+        this.validators = _validators
+        this.validatorRewards = _validatorRewards
+        this.nonce = _nonce
+        this.goal = _goal
         this.timeout = _timeout
-        this.publisherConfirmation = _publisherConfirmation
-        this.advertiserConfirmation = _advertiserConfirmation
         this.sizeAndType = sizeAndType
         this.opened = _opened
         this.signature = _signature
@@ -62,32 +58,26 @@ class Bid {
     get adUnitId() { return this._adUnitId }
     set adUnitId(value) { this._adUnitId = value._id || value || '' }
 
-    get publisher() { return this._publisher }
-    set publisher(value) { this._publisher = toLowerCaseString(value || '') }
+    get tokenAddr() { return this._tokenAddr }
+    set tokenAddr(value) { this._tokenAddr = value }
 
-    get adSlot() { return this._adSlot }
-    set adSlot(value) { this._adSlot = value._ipfs || value || '' }
+    get tokenAmount() { return this._tokenAmount }
+    set tokenAmount(value) { this._tokenAmount = value }
 
-    get adSlotId() { return this._adSlotId }
-    set adSlotId(value) { this._adSlotId = value._id || value || '' }
+    get validators() { return this._validators }
+    set validators(value) { this._validators = value }
 
-    get acceptedTime() { return this._acceptedTime }
-    set acceptedTime(value) { this._acceptedTime = value }
+    get validatorRewards() { return this._validatorRewards }
+    set validatorRewards(value) { this._validatorRewards = value }
 
-    get amount() { return this._amount }
-    set amount(value) { this._amount = value }
+    get nonce() { return this._nonce }
+    set nonce(value) { this._nonce = value }
 
-    get target() { return this._target }
-    set target(value) { this._target = value }
+    get goal() { return this._goal }
+    set goal(value) { this._goal = value }
 
     get timeout() { return this._timeout }
     set timeout(value) { this._timeout = value }
-
-    get publisherConfirmation() { return this._publisherConfirmation }
-    set publisherConfirmation(value) { this._publisherConfirmation = value || '' }
-
-    get advertiserConfirmation() { return this._advertiserConfirmation }
-    set advertiserConfirmation(value) { this._advertiserConfirmation = value || '' }
 
     get opened() { return this._opened }
     set opened(value) { this._opened = value || Date.now() }
@@ -98,16 +88,23 @@ class Bid {
     get exchangeAddr() { return this._exchangeAddr }
     set exchangeAddr(value) { this._exchangeAddr = value }
 
-    //NOTE: web3 eip sign schema - DO NOT CHANGE !!!
-    get typed() {
+    get values() {
         return [
-            { type: 'address', name: 'Advertiser', value: toLowerCaseString(this.advertiser) },
-            { type: 'bytes32', name: 'Ad Unit ID', value: toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) },
-            { type: 'uint', name: 'Opened', value: toLowerCaseString(this.opened) },
-            { type: 'uint', name: 'Target', value: toLowerCaseString(this.target) },
-            { type: 'uint', name: 'Amount', value: toLowerCaseString(this.amount) },
-            { type: 'uint', name: 'Timeout', value: toLowerCaseString(this.timeout) },
-            { type: 'address', name: 'Exchange', value: toLowerCaseString(this.exchangeAddr) },
+            {
+                type: 'bytes32[7]', name: 'values', value: [
+                    toLowerCaseString(this.advertiser),
+                    toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)),
+                    toLowerCaseString(this.goal),
+                    toLowerCaseString(this.timeout),
+                    toLowerCaseString(this.tokenAddr),
+                    toLowerCaseString(this.tokenAmount),
+                    toLowerCaseString(this.nonce),
+                    toLowerCaseString(this.validators),
+                    toLowerCaseString(this.validatorRewards)
+                ]
+            },
+            { type: 'address[]', name: 'validators', value: [...this.validators] },
+            { type: 'uint[]', name: 'validatorRewards', value: [...this.validatorRewards] },
         ]
     }
 

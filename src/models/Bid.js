@@ -3,18 +3,20 @@ const { ipfsHashTo32BytesHex, toLowerCaseString } = require('./../helpers')
 
 class Bid {
     constructor({
+        // Contract props
+        _advertiser = '', // values[0] address
+        _adUnit = '', // values[1] bytes32 (ipfs hash)
+        _goal = 0, // values[2] bytes32
+        _timeout = 0, // values[3] uint
+        _tokenAddr = 0, // values[4] address
+        _tokenAmount = 0, // values[5] uint
+        _nonce = 0, // values[6] unit
+        _validators = [], // address[]
+        _validatorRewards = [], // uint[]
+
         _id,//Adex exchange contract id (getBidID) also used as db id because it's meant to be unique
         _state = BID_STATES.DoesNotExist.id,
-        _advertiser = '', //address
-        _adUnit = '',//bytes32 (ipfs hash)
         _adUnitId = '',//only node
-        _tokenAddr = 0,//address
-        _tokenAmount = 0,//uint
-        _validators = [],//address[]
-        _validatorRewards = [],//uint[]
-        _nonce = 0, // unit
-        _goal = 0,//uint
-        _timeout = 0,//uint
         _opened,
         sizeAndType = 0, // only node
         _signature = {},
@@ -22,18 +24,20 @@ class Bid {
         clicksCount = 0, // only node
         tags
     } = {}) {
-        this.id = _id
-        this.state = _state
+        // Contract props
         this.advertiser = _advertiser
         this.adUnit = _adUnit
-        this.adUnitId = _adUnitId
-        this.tokenAddr = _tokenAddr
-        this.tokenAmount = _tokenAmount
-        this.validators = _validators
-        this.validatorRewards = _validatorRewards
-        this.nonce = _nonce
         this.goal = _goal
         this.timeout = _timeout
+        this.tokenAddr = _tokenAddr
+        this.tokenAmount = _tokenAmount
+        this.nonce = _nonce
+        this.validators = _validators
+        this.validatorRewards = _validatorRewards
+
+        this.id = _id
+        this.state = _state
+        this.adUnitId = _adUnitId
         this.sizeAndType = sizeAndType
         this.opened = _opened
         this.signature = _signature
@@ -54,6 +58,9 @@ class Bid {
 
     get adUnit() { return this._adUnit }
     set adUnit(value) { this._adUnit = value._ipfs || value || '' }
+
+    get adUnitBytes32() { toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) }
+    get adUnitBytes64() { toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) }
 
     get adUnitId() { return this._adUnitId }
     set adUnitId(value) { this._adUnitId = value._id || value || '' }
@@ -87,6 +94,21 @@ class Bid {
 
     get exchangeAddr() { return this._exchangeAddr }
     set exchangeAddr(value) { this._exchangeAddr = value }
+
+    get typed() {
+        return [
+            { type: 'address', name: 'exchange', value: toLowerCaseString(this.exchangeAddr) },
+            { type: 'address', name: 'advertiser', value: toLowerCaseString(this.advertiser) },
+            { type: 'bytes32', name: 'adUnit', value: toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) },
+            { type: 'bytes32', name: 'goal', value: toLowerCaseString(this.goal) },
+            { type: 'uint256', name: 'timeout', value: toLowerCaseString(this.timeout) },
+            { type: 'address', name: 'tokenAddr', value: toLowerCaseString(this.tokenAddr) },
+            { type: 'uint256', name: 'tokenAmount', value: toLowerCaseString(this.tokenAmount) },
+            { type: 'uint256', name: 'nonce', value: toLowerCaseString(this.nonce) },
+            { type: 'address[]', name: 'validators', value: [...this.validators] },
+            { type: 'uint[]', name: 'validatorRewards', value: [...this.validatorRewards] },
+        ]
+    }
 
     get values() {
         return [

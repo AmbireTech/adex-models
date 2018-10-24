@@ -1,12 +1,13 @@
 const { BID_STATES } = require('adex-constants').exchange
-const { ipfsHashTo32BytesHex, toLowerCaseString } = require('./../helpers')
+const { ipfsHashTo32BytesHex, toLowerCaseString, numToBytes32Hex } = require('./../helpers')
+import { Bid as ProtocolBid, BidState, SCHEMA_HASH } from 'adex-protocol-eth/js/Bid'
 
 class Bid {
     constructor({
         // Contract props
         _advertiser = '', // values[0] address
-        _adUnit = '', // values[1] bytes32 (ipfs hash)
-        _goal = 0, // values[2] bytes32
+        _adUnit = '', // values[1] bytes32 (ipfs hash in bytes32)
+        _goal = '', // values[2] bytes32
         _timeout = 0, // values[3] uint
         _tokenAddr = 0, // values[4] address
         _tokenAmount = 0, // values[5] uint
@@ -14,7 +15,7 @@ class Bid {
         _validators = [], // address[]
         _validatorRewards = [], // uint[]
 
-        _id,//Adex exchange contract id (getBidID) also used as db id because it's meant to be unique
+        _id,// Bid hash
         _state = BID_STATES.DoesNotExist.id,
         _adUnitId = '',//only node
         _opened,
@@ -60,7 +61,6 @@ class Bid {
     set adUnit(value) { this._adUnit = value._ipfs || value || '' }
 
     get adUnitBytes32() { toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) }
-    get adUnitBytes64() { toLowerCaseString(ipfsHashTo32BytesHex(this.adUnit)) }
 
     get adUnitId() { return this._adUnitId }
     set adUnitId(value) { this._adUnitId = value._id || value || '' }
@@ -128,6 +128,20 @@ class Bid {
             { type: 'address[]', name: 'validators', value: [...this.validators] },
             { type: 'uint[]', name: 'validatorRewards', value: [...this.validatorRewards] },
         ]
+    }
+
+    get protocolBid() {
+        return new ProtocolBid({
+            advertiser: this.advertiser,
+            adUnit: ipfsHashTo32BytesHex(this.adUnit),
+            goal: numToBytes32Hex(this.goal),
+            timeout: this.timeout,
+            tokenAddr: this.tokenAddr,
+            tokenAmount: this.tokenAmount,
+            nonce: this.nonce,
+            validators: this.validators,
+            validatorRewards: this.validatorRewards
+        })
     }
 
     plainObj() {

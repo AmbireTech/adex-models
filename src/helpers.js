@@ -1,6 +1,8 @@
+const { padLeft, padRight, toHex } = require('web3-utils')
 const bs58 = require('bs58')
 
 const IPFS_BASE_58_LEADING = '1220'
+const TO_HEX_PAD = 64
 
 const ipfsHashTo32BytesHex = (ipfsHash) => {
     let ipfs58Buf = bs58.decode(ipfsHash)
@@ -24,8 +26,13 @@ const toLowerCaseString = (obj) => {
     return obj.toString().toLowerCase()
 }
 
+const numToBytes32Hex = (num) => {
+    return padLeft(toHex(num), TO_HEX_PAD)
+}
+
 module.exports = {
     ipfsHashTo32BytesHex: ipfsHashTo32BytesHex,
     from32BytesHexIpfs: from32BytesHexIpfs,
-    toLowerCaseString: toLowerCaseString
+    toLowerCaseString: toLowerCaseString,
+    numToBytes32Hex: numToBytes32Hex
 }

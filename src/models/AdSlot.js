@@ -8,7 +8,7 @@ class AdSlot extends Base {
         type,
         tags,
         owner,
-        createdOn,
+        created,
         // Non spec props
         ipfs,
         title,
@@ -17,14 +17,14 @@ class AdSlot extends Base {
         fallbackMediaMime,
         fallbackTargetUrl,
         archived,
-        modifiedOn
+        modified
     } = {}) {
 
         // Spec props
         this.type = _meta.type || type
         this.tags = _meta.tags || tags
         this.owner = _meta.owner || owner
-        this.createdOn = _meta.createdOn || createdOn
+        this.created = _meta.created || created
 
         // Non spec props
         this.ipfs = ipfs
@@ -34,7 +34,7 @@ class AdSlot extends Base {
         this.fallbackMediaMime = fallbackMediaMime
         this.fallbackTargetUrl = fallbackTargetUrl
         this.archived = archived
-        this.modifiedOn = modifiedOn
+        this.modified = modified
 
         return this
     }
@@ -49,8 +49,8 @@ class AdSlot extends Base {
     get owner() { return this._owner }
     set owner(value) { this._owner = value }
 
-    get createdOn() { return this._createdOn }
-    set createdOn(value) { this._createdOn = value }
+    get created() { return this._created }
+    set created(value) { this._created = value }
 
     // Non spec props
     get ipfs() { return this._ipfs }
@@ -74,15 +74,15 @@ class AdSlot extends Base {
     get archived() { return this._archived }
     set archived(value) { this._archived = value }
 
-    get modifiedOn() { return this._modifiedOn }
-    set modifiedOn(value) { this._modifiedOn = value }
+    get modified() { return this._modified }
+    set modified(value) { this._modified = value }
 
     get _meta() {
         return {
             type: this.type,
             tags: this.tags,
             owner: this.owner,
-            createdOn: this.createdOn,
+            created: this.created,
         }
     }
 

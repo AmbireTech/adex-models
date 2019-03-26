@@ -12,13 +12,13 @@ class AdUnit extends Base {
         targeting,
         tags,
         owner,
-        createdOn,
+        created,
         // Non spec props
         ipfs,
         title,
         description,
         archived,
-        modifiedOn
+        modified
     } = {}) {
 
         // Spec props
@@ -29,14 +29,14 @@ class AdUnit extends Base {
         this.targeting = _meta.targeting || targeting
         this.tags = _meta.tags || tags
         this.owner = _meta.owner || owner
-        this.createdOn = _meta.createdOn || createdOn
+        this.created = _meta.created || created
 
         // Non spec props
         this.ipfs = ipfs
         this.title = title
         this.description = description
         this.archived = archived
-        this.modifiedOn = modifiedOn
+        this.modified = modified
 
         return this
     }
@@ -63,8 +63,8 @@ class AdUnit extends Base {
     get owner() { return this._owner }
     set owner(value) { this._owner = value }
 
-    get createdOn() { return this._createdOn }
-    set createdOn(value) { this._createdOn = value }
+    get created() { return this._created }
+    set created(value) { this._created = value }
 
     // Non spec props
     get ipfs() { return this._ipfs }
@@ -79,8 +79,8 @@ class AdUnit extends Base {
     get archived() { return this._archived }
     set archived(value) { this._archived = value }
 
-    get modifiedOn() { return this._modifiedOn }
-    set modifiedOn(value) { this._modifiedOn = value }
+    get modified() { return this._modified }
+    set modified(value) { this._modified = value }
 
     get _meta() {
         return {
@@ -91,7 +91,7 @@ class AdUnit extends Base {
             targeting: this.targeting,
             tags: this.tags,
             owner: this.owner,
-            createdOn: this.createdOn,
+            created: this.created,
         }
     }
 

@@ -1,41 +1,17 @@
-const Item = require('./Item')
-const ItemsTypes = require('adex-constants').items.ItemsTypes
+const Base = require('./Base')
+// const ItemsTypes = require('adex-constants').items.ItemsTypes
 
-class Campaign extends Item {
+class Campaign extends Base {
     constructor({
-        _meta = {},
-        fullName,
-        owner,
-        img,
-        size,
-        adType,
-        _id,
-        _ipfs,
-        _description,
-        _bids,
-        _modifiedOn,
-        _deleted,
-        _items,
-        _archived,
-        _from,
-        _to,
+        adUnits = [],
+        leader,
+        follower,
+        maxPerImpression,
+        minPerImpression,
+        targeting,
+        created,
+        nonce
     } = {}) {
-        super({
-            fullName: fullName,
-            owner: owner,
-            _type: ItemsTypes.Campaign.id,
-            img: img,
-            size: size,
-            adType: adType,
-            _id: _id,
-            _ipfs: _ipfs,
-            _description: _description,
-            _items: _items,
-            _meta: _meta,
-            _modifiedOn: _modifiedOn,
-            _deleted: _deleted,
-            _archived: _archived
-        })
 
         //TODO:  decide to keep it in meta or not
         this.from = _from || _meta.from

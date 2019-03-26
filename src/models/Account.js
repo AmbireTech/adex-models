@@ -1,6 +1,4 @@
-const Base = require('./Base')
-const ItemsTypes = require('adex-constants').items.ItemsTypes
-
+// TODO: use typescript
 class Account extends Base {
     /**
     * NOTE:
@@ -9,67 +7,57 @@ class Account extends Base {
     *   smart contracts (balance of rth/adx, register status, approved adx for transfer etc...)        
     */
     constructor({
-        fullName,
-        _meta,
-        _ipfs,
-        _addr,
-        _hdWalletAddrIdx, // HD wallet addr index
-        _hdWalletAddrPath, // HD wallet Path
-        _authMode, // TODO: Deprecate
-        _chainId, // Blockchain Id
-        _signType, // Sing type (Eip, Trezor, personal, etc..)
-        _authType, // Auth type (Metamask, Trezor, Ledger) 
-        _authSig,
-        _nonce,
-        _temp,
-        _modifiedOn,
-        _deleted,
-        _archived,
-        _stats = { balanceEth: 0, balanceAdx: 0, allowance: 0, isRegistered: false },
-        _settings = {} }
-        = {}) {
+        email,
+        identity = {
+            address: null,
+            privileges: [{ address: null, level: 0 }],
+            balanceEth: '0',
+            balanceDai: '0'
+        },
+        wallet = {
+            signType, // Sing type (Eip, Trezor, personal, etc..)
+            authType, // Auth type (Metamask, Trezor, Ledger, Local) 
+            lsKey: '',
+            hdWalletAddrIdx,
+            hdWalletAddrPath,
+            chainId, // need this for hd wallets
+            balanceEth: '0',
+            balanceDai: '0'
+        },
+        temp,
+        // TODO: think on this
+        stats = {
+            walletAddress,
+            walletAuthType,
+            walletPrivilege,
+            walletBalanceEth,
+            walletBalanceDai,
+            identityAddress,
+            identityBalanceEth,
+            identityBalanceDai,
+            identityPrivileges
+        } }) {
 
-        super({ fullName, _meta, _ipfs, _modifiedOn, _deleted, _archived })
-        this._addr = _addr
-        this.hdWalletAddrIdx = _hdWalletAddrIdx
-        this.hdWalletAddrPath = _hdWalletAddrPath
-        this.authMode = _authMode
-        this.chainId = _chainId
-        this.signType = _signType
-        this.authType = _authType
-        this.authSig = _authSig
-        this._stats = _stats
-        this.settings = _settings
+        this.email = email
+        this.identity = identity
+        this.wallet = wallet
+        this.stats = stats
+        this.settings = settings
 
         // Temp we will keep here some addr data 
-        this._temp = _temp
+        this.temp = temp
 
         return this
     }
 
-    get addr() { return this._addr }
-    set addr(value) { this._addr = value }
+    get email() { return this._email }
+    set email(value) { this._email = value }
 
-    get hdWalletAddrIdx() { return this._hdWalletAddrIdx }
-    set hdWalletAddrIdx(value) { this._hdWalletAddrIdx = value }
+    get identity() { return this._identity }
+    set identity(value) { this._identity = value }
 
-    get hdWalletAddrPath() { return this._hdWalletAddrPath }
-    set hdWalletAddrPath(value) { this._hdWalletAddrPath = value }
-
-    get authMode() { return this._authMode }
-    set authMode(value) { this._authMode = value }
-
-    get chainId() { return this._chainId }
-    set chainId(value) { this._chainId = value }
-
-    get signType() { return this._signType }
-    set signType(value) { this._signType = value }
-
-    get authType() { return this._authType }
-    set authType(value) { this._authType = value }
-
-    get authSig() { return this._authSig }
-    set authSig(value) { this._authSig = value }
+    get wallet() { return this._wallet }
+    set wallet(value) { this._wallet = value }
 
     get stats() { return this._stats }
     set stats(value) { this._stats = value }

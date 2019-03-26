@@ -5,48 +5,6 @@ const Helper = require('./../helpers')
  * and use validations with setters but keep plain object in redux store
  */
 class Base {
-    constructor({ fullName = '', _ipfs = '', _meta = {}, _modifiedOn, _deleted, _archived } = {}) {
-        /**
-         * NOTE: The meta field is the one saved into ipfs and it cannot be changed
-         * ipfs field will corresponding to the value of meta field
-         *  meta and ipfs field should not be changed because the exchange bits will keep the ipfs hash of the meta field
-         */
-        this._meta = {}
-
-        this.fullName = _meta.fullName || fullName
-        this.createdOn = _meta.createdOn
-
-        /**
-         * NOTE: props only available on the UI/anex-node
-         */
-
-        this.ipfs = _ipfs
-        this.modifiedOn = _modifiedOn
-        this.deleted = _deleted || false
-        this.archived = _archived || false
-    }
-
-    // Meta (ipfs) props (can NOT be changed)
-    get meta() { return this._meta }
-
-    get createdOn() { return this._meta.createdOn }
-    set createdOn(value) { this._meta.createdOn = value }
-
-    get fullName() { return this._meta.fullName }
-    set fullName(value) { this._meta.fullName = value }
-
-    // Dapp/adex-node fields (can be changed)
-    get ipfs() { return this._ipfs };
-    set ipfs(value) { this._ipfs = value }
-
-    get modifiedOn() { return this._modifiedOn }
-    set modifiedOn(value) { this._modifiedOn = value }
-
-    get archived() { return this._archived }
-    set archived(value) { this._archived = value }
-
-    get deleted() { return this._deleted }
-    set deleted(value) { this._deleted = value }
 
     plainObj() {
         let plain = Object.assign({}, this)

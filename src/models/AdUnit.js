@@ -1,53 +1,99 @@
-const Item = require('./Item')
-const { ItemsTypes, DefaultTargets } = require('adex-constants').items
+const Base = require('./Base')
+// const { ItemsTypes, DefaultTargets } = require('adex-constants').items
 
-class AdUnit extends Item {
+class AdUnit extends Base {
     constructor({
         _meta = {},
-        fullName,
-        owner,
-        img,
-        size,
-        adType,
-        ad_url,
-        targets,
+        // Spec props
+        type,
+        mediaUrl,
+        mediaMime,
+        targetUrl,
+        targeting,
         tags,
-        _id,
-        _ipfs,
-        _description,
-        _items,
-        _bids,
-        _modifiedOn,
-        _deleted,
-        _archived
-     } = {}) {
-        super({
-            fullName: fullName,
-            owner: owner,
-            _type: ItemsTypes.AdUnit.id,
-            img: img,
-            size: size,
-            adType: adType,
-            tags: tags,
-            _id: _id,
-            _ipfs: _ipfs,
-            _description: _description,
-            _items: _items,
-            _meta: _meta,
-            _modifiedOn: _modifiedOn,
-            _deleted: _deleted,
-            _archived: _archived
-        })
+        owner,
+        createdOn,
+        // Non spec props
+        ipfs,
+        title,
+        description,
+        archived,
+        modifiedOn
+    } = {}) {
 
-        this.banner = _meta.banner || img
-        this.ad_url = _meta.ad_url || ad_url
-        this.targets = _meta.targets || targets
+        // Spec props
+        this.type = _meta.type || type
+        this.mediaUrl = _meta.mediaUrl || mediaUrl
+        this.mediaMime = _meta.mediaMime || mediaMime
+        this.targetUrl = _meta.targetUrl || targetUrl
+        this.targeting = _meta.targeting || targeting
+        this.tags = _meta.tags || tags
+        this.owner = _meta.owner || owner
+        this.createdOn = _meta.createdOn || createdOn
+
+        // Non spec props
+        this.ipfs = ipfs
+        this.title = title
+        this.description = description
+        this.archived = archived
+        this.modifiedOn = modifiedOn
 
         return this
     }
 
-    get banner() { return this._meta.banner }
-    set banner(value) { this._meta.banner = value }
+    // Spec props
+    get type() { return this._type }
+    set type(value) { this._type = value }
+
+    get mediaUrl() { return this._mediaUrl }
+    set mediaUrl(value) { this._mediaUrl = value }
+
+    get mediaMime() { return this._mediaMime }
+    set mediaMime(value) { this._mediaMime = value }
+
+    get targetUrl() { return this._targetUrl }
+    set targetUrl(value) { this._targetUrl = value }
+
+    get targeting() { return this._targeting }
+    set targeting(value) { this._targeting = value }
+
+    get tags() { return this._tags }
+    set tags(value) { this._tags = value }
+
+    get owner() { return this._owner }
+    set owner(value) { this._owner = value }
+
+    get createdOn() { return this._createdOn }
+    set createdOn(value) { this._createdOn = value }
+
+    // Non spec props
+    get ipfs() { return this._ipfs }
+    set ipfs(value) { this._ipfs = value }
+
+    get title() { return this._title }
+    set title(value) { this._title = value }
+
+    get description() { return this._description }
+    set description(value) { this._description = value }
+
+    get archived() { return this._archived }
+    set archived(value) { this._archived = value }
+
+    get modifiedOn() { return this._modifiedOn }
+    set modifiedOn(value) { this._modifiedOn = value }
+
+    get _meta() {
+        return {
+            type: this.type,
+            mediaUrl: this.mediaUrl,
+            mediaMime: this.mediaMime,
+            targetUrl: this.targetUrl,
+            targeting: this.targeting,
+            tags: this.tags,
+            owner: this.owner,
+            createdOn: this.createdOn,
+        }
+    }
 
     // TODO: change to adUrl 
     get adUrl() { return this._meta.ad_url }
@@ -55,15 +101,12 @@ class AdUnit extends Item {
     get ad_url() { return this._meta.ad_url }
     set ad_url(value) { this._meta.ad_url = value }
 
-    get targets() { return this._meta.targets }
-    set targets(value) { this._meta.targets = value || DefaultTargets }
-
-    static updateTargets(targets, target, newValue, newWeight) {
+    static updateTargets(targets, target, newTag, newScore) {
         // TODO: validate target
         target = Object.assign({}, target)
-        target.value = newValue
-        if (!!newWeight || (newWeight === 0)) {
-            target.weight = newWeight
+        target.tag = newTag
+        if (!!newScore || (newScore === 0)) {
+            target.score = newScore
         }
 
         targets = targets.slice(0)
@@ -71,7 +114,7 @@ class AdUnit extends Item {
 
         for (let i = 0; i < targets.length; i++) {
             let currentTarget = targets[i]
-            if (currentTarget.name === target.name) {
+            if (currentTarget.tag === target.tag) {
                 targets[i] = target
                 hasThisTarget = true
                 break

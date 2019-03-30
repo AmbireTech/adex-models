@@ -11,6 +11,8 @@ class Campaign extends Base {
         created,
         nonce
     } = {}) {
+        super()
+        
         this.adUnits = adUnits
         this.leader = leader
         this.follower = follower

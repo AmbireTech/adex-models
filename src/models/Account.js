@@ -1,3 +1,5 @@
+const Base = require('./Base')
+
 // TODO: use typescript
 class Account extends Base {
     /**
@@ -10,35 +12,39 @@ class Account extends Base {
         email,
         identity = {
             address: null,
-            privileges: [{ address: null, level: 0 }],
+            privileges: [{ address: null, level: 0, status: 0 }],
             balanceEth: '0',
             balanceDai: '0'
         },
         wallet = {
-            signType, // Sing type (Eip, Trezor, personal, etc..)
-            authType, // Auth type (Metamask, Trezor, Ledger, Local) 
+            authSig: null, // Signature for adex-market session
+            signType: null, // Sing type (Eip, Trezor, personal, etc..)
+            authType: null, // Auth type (Metamask, Trezor, Ledger, Local) 
             lsKey: '',
-            hdWalletAddrIdx,
-            hdWalletAddrPath,
-            chainId, // need this for hd wallets
+            hdWalletAddrIdx: null,
+            hdWalletAddrPath: null,
+            chainId: null, // need this for hd wallets
             balanceEth: '0',
             balanceDai: '0'
         },
         temp,
         // TODO: think on this
         stats = {
-            walletAddress,
-            walletAuthType,
-            walletPrivilege,
-            walletBalanceEth,
-            walletBalanceDai,
-            identityAddress,
-            identityBalanceEth,
-            identityBalanceDai,
-            identityPrivileges
-        } }) {
+            walletAddress: null,
+            walletAuthType: null,
+            walletPrivilege: null,
+            walletBalanceEth: null,
+            walletBalanceDai: null,
+            identityAddress: null,
+            identityBalanceEth: null,
+            identityBalanceDai: null,
+            identityPrivileges: null
+        },
+        settings = {}
+    } = {}) {
+        super()
 
-        this.email = email
+        this.email = email || 'kor'
         this.identity = identity
         this.wallet = wallet
         this.stats = stats

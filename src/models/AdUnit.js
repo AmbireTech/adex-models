@@ -20,6 +20,7 @@ class AdUnit extends Base {
         archived,
         modified
     } = {}) {
+        super()
 
         // Spec props
         this.type = _meta.type || type

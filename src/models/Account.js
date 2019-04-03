@@ -12,6 +12,7 @@ class Account extends Base {
         email,
         identity = {
             address: null,
+            status: 'pending',
             privileges: [{ address: null, level: 0, status: 0 }],
             balanceEth: '0',
             balanceDai: '0'
@@ -21,8 +22,9 @@ class Account extends Base {
             signType: null, // Sing type (Eip, Trezor, personal, etc..)
             authType: null, // Auth type (Metamask, Trezor, Ledger, Local) 
             lsKey: '',
-            hdWalletAddrIdx: null,
-            hdWalletAddrPath: null,
+            path: null,  // We are going to keep the entire path instead using path + index
+            hdWalletAddrIdx: null, // TODO: remove
+            hdWalletAddrPath: null,  // TODO: remove
             chainId: null, // need this for hd wallets
             balanceEth: '0',
             balanceDai: '0'
@@ -44,7 +46,7 @@ class Account extends Base {
     } = {}) {
         super()
 
-        this.email = email || 'kor'
+        this.email = email
         this.identity = identity
         this.wallet = wallet
         this.stats = stats

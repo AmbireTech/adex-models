@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/AdExBlockchain/adex-models#readme",
   "dependencies": {
-    "adex-constants": "1.0.10",
-    "bs58": "^4.0.1"
+    "bs58": "^4.0.1",
+    "celebrate": "^9.1.0"
   },
   "devDependencies": {
     "babel-cli": "6",
-    "babel-preset-env": "^1.6.1"
+    "babel-preset-env": "^1.7.0"
   }
 }

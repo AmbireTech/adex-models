@@ -25,6 +25,15 @@ module.exports = {
 		archived: Joi.bool().optional(),
 		modified: Joi.allow(null)
 	},
+	adSlotPut: {
+		title: Joi.string().max(120).required(),
+		description: Joi.string().max(300).required(),
+		fallbackMediaUrl: Joi.string().length(53).regex(ipfsRegex).required(),
+		fallbackMediaMime: Joi.string().valid(mimeTypes).required(),
+		fallbackTargetUrl: Joi.string().uri().required(),
+		archived: Joi.bool().required(),
+		modified: Joi.date().timestamp().required()
+	},
 	adUnitPost: {
 		type: Joi.string().regex(typeRegex).allow(types).required(),
 		mediaUrl: Joi.string().length(53).regex(ipfsRegex).required(),
@@ -43,6 +52,12 @@ module.exports = {
 		description: Joi.string().max(300).required(),
 		archived: Joi.bool().optional(),
 		modified: Joi.allow(null)
+	},
+	adUnitPut: {
+		type: Joi.string().regex(typeRegex).allow(types).required(),
+		description: Joi.string().max(300).required(),
+		archived: Joi.bool().required(),
+		modified: Joi.date().timestamp()
 	},
 	user: {
 		identity: Joi.string().regex(addressRegex).required(),

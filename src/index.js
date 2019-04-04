@@ -5,6 +5,7 @@ const Campaign = require('./models/Campaign')
 const Base = require('./models/Base')
 const Models = require('./models/Models')
 const helpers = require('./helpers')
+const schemas = require('./schemas')
 
 module.exports = {
     Account: Account,
@@ -13,5 +14,6 @@ module.exports = {
     Campaign: Campaign,
     Base: Base,
     Models: Models,
-    helpers: helpers
+    helpers: helpers,
+    schemas: schemas
 }

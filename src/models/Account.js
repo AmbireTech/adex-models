@@ -9,38 +9,36 @@ class Account extends Base {
     *   smart contracts (balance of rth/adx, register status, approved adx for transfer etc...)        
     */
     constructor({
-        email,
+        email = '',
         identity = {
-            address: null,
+            address: '',
             status: 'pending',
             privileges: [{ address: null, level: 0, status: 0 }],
             balanceEth: '0',
             balanceDai: '0'
         },
         wallet = {
-            authSig: null, // Signature for adex-market session
-            signType: null, // Sing type (Eip, Trezor, personal, etc..)
-            authType: null, // Auth type (Metamask, Trezor, Ledger, Local) 
+            authSig: '', // Signature for adex-market session
+            signType: '', // Sing type (Eip, Trezor, personal, etc..)
+            authType: '', // Auth type (Metamask, Trezor, Ledger, Local) 
             lsKey: '',
-            path: null,  // We are going to keep the entire path instead using path + index
-            hdWalletAddrIdx: null, // TODO: remove
-            hdWalletAddrPath: null,  // TODO: remove
+            path: '',  // We are going to keep the entire path instead using path + index
             chainId: null, // need this for hd wallets
             balanceEth: '0',
             balanceDai: '0'
         },
-        temp,
+        temp = {},
         // TODO: think on this
         stats = {
-            walletAddress: null,
-            walletAuthType: null,
-            walletPrivilege: null,
-            walletBalanceEth: null,
-            walletBalanceDai: null,
-            identityAddress: null,
-            identityBalanceEth: null,
-            identityBalanceDai: null,
-            identityPrivileges: null
+            walletAddress: '',
+            walletAuthType: '',
+            walletPrivilege: '',
+            walletBalanceEth: '',
+            walletBalanceDai: '',
+            identityAddress: '',
+            identityBalanceEth: '',
+            identityBalanceDai: '',
+            identityPrivileges: ''
         },
         settings = {}
     } = {}) {

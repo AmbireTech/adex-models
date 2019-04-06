@@ -3,12 +3,12 @@ const Base = require('./Base')
 class Campaign extends Base {
     constructor({
         adUnits = [],
-        leader,
-        follower,
-        maxPerImpression,
-        minPerImpression,
-        targeting, 
-        created,
+        leader = '',
+        follower = '',
+        maxPerImpression = '',
+        minPerImpression = '',
+        targeting = [], 
+        created = null,
         nonce
     } = {}) {
         super()

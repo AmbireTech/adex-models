@@ -3,20 +3,20 @@ const Base = require('./Base')
 class AdUnit extends Base {
     constructor({
         // Spec props
-        type,
-        mediaUrl,
-        mediaMime,
-        targetUrl,
-        targeting,
-        tags,
-        owner,
-        created,
+        type = '',
+        mediaUrl = '',
+        mediaMime = '',
+        targetUrl = '',
+        targeting = [],
+        tags = [],
+        owner = '',
+        created = null,
         // Non spec props
         ipfs = '',
         title = '',
         description = '',
-        archived,
-        modified
+        archived = false,
+        modified = null
     } = {}) {
         super()
 

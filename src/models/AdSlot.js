@@ -3,10 +3,10 @@ const Base = require('./Base')
 class AdSlot extends Base {
     constructor({
         // Spec props
-        type,
-        tags,
-        owner,
-        created,
+        type = '',
+        tags = '',
+        owner = '',
+        created = null,
         // Non spec props
         ipfs = '',
         title = '',
@@ -14,8 +14,8 @@ class AdSlot extends Base {
         fallbackMediaUrl = '',
         fallbackMediaMime = '',
         fallbackTargetUrl = '',
-        archived,
-        modified
+        archived = false,
+        modified = null
     } = {}) {
         super()
 

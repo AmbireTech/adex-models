@@ -3,12 +3,12 @@ const AdSlot = require('./AdSlot')
 const Campaign = require('./Campaign')
 
 // DODO: Remove
-const itemClassByTypeId = {
-    [0]: AdUnit,
-    [1]: AdSlot,
-    [2]: Campaign,
+const itemClassByName = {
+    AdUnit,
+    AdSlot,
+    Campaign,
 }
 
 module.exports = {
-    itemClassByTypeId: itemClassByTypeId
+    itemClassByName: itemClassByName
 }

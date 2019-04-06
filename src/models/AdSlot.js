@@ -1,5 +1,4 @@
 const Base = require('./Base')
-// const { ItemsTypes, DefaultTargets } = require('adex-constants').items
 
 class AdSlot extends Base {
     constructor({

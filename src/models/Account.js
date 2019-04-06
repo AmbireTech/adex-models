@@ -50,6 +50,8 @@ class Account extends Base {
         this.identity = identity
         this.wallet = wallet
         this.stats = stats
+
+        // UI settings (gasPrice , etc...)
         this.settings = settings
 
         // Temp we will keep here some addr data 
@@ -57,25 +59,6 @@ class Account extends Base {
 
         return this
     }
-
-    get email() { return this._email }
-    set email(value) { this._email = value }
-
-    get identity() { return this._identity }
-    set identity(value) { this._identity = value }
-
-    get wallet() { return this._wallet }
-    set wallet(value) { this._wallet = value }
-
-    get stats() { return this._stats }
-    set stats(value) { this._stats = value }
-
-    // Local settings (dapp)
-    get settings() { return this._settings }
-    set settings(value) { this._settings = value }
-
-    get temp() { return this._temp }
-    set temp(value) { this._temp = value }
 }
 
 module.exports = Account

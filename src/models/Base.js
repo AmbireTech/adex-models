@@ -1,5 +1,3 @@
-const Helper = require('./../helpers')
-
 /**
  * NOTE: We use _meta as constructor argument in order to make new instances of the object from plain objects
  * and use validations with setters but keep plain object in redux store
@@ -18,10 +16,10 @@ class Base {
     }
 
     // NOTE: update without mutating the item (required by redux)
-    static updateObject({ item = {}, ownProps = {}, meta = {}, newValues = {}, objModel = null } = {}) {
+    static updateObject({ item = {}, newValues = {}, objModel = null } = {}) {
         if (!objModel) throw 'objModel is required!'
 
-        let newData = Object.assign({}, meta, ownProps, newValues) //TODO: fix it - use only newValues
+        let newData = Object.assign({}, newValues)
         let newItem = new objModel(item)
 
         for (let key in newData) {
@@ -45,41 +43,6 @@ class Base {
         let plainObj = newItem.plainObj()
 
         return plainObj
-    }
-
-    // TODO: remove this
-    static updateMeta(item, meta, dirtyProps) {
-        let newItem = Object.assign({}, item)
-        let newMeta = Object.assign({}, newItem._meta)
-        let hasDirtyProps = Array.isArray(dirtyProps)
-        if (hasDirtyProps) dirtyProps = dirtyProps.slice(0)
-
-        // TODO: Handle remove key value
-        for (let key in meta) {
-            if (meta.hasOwnProperty(key) && newMeta.hasOwnProperty(key)) {
-
-                let value = meta[key] //|| newMeta[key]
-
-                if (value instanceof Date) {
-                    value = value.getTime()
-                }
-
-                if (Array.isArray(value)) {
-                    value = [...value]
-                }
-
-                newMeta[key] = value
-
-                if (hasDirtyProps && dirtyProps.indexOf(key) < 0) {
-                    dirtyProps.push(key)
-                }
-            }
-        }
-
-        newItem.dirtyProps = dirtyProps
-        newItem._meta = newMeta
-
-        return newItem
     }
 }
 

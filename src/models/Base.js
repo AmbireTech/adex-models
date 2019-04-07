@@ -10,7 +10,7 @@ class Base {
     }
 
     plainDeepCopy() {
-        const plain =this.plainObj()
+        const plain = this.plainObj()
         const deepCopy = JSON.parse(JSON.stringify(plain))
         return deepCopy
     }
@@ -39,9 +39,7 @@ class Base {
 
                 if (Array.isArray(value)) {
                     value = [...value]
-                }
-
-                if (!!value && (typeof value === 'object')) {
+                } else if (!!value && (typeof value === 'object')) {
                     value = Object.assign({}, value)
                 }
 

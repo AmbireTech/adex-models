@@ -16,7 +16,9 @@ class AdUnit extends Base {
         title = '',
         description = '',
         archived = false,
-        modified = null
+        modified = null,
+        // UI temp
+        temp = {}
     } = {}) {
         super()
 
@@ -36,6 +38,8 @@ class AdUnit extends Base {
         this.description = description
         this.archived = archived
         this.modified = modified
+
+        this.temps = temp
 
         return this
     }

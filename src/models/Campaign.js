@@ -9,7 +9,9 @@ class Campaign extends Base {
         minPerImpression = '',
         targeting = [], 
         created = null,
-        nonce
+        nonce,
+        // UI temp
+        temp = {}
     } = {}) {
         super()
         
@@ -21,6 +23,8 @@ class Campaign extends Base {
         this.targeting = targeting
         this.created = created
         this.nonce = nonce
+
+        this.temps = temp
 
         return this
     }

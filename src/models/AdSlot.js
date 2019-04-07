@@ -15,7 +15,9 @@ class AdSlot extends Base {
         fallbackMediaMime = '',
         fallbackTargetUrl = '',
         archived = false,
-        modified = null
+        modified = null,
+        // UI temp
+        temp = {}
     } = {}) {
         super()
 
@@ -34,6 +36,8 @@ class AdSlot extends Base {
         this.fallbackTargetUrl = fallbackTargetUrl
         this.archived = archived
         this.modified = modified
+
+        this.temps = temp
 
         return this
     }

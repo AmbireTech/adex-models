@@ -5,8 +5,14 @@
 class Base {
 
     plainObj() {
-        let plain = Object.assign({}, this)
+        const plain = Object.assign({}, this)
         return plain
+    }
+
+    plainDeepCopy() {
+        const plain =this.plainObj()
+        const deepCopy = JSON.parse(JSON.stringify(plain))
+        return deepCopy
     }
 
     static getIpfsMetaUrl(ipfs, ipfsGate) {
@@ -19,10 +25,10 @@ class Base {
     static updateObject({ item = {}, newValues = {}, objModel = null } = {}) {
         if (!objModel) throw 'objModel is required!'
 
-        let newData = Object.assign({}, newValues)
-        let newItem = new objModel(item)
+        const newData = Object.assign({}, newValues)
+        const newItem = new objModel(item)
 
-        for (let key in newData) {
+        for (const key in newData) {
             if (newData.hasOwnProperty(key) && key in newItem) {
 
                 let value = newData[key]
@@ -35,12 +41,16 @@ class Base {
                     value = [...value]
                 }
 
+                if (!!value && (typeof value === 'object')) {
+                    value = Object.assign({}, value)
+                }
+
                 newItem[key] = value
             }
         }
 
         newItem.modifiedOn = Date.now()
-        let plainObj = newItem.plainObj()
+        const plainObj = newItem.plainDeepCopy()
 
         return plainObj
     }

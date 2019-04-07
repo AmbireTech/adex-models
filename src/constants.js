@@ -1,3 +1,7 @@
+const countries = require('i18n-iso-countries')
+countries.registerLocale(require("i18n-iso-countries/langs/en.json"))
+const { PredefinedTags } = require('./tags')
+
 const SignatureModes = {
 	NO_SIG: 0,
 	EIP712: 1,
@@ -16,15 +20,42 @@ const SignaturePrefixes = {
 
 const AdUnitsTypes = [
 	// Legacy
-	'legacy_300x250', 'legacy_250x250', 'legacy_240x400', 'legacy_336x280', 'legacy_180x150', 
+	'legacy_300x250', 'legacy_250x250', 'legacy_240x400', 'legacy_336x280', 'legacy_180x150',
 	'legacy_300x100', 'legacy_720x300', 'legacy_468x60', 'legacy_234x60', 'legacy_88x31',
-	'legacy_120x90','legacy_120x60', 'legacy_120x240', 'legacy_125x125', 'legacy_728x90',
-	'legacy_160x600', 'legacy_120x600','legacy_300x600',
+	'legacy_120x90', 'legacy_120x60', 'legacy_120x240', 'legacy_125x125', 'legacy_728x90',
+	'legacy_160x600', 'legacy_120x600', 'legacy_300x600',
 	// IAB FLEX - TODO
 ]
+
+const countryNames = countries.getNames('en')
+const AllCountries = Object.keys(countryNames)
+	.map(key => {
+		return {
+			code: key,
+			name: countryNames[key],
+			value: `location_${key}`
+		}
+	})
+
+const Genders = ['gender_male', 'gender_female', 'gender_other']
+
+const Ages = {
+	min: 0,
+	max: 100
+}
+
+const TargetScores = {
+	min: 0,
+	max: 100
+}
 
 module.exports = {
 	SignatureModes,
 	SignaturePrefixes,
-	AdUnitsTypes
+	AdUnitsTypes,
+	AllCountries,
+	Genders,
+	Ages,
+	TargetScores,
+	PredefinedTags
 }

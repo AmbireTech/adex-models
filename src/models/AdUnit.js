@@ -39,7 +39,7 @@ class AdUnit extends Base {
         this.archived = archived
         this.modified = modified
 
-        this.temps = temp
+        this.temp = temp
 
         return this
     }

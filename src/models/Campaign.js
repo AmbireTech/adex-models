@@ -24,7 +24,7 @@ class Campaign extends Base {
         this.created = created
         this.nonce = nonce
 
-        this.temps = temp
+        this.temp = temp
 
         return this
     }

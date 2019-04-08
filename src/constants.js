@@ -67,5 +67,7 @@ module.exports = {
 	Genders,
 	Ages,
 	TargetScores,
-	PredefinedTags
+	PredefinedTags,
+	MimeTypes,
+	Regexes
 }

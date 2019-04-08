@@ -46,8 +46,7 @@ class Base {
                 newItem[key] = value
             }
         }
-
-        newItem.modifiedOn = Date.now()
+        
         const plainObj = newItem.plainDeepCopy()
 
         return plainObj

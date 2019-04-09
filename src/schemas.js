@@ -1,5 +1,6 @@
 const { Joi } = require('celebrate')
 const types = require('./constants').AdUnitsTypes
+<<<<<<< HEAD
 const ipfsRegex = /(ipfs):\/\/(.){46}?$/
 const mimeTypes = ['image/jpeg', 'image/png']
 const addressRegex = /^0x[0-9A-Fa-f]{40}$/
@@ -7,6 +8,17 @@ const signatureRegex = /^0x[0-9A-Fa-f]{130}$/
 const hashRegex = /^0x[0-9A-Fa-f]{64}$/
 const typeRegex = /^iab_flex_.{1,}/
 const validModes = [0, 1, 2, 3, 4]
+=======
+const mimeTypes = require('./constants').MimeTypes
+const {
+	ipfsRegex,
+	typeRegex,
+	addressRegex,
+	signatureRegex,
+	hashRegex
+} = require('./constants').Regexes
+const validModes = [0, 1, 2]
+>>>>>>> d523306d575978a8acf13594c0ef299e899bec75
 const roles = ['advertiser', 'publisher']
 
 const TYPE_ERR_SLOT = new Error('Invalid adSlot type!')

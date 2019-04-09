@@ -25,7 +25,10 @@ class Account extends Base {
             path: '',  // We are going to keep the entire path instead using path + index
             chainId: null, // need this for hd wallets
             balanceEth: '0',
-            balanceDai: '0'
+            balanceDai: '0',
+            // To unlock local wallet
+            email: '',
+            password: ''
         },
         temp = {},
         // TODO: think on this

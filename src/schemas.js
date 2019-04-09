@@ -1,7 +1,13 @@
 const { Joi } = require('celebrate')
 const types = require('./constants').AdUnitsTypes
 const mimeTypes = require('./constants').MimeTypes
-const { ipfsRegex, typeRegex } = require('./constants').Regexes
+const {
+	ipfsRegex,
+	typeRegex,
+	addressRegex,
+	signatureRegex,
+	hashRegex
+} = require('./constants').Regexes
 const validModes = [0, 1, 2]
 const roles = ['advertiser', 'publisher']
 

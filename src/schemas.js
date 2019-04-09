@@ -11,36 +11,6 @@ const {
 const validModes = [0, 1, 2]
 const roles = ['advertiser', 'publisher']
 
-const TYPE_ERR_SLOT = new Error('Invalid adSlot type!')
-const TYPE_ERR_UNIT = new Error('Invalid adUnit type!')
-const TAG_NAME_ERR = new Error('Tags array contains a tag with invalid tag name')
-const TAG_SCORE_ERR = new Error('Tags array contains tag with invalid tag score. Score must be between 1-100')
-const CREATED_DATE_ERR_SLOT = new Error('Date when adSlot is created is not a valid timestamp')
-const CREATED_DATE_ERR_UNIT = new Error('Date when adUnit is created is not a valid timestamp')
-const TITLE_ERR_SLOT = new Error('adSlot title is not a valid title. It must be a valid string up to 120 characters.')
-const TITLE_ERR_UNIT = new Error('adUnit title is not a valid title. It must be a valid string up to 120 characters.')
-const DESC_ERR_SLOT = new Error('adSlot description is not a valid description. It must be a valid string up to 300 characters.')
-const DESC_ERR_UNIT = new Error('adUnit description is not a valid description. It must be a valid string up to 300 characters.')
-const IPFS_URL_ERR = new Error('Media URL is not a valid ipfs URL')
-const MEDIA_MIME_ERR = new Error('Media mime is not a supported mime type, must be either image/jpeg or image/png.')
-const TARGET_URL_ERR = new Error('Target URL is not a valid URL')
-const ARCHIVED_ERR = new Error('Archived is not a boolean value!')
-const MODIFIED_NOT_NULL_ERR = new Error('Modified is not null on a new adSlot')
-const MODIFIED_NOT_TIMESTAMP_ERR = new Error('Modified is not a valid timestamp for the adSlot')
-// User
-const IDENTITY_ERR = new Error('Invalid user identity address!')
-const MODE_ERR = new Error('Invalid authentication mode')
-const SIGNATURE_ERR = new Error('Invalid user signature')
-const HASH_ERR = new Error('Invalid user hash')
-const AUTH_TOKEN_ERR = new Error('Invalid auth token')
-const SIGNER_ADDR_ERR = new Error('Invalid signer address')
-const PREFIXED_ERR = new Error('Invalid prefixed')
-const ROLE_ERR = new Error('Invalid user role')
-// TD = Typed Data
-const TD_TYPE_ERR = new Error('Invalid typed data type')
-const TD_NAME_ERR = new Error('Invalid typed data name')
-const TD_VALUE_ERR = new Error('Invalid typed data value')
-
 module.exports = {
 	adSlotPost: {
 		type: Joi.string().regex(typeRegex).allow(types).required().error('TYPE_ERR_SLOT'),

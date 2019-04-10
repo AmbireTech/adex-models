@@ -1,14 +1,15 @@
 const { Joi } = require('celebrate')
 const types = require('./constants').AdUnitsTypes
 const mimeTypes = require('./constants').MimeTypes
+const { SignatureModes } = require('./constants')
 const {
 	ipfsRegex,
 	typeRegex,
 	addressRegex,
 	signatureRegex,
 	hashRegex
-} = require('./constants').Regexes
-const validModes = [0, 1, 2]
+} = require('./validations').Regexes
+const validModes = Object.keys(SignatureModes).map(key => SignatureModes[key])
 const roles = ['advertiser', 'publisher']
 
 module.exports = {

@@ -47,16 +47,18 @@ class AdUnit extends Base {
     get adUrl() { return this.targetUrl }
 
     get spec() {
-        return {
+        return this.deepCopyObj({
             type: this.type,
             mediaUrl: this.mediaUrl,
             mediaMime: this.mediaMime,
             targetUrl: this.targetUrl,
             targeting: this.targeting,
             owner: this.owner,
-            created: this.created,
+            created: this.created
+                ? new Date(this.created).getTime()
+                : null,
             type: this.type,
-        }
+        })
     }
 }
 

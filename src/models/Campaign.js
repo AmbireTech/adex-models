@@ -7,7 +7,7 @@ class Campaign extends Base {
         creator = '', // address
         depositAsset = '', // ERC-20) token addr 
         depositAmount = '', // amount str
-        validUntil = 0, //in seconds timestamp 
+        validUntil = null, //in seconds timestamp 
         // Spec props
         adUnits = [], // objs with AdUnits spec props
         validators = [], // 2 objs {id: '', url: '', fee: ''} , 1st - leader, 2nd - follower
@@ -27,7 +27,7 @@ class Campaign extends Base {
         this.depositAsset = depositAsset
         this.depositAmount = depositAmount
         this.validUntil = validUntil
-                
+
         this.adUnits = adUnits
         this.validators = validators
         this.maxPerImpression = maxPerImpression
@@ -41,9 +41,9 @@ class Campaign extends Base {
 
         return this
     }
-    
+
     get spec() {
-        return {
+        return this.deepCopyObj({
             adUnits: this.adUnits,
             validators: this.validators,
             maxPerImpression: this.maxPerImpression,
@@ -53,7 +53,18 @@ class Campaign extends Base {
             created: this.created,
             nonce: this.nonce,
             withdrawPeriodStart: this.withdrawPeriodStart,
-        }
+        })
+    }
+
+    get openReady() {
+        return this.deepCopyObj({
+            id: this.id,
+            creator: this.creator,
+            depositAsset: this.depositAsset,
+            depositAmount: this.depositAmount,
+            validUntil: this.validUntil,
+            spec: this.spec
+        })
     }
 }
 

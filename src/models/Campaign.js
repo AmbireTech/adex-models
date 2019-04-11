@@ -18,7 +18,8 @@ class Campaign extends Base {
         nonce = null, // BigNumStr
         withdrawPeriodStart = null,  // timestamp in milliseconds
         // UI temp
-        temp = {}
+        temp = {},
+        status = {}
     } = {}) {
         super()
 
@@ -38,6 +39,7 @@ class Campaign extends Base {
         this.withdrawPeriodStart = withdrawPeriodStart
 
         this.temp = temp
+        this.status = status
 
         return this
     }

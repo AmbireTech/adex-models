@@ -17,7 +17,8 @@ class AdSlot extends Base {
         archived = false,
         modified = null,
         // UI temp
-        temp = {}
+        temp = {},
+        status = {}
     } = {}) {
         super()
 
@@ -38,6 +39,7 @@ class AdSlot extends Base {
         this.modified = modified
 
         this.temp = temp
+        this.status = status
 
         return this
     }

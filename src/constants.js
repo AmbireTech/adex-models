@@ -51,6 +51,20 @@ const TargetScores = {
 
 const MimeTypes = ['image/jpeg', 'image/png']
 
+const IdentityPrivilegeLevel = {
+	None: 0,
+	Routines: 1,
+	Transactions: 2,
+	WithdrawTo: 3
+}
+
+const valueToKey = (obj) => {
+	return Object.keys(obj).reduce((newObj, key) =>{
+		newObj[obj[key]] = key
+		return newObj
+	}, {})
+}
+
 module.exports = {
 	SignatureModes,
 	SignaturePrefixes,
@@ -60,5 +74,7 @@ module.exports = {
 	Ages,
 	TargetScores,
 	PredefinedTags,
-	MimeTypes
+	MimeTypes,
+	IdentityPrivilegeLevel,
+	valueToKey
 }

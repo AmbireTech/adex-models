@@ -47,12 +47,40 @@ class AdSlot extends Base {
     get adUrl() { return this.fallbackMediaUrl }
 
     get spec() {
-        return {
+        return this.deepCopyObj({
             type: this.type,
             tags: this.tags,
             owner: this.owner,
             created: this.created
-        }
+        })
+    }
+
+    get marketAdd() {
+        return this.deepCopyObj({
+            type: this.type,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            fallbackMediaUrl: this.fallbackMediaUrl,
+            fallbackMediaMime: this.fallbackMediaMime,
+            fallbackTargetUrl: this.fallbackTargetUrl,
+            created: this.created
+                ? new Date(this.created).getTime()
+                : Date.now(),
+            type: this.type,
+        })
+    }
+
+    get marketUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            fallbackMediaUrl: this.fallbackMediaUrl,
+            fallbackMediaMime: this.fallbackMediaMime,
+            fallbackTargetUrl: this.fallbackTargetUrl,
+            archived: this.archived,
+            modified: this.modified
+        })
     }
 }
 

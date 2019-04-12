@@ -62,6 +62,32 @@ class AdUnit extends Base {
             type: this.type,
         })
     }
+
+    get marketAdd() {
+        return this.deepCopyObj({
+            type: this.type,
+            mediaUrl: this.mediaUrl,
+            mediaMime: this.mediaMime,
+            targetUrl: this.targetUrl,
+            targeting: this.targeting,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            created: this.created
+                ? new Date(this.created).getTime()
+                : Date.now(),
+            type: this.type,
+        })
+    }
+
+    get marketUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
 }
 
 module.exports = AdUnit

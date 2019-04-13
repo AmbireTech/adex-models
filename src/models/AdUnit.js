@@ -2,6 +2,7 @@ const Base = require('./Base')
 
 class AdUnit extends Base {
     constructor({
+        id = '', // we will use ipfs for ad unit
         // Spec props
         type = '',
         mediaUrl = '',
@@ -22,6 +23,8 @@ class AdUnit extends Base {
         status = {}
     } = {}) {
         super()
+
+        this.id = id || ipfs
 
         // Spec props
         this.type = type

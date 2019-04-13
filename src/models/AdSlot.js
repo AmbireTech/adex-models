@@ -2,6 +2,7 @@ const Base = require('./Base')
 
 class AdSlot extends Base {
     constructor({
+        id = '', // we will use ipfs for ad slot
         // Spec props
         type = '',
         tags = '',
@@ -21,6 +22,8 @@ class AdSlot extends Base {
         status = {}
     } = {}) {
         super()
+
+        this.id = id || ipfs
 
         // Spec props
         this.type = type
@@ -45,6 +48,11 @@ class AdSlot extends Base {
     }
 
     get adUrl() { return this.fallbackMediaUrl }
+
+    
+    get mediaUrl() {
+        return this.fallbackMediaUrl
+    }
 
     get spec() {
         return this.deepCopyObj({

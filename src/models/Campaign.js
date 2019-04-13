@@ -68,6 +68,10 @@ class Campaign extends Base {
             spec: this.spec
         })
     }
+
+    get mediaUrl() {
+        return this.adUnits[0] ? this.adUnits[0].mediaUrl : ''
+    }
 }
 
 module.exports = Campaign

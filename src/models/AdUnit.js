@@ -53,6 +53,7 @@ class AdUnit extends Base {
 
     get spec() {
         return this.deepCopyObj({
+            ipfs: this.ipfs,
             type: this.type,
             mediaUrl: this.mediaUrl,
             mediaMime: this.mediaMime,

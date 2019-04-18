@@ -18,6 +18,7 @@ class Campaign extends Base {
         nonce = null, // BigNumStr
         withdrawPeriodStart = null,  // timestamp in milliseconds 
         eventSubmission = {}, // { allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }
+        activeFrom = null,
         // UI temp
         temp = {},
         status = {}
@@ -39,6 +40,7 @@ class Campaign extends Base {
         this.nonce = nonce
         this.withdrawPeriodStart = withdrawPeriodStart
         this.eventSubmission = eventSubmission
+        this.activeFrom = activeFrom
 
         this.temp = temp
         this.status = status
@@ -56,7 +58,8 @@ class Campaign extends Base {
             created: this.created,
             nonce: this.nonce,
             withdrawPeriodStart: this.withdrawPeriodStart,
-            eventSubmission: this.eventSubmission            
+            eventSubmission: this.eventSubmission,
+            activeFrom: this.activeFrom
         })
     }
 

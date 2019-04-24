@@ -9,6 +9,7 @@ class Campaign extends Base {
         depositAmount = '', // amount str
         validUntil = null, //in seconds timestamp 
         // Spec props
+        title = '',
         adUnits = [], // objs with AdUnits spec props
         validators = [], // 2 objs {id: '', url: '', fee: ''} , 1st - leader, 2nd - follower
         maxPerImpression = '', // BigNumStr
@@ -31,6 +32,7 @@ class Campaign extends Base {
         this.depositAmount = depositAmount
         this.validUntil = validUntil
 
+        this.title = title
         this.adUnits = adUnits
         this.validators = validators
         this.maxPerImpression = maxPerImpression
@@ -50,6 +52,7 @@ class Campaign extends Base {
 
     get spec() {
         return this.deepCopyObj({
+            title: this.title,
             adUnits: this.adUnits,
             validators: this.validators,
             maxPerImpression: this.maxPerImpression,

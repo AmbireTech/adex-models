@@ -52,7 +52,7 @@ class Campaign extends Base {
 
     get spec() {
         return this.deepCopyObj({
-            title: this.title,
+            // title: this.title,
             adUnits: this.adUnits,
             validators: this.validators,
             maxPerImpression: this.maxPerImpression,

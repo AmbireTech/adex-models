@@ -5,7 +5,7 @@ class AdSlot extends Base {
         id = '', // we will use ipfs for ad slot
         // Spec props
         type = '',
-        tags = '',
+        tags = [],
         owner = '',
         created = null,
         // Non spec props
@@ -65,7 +65,6 @@ class AdSlot extends Base {
 
     get marketAdd() {
         return this.deepCopyObj({
-            ipfs: this.ipfs,
             type: this.type,
             tags: this.tags,
             title: this.title,

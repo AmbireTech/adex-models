@@ -22,7 +22,8 @@ class Campaign extends Base {
         activeFrom = null,
         // UI temp
         temp = {},
-        status = {}
+        status = {},
+        state = {}
     } = {}) {
         super()
 
@@ -46,6 +47,7 @@ class Campaign extends Base {
 
         this.temp = temp
         this.status = status
+        this.state = state
 
         return this
     }

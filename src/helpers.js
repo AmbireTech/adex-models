@@ -24,8 +24,27 @@ const toLowerCaseString = (obj) => {
     return obj.toString().toLowerCase()
 }
 
+const getAdSizeByType = (type) => {
+    const [width, height] = (type.split('_')[1]).split('x')
+
+    return {
+        width,
+        height,
+        valueTxt: type,
+        label: 'LABEL_SIZE_PX',
+        labelArgs: [width, height]
+    }
+}
+
+// TODO: fix it
+const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider ='') => {
+    return provider + mediaUrl.substring(7)
+}
+
 module.exports = {
     ipfsHashTo32BytesHex: ipfsHashTo32BytesHex,
     from32BytesHexIpfs: from32BytesHexIpfs,
-    toLowerCaseString: toLowerCaseString
+    toLowerCaseString: toLowerCaseString,
+    getAdSizeByType: getAdSizeByType,
+    getMediaUrlWithProvider: getMediaUrlWithProvider
 }

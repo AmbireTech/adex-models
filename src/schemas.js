@@ -1,11 +1,13 @@
 const { Joi } = require('celebrate')
-const types = ['legacy_250x250', 'legacy_468x60', 'legacy_336x280', 'legacy_728x90', 'legacy_120x600', 'legacy_160x600']
-const ipfsRegex = /(ipfs):\/\/(.){46}?$/
-const mimeTypes = ['image/jpeg', 'image/png']
-const addressRegex = /^0x[0-9A-Fa-f]{40}$/
-const signatureRegex = /^0x[0-9A-Fa-f]{130}$/
-const hashRegex = /^0x[0-9A-Fa-f]{64}$/
-const typeRegex = /^iab_flex_.{1,}/
+const types = require('./constants').AdUnitsTypes
+const mimeTypes = require('./constants').MimeTypes
+const {
+	ipfsRegex,
+	typeRegex,
+	addressRegex,
+	signatureRegex,
+	hashRegex
+} = require('./constants').Regexes
 const validModes = [0, 1, 2]
 const roles = ['advertiser', 'publisher']
 

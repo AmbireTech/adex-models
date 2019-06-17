@@ -9,45 +9,50 @@ class Account extends Base {
     *   smart contracts (balance of rth/adx, register status, approved adx for transfer etc...)        
     */
     constructor({
-        email,
+        email = '',
         identity = {
-            address: null,
+            address: '',
+            status: 'pending',
             privileges: [{ address: null, level: 0, status: 0 }],
             balanceEth: '0',
             balanceDai: '0'
         },
         wallet = {
-            authSig: null, // Signature for adex-market session
-            signType: null, // Sing type (Eip, Trezor, personal, etc..)
-            authType: null, // Auth type (Metamask, Trezor, Ledger, Local) 
+            authSig: '', // Signature for adex-market session
+            signType: '', // Sing type (Eip, Trezor, personal, etc..)
+            authType: '', // Auth type (Metamask, Trezor, Ledger, Local) 
             lsKey: '',
-            hdWalletAddrIdx: null,
-            hdWalletAddrPath: null,
+            path: '',  // We are going to keep the entire path instead using path + index
             chainId: null, // need this for hd wallets
             balanceEth: '0',
-            balanceDai: '0'
+            balanceDai: '0',
+            // To unlock local wallet
+            email: '',
+            password: ''
         },
-        temp,
+        temp = {},
         // TODO: think on this
         stats = {
-            walletAddress: null,
-            walletAuthType: null,
-            walletPrivilege: null,
-            walletBalanceEth: null,
-            walletBalanceDai: null,
-            identityAddress: null,
-            identityBalanceEth: null,
-            identityBalanceDai: null,
-            identityPrivileges: null
+            walletAddress: '',
+            walletAuthType: '',
+            walletPrivilege: '',
+            walletBalanceEth: '',
+            walletBalanceDai: '',
+            identityAddress: '',
+            identityBalanceEth: '',
+            identityBalanceDai: '',
+            identityPrivileges: ''
         },
         settings = {}
     } = {}) {
         super()
 
-        this.email = email || 'kor'
+        this.email = email
         this.identity = identity
         this.wallet = wallet
         this.stats = stats
+
+        // UI settings (gasPrice , etc...)
         this.settings = settings
 
         // Temp we will keep here some addr data 
@@ -55,25 +60,6 @@ class Account extends Base {
 
         return this
     }
-
-    get email() { return this._email }
-    set email(value) { this._email = value }
-
-    get identity() { return this._identity }
-    set identity(value) { this._identity = value }
-
-    get wallet() { return this._wallet }
-    set wallet(value) { this._wallet = value }
-
-    get stats() { return this._stats }
-    set stats(value) { this._stats = value }
-
-    // Local settings (dapp)
-    get settings() { return this._settings }
-    set settings(value) { this._settings = value }
-
-    get temp() { return this._temp }
-    set temp(value) { this._temp = value }
 }
 
 module.exports = Account

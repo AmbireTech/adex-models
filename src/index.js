@@ -6,6 +6,8 @@ const Base = require('./models/Base')
 const Models = require('./models/Models')
 const helpers = require('./helpers')
 const schemas = require('./schemas')
+const constants = require('./constants')
+const { Joi } = require('celebrate')
 
 module.exports = {
     Account: Account,
@@ -15,5 +17,7 @@ module.exports = {
     Base: Base,
     Models: Models,
     helpers: helpers,
-    schemas: schemas
+    schemas: schemas,
+    constants: constants,
+    Joi: Joi
 }

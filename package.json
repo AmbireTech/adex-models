@@ -26,7 +26,8 @@
   "homepage": "https://github.com/AdExBlockchain/adex-models#readme",
   "dependencies": {
     "bs58": "^4.0.1",
-    "celebrate": "^9.1.0"
+    "celebrate": "^9.1.0",
+    "i18n-iso-countries": "^3.7.8"
   },
   "devDependencies": {
     "babel-cli": "6",

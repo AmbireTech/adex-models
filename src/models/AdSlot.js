@@ -1,31 +1,31 @@
 const Base = require('./Base')
-// const { ItemsTypes, DefaultTargets } = require('adex-constants').items
 
 class AdSlot extends Base {
     constructor({
-        _meta = {},
         // Spec props
-        type,
-        tags,
-        owner,
-        created,
+        type = '',
+        tags = '',
+        owner = '',
+        created = null,
         // Non spec props
-        ipfs,
-        title,
-        description,
-        fallbackMediaUrl,
-        fallbackMediaMime,
-        fallbackTargetUrl,
-        archived,
-        modified
+        ipfs = '',
+        title = '',
+        description = '',
+        fallbackMediaUrl = '',
+        fallbackMediaMime = '',
+        fallbackTargetUrl = '',
+        archived = false,
+        modified = null,
+        // UI temp
+        temp = {}
     } = {}) {
         super()
 
         // Spec props
-        this.type = _meta.type || type
-        this.tags = _meta.tags || tags
-        this.owner = _meta.owner || owner
-        this.created = _meta.created || created
+        this.type = type
+        this.tags = tags
+        this.owner = owner
+        this.created = created
 
         // Non spec props
         this.ipfs = ipfs
@@ -37,61 +37,13 @@ class AdSlot extends Base {
         this.archived = archived
         this.modified = modified
 
+        this.temp = temp
+
         return this
     }
 
-    // Spec props
-    get type() { return this._type }
-    set type(value) { this._type = value }
-
-    get tags() { return this._tags }
-    set tags(value) { this._tags = value }
-
-    get owner() { return this._owner }
-    set owner(value) { this._owner = value }
-
-    get created() { return this._created }
-    set created(value) { this._created = value }
-
-    // Non spec props
-    get ipfs() { return this._ipfs }
-    set ipfs(value) { this._ipfs = value }
-
-    get title() { return this._title }
-    set title(value) { this._title = value }
-
-    get description() { return this._description }
-    set description(value) { this._description = value }
-
-    get fallbackMediaUrl() { return this._fallbackMediaUrl }
-    set fallbackMediaUrl(value) { this._fallbackMediaUrl = value }
-
-    get fallbackMediaMime() { return this._fallbackMediaMime }
-    set fallbackMediaMime(value) { this._fallbackMediaMime = value }
-
-    get fallbackTargetUrl() { return this._fallbackTargetUrl }
-    set fallbackTargetUrl(value) { this._fallbackTargetUrl = value }
-
-    get archived() { return this._archived }
-    set archived(value) { this._archived = value }
-
-    get modified() { return this._modified }
-    set modified(value) { this._modified = value }
-
-    get _meta() {
-        return {
-            type: this.type,
-            tags: this.tags,
-            owner: this.owner,
-            created: this.created,
-        }
-    }
-
     // TODO: change to adUrl 
-    get adUrl() { return this._meta.ad_url }
-
-    get ad_url() { return this._meta.ad_url }
-    set ad_url(value) { this._meta.ad_url = value }
+    get adUrl() { return this.fallbackMediaUrl }
 
     static updateTargets(targets, target, newTag, newScore) {
         // TODO: validate target

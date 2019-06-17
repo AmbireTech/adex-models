@@ -78,7 +78,7 @@ module.exports = {
 		role: Joi.string().valid(roles).optional().error(new Error('ROLE_ERR'))
 	},
 	validator: {
-		url: Joi.string().uri().required(),
-		addr: Joi.string().regex(addressRegex).optional()
+		url: Joi.string().uri().required().error(new Error('VAL_URL_ERR')),
+		addr: Joi.string().regex(addressRegex).optional().error(new Error('VAL_ADDR_ERR'))
 	}
 }

@@ -51,14 +51,6 @@ const TargetScores = {
 
 const MimeTypes = ['image/jpeg', 'image/png']
 
-const Regexes ={
-		ipfsRegex: /(ipfs):\/\/(.){46}?$/,
-		addressRegex: /^0x[0-9A-Fa-f]{40}$/,
-		signatureRegex: /^0x[0-9A-Fa-f]{130}$/,
-		hashRegex: /^0x[0-9A-Fa-f]{64}$/,
-		typeRegex: /^iab_flex_.{1,}/,
-}
-
 module.exports = {
 	SignatureModes,
 	SignaturePrefixes,
@@ -68,6 +60,5 @@ module.exports = {
 	Ages,
 	TargetScores,
 	PredefinedTags,
-	MimeTypes,
-	Regexes
+	MimeTypes
 }

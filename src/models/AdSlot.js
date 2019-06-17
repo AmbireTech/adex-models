@@ -42,32 +42,15 @@ class AdSlot extends Base {
         return this
     }
 
-    // TODO: change to adUrl 
     get adUrl() { return this.fallbackMediaUrl }
 
-    static updateTargets(targets, target, newTag, newScore) {
-        // TODO: validate target
-        target = Object.assign({}, target)
-        target.tag = newTag
-        if (!!newScore || (newScore === 0)) {
-            target.score = newScore
+    get spec() {
+        return {
+            type: this.type,
+            tags: this.tags,
+            owner: this.owner,
+            created: this.created
         }
-
-        targets = targets.slice(0)
-        let hasThisTarget = false
-
-        for (let i = 0; i < targets.length; i++) {
-            let currentTarget = targets[i]
-            if (currentTarget.tag === target.tag) {
-                targets[i] = target
-                hasThisTarget = true
-                break
-            }
-        }
-
-        if (!hasThisTarget) targets.push(target)
-
-        return targets
     }
 }
 

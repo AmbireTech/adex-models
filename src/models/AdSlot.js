@@ -12,6 +12,7 @@ class AdSlot extends Base {
         ipfs = '',
         title = '',
         description = '',
+        collapsable = true,
         fallbackMediaUrl = '',
         fallbackMediaMime = '',
         fallbackTargetUrl = '',
@@ -35,6 +36,7 @@ class AdSlot extends Base {
         this.ipfs = ipfs
         this.title = title
         this.description = description
+        this.collapsable = collapsable
         this.fallbackMediaUrl = fallbackMediaUrl
         this.fallbackMediaMime = fallbackMediaMime
         this.fallbackTargetUrl = fallbackTargetUrl
@@ -69,6 +71,7 @@ class AdSlot extends Base {
             tags: this.tags,
             title: this.title,
             description: this.description,
+            collapsable: this.collapsable,
             fallbackMediaUrl: this.fallbackMediaUrl,
             fallbackMediaMime: this.fallbackMediaMime,
             fallbackTargetUrl: this.fallbackTargetUrl,
@@ -83,6 +86,7 @@ class AdSlot extends Base {
         return this.deepCopyObj({
             title: this.title,
             description: this.description,
+            collapsable: this.collapsable,
             fallbackMediaUrl: this.fallbackMediaUrl,
             fallbackMediaMime: this.fallbackMediaMime,
             fallbackTargetUrl: this.fallbackTargetUrl,

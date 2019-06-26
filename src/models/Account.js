@@ -15,7 +15,8 @@ class Account extends Base {
             status: 'pending',
             privileges: [{ address: null, level: 0, status: 0 }],
             balanceEth: '0',
-            balanceDai: '0'
+            balanceDai: '0',
+            validatorAuthTokens: {}
         },
         wallet = {
             authSig: '', // Signature for adex-market session

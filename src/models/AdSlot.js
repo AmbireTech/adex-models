@@ -1,4 +1,5 @@
 const Base = require('./Base')
+const AdUnit = require('./AdUnit')
 
 class AdSlot extends Base {
     constructor({
@@ -12,10 +13,10 @@ class AdSlot extends Base {
         ipfs = '',
         title = '',
         description = '',
-        collapsable = true,
-        fallbackMediaUrl = '',
-        fallbackMediaMime = '',
-        fallbackTargetUrl = '',
+        fallbackUnit = '',
+        mediaUrl = '',
+        mediaMime = '',
+        targetUrl = '',
         archived = false,
         modified = null,
         // UI temp
@@ -36,25 +37,23 @@ class AdSlot extends Base {
         this.ipfs = ipfs
         this.title = title
         this.description = description
-        this.collapsable = collapsable
-        this.fallbackMediaUrl = fallbackMediaUrl
-        this.fallbackMediaMime = fallbackMediaMime
-        this.fallbackTargetUrl = fallbackTargetUrl
+        this.fallbackUnit = fallbackUnit
         this.archived = archived
         this.modified = modified
 
+        // Platform related props
         this.temp = temp
         this.status = status
+
+        // Used for easier fallback unit creation
+        this.mediaUrl = mediaUrl
+        this.mediaMime = mediaMime
+        this.targetUrl = targetUrl
 
         return this
     }
 
-    get adUrl() { return this.fallbackMediaUrl }
-
-    
-    get mediaUrl() {
-        return this.fallbackMediaUrl
-    }
+    get adUrl() { return this.targetUrl }
 
     get spec() {
         return this.deepCopyObj({
@@ -71,14 +70,25 @@ class AdSlot extends Base {
             tags: this.tags,
             title: this.title,
             description: this.description,
-            collapsable: this.collapsable,
-            fallbackMediaUrl: this.fallbackMediaUrl,
-            fallbackMediaMime: this.fallbackMediaMime,
-            fallbackTargetUrl: this.fallbackTargetUrl,
+            fallbackUnit: this.fallbackUnit,
             created: this.created
                 ? new Date(this.created).getTime()
-                : Date.now(),
-            type: this.type,
+                : Date.now()
+        }).marketAdd()
+    }
+
+    get marketAdUnitAdd() {
+        return new AdUnit({
+          type: this.type,
+          mediaUrl: this.mediaUrl,
+          mediaMime: this.mediaMime,
+          targetUrl: this.targetUrl,
+          targeting: [],
+          tags: [],
+          owner: this.owner,
+          created: this.created
+                ? new Date(this.created).getTime()
+                : Date.now()
         })
     }
 

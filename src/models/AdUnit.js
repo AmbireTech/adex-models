@@ -79,8 +79,7 @@ class AdUnit extends Base {
             description: this.description,
             created: this.created
                 ? new Date(this.created).getTime()
-                : Date.now(),
-            type: this.type,
+                : Date.now()
         })
     }
 

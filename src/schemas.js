@@ -22,14 +22,14 @@ module.exports = {
         }).required(),
         created: Joi.date().timestamp().required().error(new Error('CREATED_DATE_ERR_SLOT')),
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_SLOT')),
-        description: Joi.string().max(300).optional().error(new Error('DESC_ERR_SLOT')),
+        description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_SLOT')),
         fallbackUnit: Joi.string().allow(null).regex(ipfsIdRegex).optional(), //.error(new Error('FALLBACK_UNIT_IPFS_ID_ERR')),
         archived: Joi.bool().optional().error(new Error('ARCHIVED_ERR')),
         modified: Joi.allow(null).error(new Error('MODIFIED_NOT_NULL_ERR'))
     },
     adSlotPut: {
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_SLOT')),
-        description: Joi.string().max(300).optional().error(new Error('DESC_ERR_SLOT')),
+        description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_SLOT')),
         fallbackUnit: Joi.string().allow(null).length(46).optional().regex(ipfsIdRegex).error(new Error('FALLBACK_UNIT_IPFS_ID_ERR')),
         archived: Joi.bool().required().error(new Error('ARCHIVED_ERR')),
         modified: Joi.date().timestamp().required().error(new Error('MODIFIED_NOT_TIMESTAMP_ERR'))
@@ -49,13 +49,14 @@ module.exports = {
         }).required(),
         created: Joi.date().timestamp().required().error(new Error('CREATED_DATE_ERR_UNIT')),
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_UNIT')),
-        description: Joi.string().max(300).optional().error(new Error('DESC_ERR_UNIT')),
+        description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_UNIT')),
         archived: Joi.bool().optional().error(new Error('ARCHIVED_ERR')),
-        modified: Joi.allow(null).error(new Error('MODIFIED_NOT_NULL_ERR'))
+        modified: Joi.allow(null).error(new Error('MODIFIED_NOT_NULL_ERR')),
+        passback: Joi.bool().optional().error(new Error('PASSBACK_ERR'))
     },
     adUnitPut: {
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_UNIT')),
-        description: Joi.string().max(300).optional().error(new Error('DESC_ERR_UNIT')),
+        description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_UNIT')),
         archived: Joi.bool().required().error(new Error('ARCHIVED_ERR')),
         modified: Joi.date().timestamp().required().error(new Error('MODIFIED_NOT_TIMESTAMP_ERR'))
     },

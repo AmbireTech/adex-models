@@ -18,6 +18,7 @@ class AdUnit extends Base {
         description = '',
         archived = false,
         modified = null,
+        passback = false,
         // UI temp
         temp = {},
         status = {}
@@ -42,6 +43,7 @@ class AdUnit extends Base {
         this.description = description
         this.archived = archived
         this.modified = modified
+        this.passback = passback
 
         this.temp = temp
         this.status = status
@@ -77,6 +79,8 @@ class AdUnit extends Base {
             tags: this.tags,
             title: this.title,
             description: this.description,
+            archived: this.archived,
+            passback: this.passback,
             created: this.created
                 ? new Date(this.created).getTime()
                 : Date.now()
@@ -98,7 +102,8 @@ class AdUnit extends Base {
             description: this.description,
             created: this.created,
             archived: this.archived,
-            modified: this.modified
+            modified: this.modified,
+            passback: this.passback
         })
     }
 

@@ -13,7 +13,7 @@ class AdSlot extends Base {
         ipfs = '',
         title = '',
         description = '',
-        fallbackUnit = '',
+        fallbackUnit =  null,
         mediaUrl = '',
         mediaMime = '',
         targetUrl = '',
@@ -74,7 +74,33 @@ class AdSlot extends Base {
             created: this.created
                 ? new Date(this.created).getTime()
                 : Date.now()
-        }).marketAdd()
+        })
+    }
+
+    get marketDbAdd() {
+        return this.deepCopyObj({
+            id: this.ipfs,
+            ipfs: this.ipfs,
+            owner: this.owner,
+            type: this.type,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            fallbackUnit: this.fallbackUnit,
+            created: this.created,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
+
+    get marketDbUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            fallbackUnit: this.fallbackUnit,
+            archived: this.archived,
+            modified: this.modified
+        })
     }
 
     get marketAdUnitAdd() {

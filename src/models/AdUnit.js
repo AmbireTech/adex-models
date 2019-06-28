@@ -83,6 +83,34 @@ class AdUnit extends Base {
         })
     }
 
+    get marketDbAdd() {
+        return this.deepCopyObj({
+            id: this.ipfs,
+            ipfs: this.ipfs,
+            owner: this.owner,
+            type: this.type,
+            mediaUrl: this.mediaUrl,
+            mediaMime: this.mediaMime,
+            targetUrl: this.targetUrl,
+            targeting: this.targeting,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            created: this.created,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
+
+    get marketDbUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
+
     get marketUpdate() {
         return this.deepCopyObj({
             title: this.title,

@@ -122,10 +122,7 @@ class AdSlot extends Base {
         return this.deepCopyObj({
             title: this.title,
             description: this.description,
-            collapsable: this.collapsable,
-            fallbackMediaUrl: this.fallbackMediaUrl,
-            fallbackMediaMime: this.fallbackMediaMime,
-            fallbackTargetUrl: this.fallbackTargetUrl,
+            fallbackUnit: this.fallbackUnit,
             archived: this.archived,
             modified: this.modified
         })

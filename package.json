@@ -4,9 +4,7 @@
   "description": "adex data models",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel ./src --presets babel-preset-env --out-dir dist",
-    "prepare": "npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -26,11 +24,8 @@
   "homepage": "https://github.com/AdExBlockchain/adex-models#readme",
   "dependencies": {
     "bs58": "^4.0.1",
-    "celebrate": "^9.1.0",
-    "i18n-iso-countries": "^3.7.8"
+    "celebrate": "^10.0.1",
+    "i18n-iso-countries": "^4.2.0"
   },
-  "devDependencies": {
-    "babel-cli": "6",
-    "babel-preset-env": "^1.7.0"
-  }
+  "devDependencies": {}
 }

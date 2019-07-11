@@ -7,6 +7,7 @@ const Models = require('./models/Models')
 const helpers = require('./helpers')
 const schemas = require('./schemas')
 const constants = require('./constants')
+const validations = require('./validations')
 const { Joi } = require('celebrate')
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
     helpers: helpers,
     schemas: schemas,
     constants: constants,
+    validations: validations,
     Joi: Joi
 }

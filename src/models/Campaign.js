@@ -7,8 +7,9 @@ class Campaign extends Base {
         creator = '', // address
         depositAsset = '', // ERC-20) token addr 
         depositAmount = '', // amount str
-        validUntil = 0, //in seconds timestamp 
+        validUntil = null, //in seconds timestamp 
         // Spec props
+        title = '',
         adUnits = [], // objs with AdUnits spec props
         validators = [], // 2 objs {id: '', url: '', fee: ''} , 1st - leader, 2nd - follower
         maxPerImpression = '', // BigNumStr
@@ -16,9 +17,13 @@ class Campaign extends Base {
         targeting = [], // {tag: '', score: 0}
         created = null, // timestamp in milliseconds
         nonce = null, // BigNumStr
-        withdrawPeriodStart = null,  // timestamp in milliseconds
+        withdrawPeriodStart = null,  // timestamp in milliseconds 
+        eventSubmission = {}, // { allow: [{ uids: [channel.creator] }, { uids: null, rateLimit: { type: "ip", timeframe: 1000 } }] }
+        activeFrom = null,
         // UI temp
-        temp = {}
+        temp = {},
+        status = {},
+        state = {}
     } = {}) {
         super()
 
@@ -27,7 +32,8 @@ class Campaign extends Base {
         this.depositAsset = depositAsset
         this.depositAmount = depositAmount
         this.validUntil = validUntil
-                
+
+        this.title = title
         this.adUnits = adUnits
         this.validators = validators
         this.maxPerImpression = maxPerImpression
@@ -36,24 +42,45 @@ class Campaign extends Base {
         this.created = created
         this.nonce = nonce
         this.withdrawPeriodStart = withdrawPeriodStart
+        this.eventSubmission = eventSubmission
+        this.activeFrom = activeFrom
 
         this.temp = temp
+        this.status = status
+        this.state = state
 
         return this
     }
-    
+
     get spec() {
-        return {
+        return this.deepCopyObj({
+            // title: this.title,
             adUnits: this.adUnits,
             validators: this.validators,
             maxPerImpression: this.maxPerImpression,
             minPerImpression: this.minPerImpression,
             targeting: this.targeting,
-            targeting: this.targeting,
             created: this.created,
             nonce: this.nonce,
             withdrawPeriodStart: this.withdrawPeriodStart,
-        }
+            eventSubmission: this.eventSubmission,
+            activeFrom: this.activeFrom
+        })
+    }
+
+    get openReady() {
+        return this.deepCopyObj({
+            id: this.id,
+            creator: this.creator,
+            depositAsset: this.depositAsset,
+            depositAmount: this.depositAmount,
+            validUntil: this.validUntil,
+            spec: this.spec
+        })
+    }
+
+    get mediaUrl() {
+        return this.adUnits[0] ? this.adUnits[0].mediaUrl : ''
     }
 }
 

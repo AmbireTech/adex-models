@@ -1,25 +1,31 @@
 const Base = require('./Base')
+const AdUnit = require('./AdUnit')
 
 class AdSlot extends Base {
     constructor({
+        id = '', // we will use ipfs for ad slot
         // Spec props
         type = '',
-        tags = '',
+        tags = [],
         owner = '',
         created = null,
         // Non spec props
         ipfs = '',
         title = '',
         description = '',
-        fallbackMediaUrl = '',
-        fallbackMediaMime = '',
-        fallbackTargetUrl = '',
+        fallbackUnit =  null,
+        mediaUrl = '',
+        mediaMime = '',
+        targetUrl = '',
         archived = false,
         modified = null,
         // UI temp
-        temp = {}
+        temp = {},
+        status = {}
     } = {}) {
         super()
+
+        this.id = id || ipfs
 
         // Spec props
         this.type = type
@@ -31,26 +37,95 @@ class AdSlot extends Base {
         this.ipfs = ipfs
         this.title = title
         this.description = description
-        this.fallbackMediaUrl = fallbackMediaUrl
-        this.fallbackMediaMime = fallbackMediaMime
-        this.fallbackTargetUrl = fallbackTargetUrl
+        this.fallbackUnit = fallbackUnit
         this.archived = archived
         this.modified = modified
 
+        // Platform related props
         this.temp = temp
+        this.status = status
+
+        // Used for easier fallback unit creation
+        this.mediaUrl = mediaUrl
+        this.mediaMime = mediaMime
+        this.targetUrl = targetUrl
 
         return this
     }
 
-    get adUrl() { return this.fallbackMediaUrl }
+    get adUrl() { return this.targetUrl }
 
     get spec() {
-        return {
+        return this.deepCopyObj({
             type: this.type,
             tags: this.tags,
             owner: this.owner,
             created: this.created
-        }
+        })
+    }
+
+    get marketAdd() {
+        return this.deepCopyObj({
+            type: this.type,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            fallbackUnit: this.fallbackUnit,
+            created: this.created
+                ? new Date(this.created).getTime()
+                : Date.now()
+        })
+    }
+
+    get marketDbAdd() {
+        return this.deepCopyObj({
+            id: this.ipfs,
+            ipfs: this.ipfs,
+            owner: this.owner,
+            type: this.type,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            fallbackUnit: this.fallbackUnit,
+            created: this.created,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
+
+    get marketDbUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            fallbackUnit: this.fallbackUnit,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
+
+    get marketAdUnitAdd() {
+        return new AdUnit({
+          type: this.type,
+          mediaUrl: this.mediaUrl,
+          mediaMime: this.mediaMime,
+          targetUrl: this.targetUrl,
+          targeting: [],
+          tags: [],
+          owner: this.owner,
+          created: this.created
+                ? new Date(this.created).getTime()
+                : Date.now()
+        })
+    }
+
+    get marketUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            fallbackUnit: this.fallbackUnit,
+            archived: this.archived,
+            modified: this.modified
+        })
     }
 }
 

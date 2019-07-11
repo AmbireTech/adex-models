@@ -15,6 +15,11 @@ class Base {
         return deepCopy
     }
 
+    deepCopyObj(obj) {
+        const deepCopy = JSON.parse(JSON.stringify(obj))
+        return deepCopy
+    }
+
     static getIpfsMetaUrl(ipfs, ipfsGate) {
         let url = ipfsGate + ipfs
 

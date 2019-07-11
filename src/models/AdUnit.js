@@ -2,6 +2,7 @@ const Base = require('./Base')
 
 class AdUnit extends Base {
     constructor({
+        id = '', // we will use ipfs for ad unit
         // Spec props
         type = '',
         mediaUrl = '',
@@ -17,10 +18,14 @@ class AdUnit extends Base {
         description = '',
         archived = false,
         modified = null,
+        passback = false,
         // UI temp
-        temp = {}
+        temp = {},
+        status = {}
     } = {}) {
         super()
+
+        this.id = id || ipfs
 
         // Spec props
         this.type = type
@@ -38,8 +43,10 @@ class AdUnit extends Base {
         this.description = description
         this.archived = archived
         this.modified = modified
+        this.passback = passback
 
         this.temp = temp
+        this.status = status
 
         return this
     }
@@ -47,16 +54,75 @@ class AdUnit extends Base {
     get adUrl() { return this.targetUrl }
 
     get spec() {
-        return {
+        return this.deepCopyObj({
+            ipfs: this.ipfs,
             type: this.type,
             mediaUrl: this.mediaUrl,
             mediaMime: this.mediaMime,
             targetUrl: this.targetUrl,
             targeting: this.targeting,
             owner: this.owner,
-            created: this.created,
+            created: this.created
+                ? new Date(this.created).getTime()
+                : null,
             type: this.type,
-        }
+        })
+    }
+
+    get marketAdd() {
+        return this.deepCopyObj({
+            type: this.type,
+            mediaUrl: this.mediaUrl,
+            mediaMime: this.mediaMime,
+            targetUrl: this.targetUrl,
+            targeting: this.targeting,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            archived: this.archived,
+            passback: this.passback,
+            created: this.created
+                ? new Date(this.created).getTime()
+                : Date.now()
+        })
+    }
+
+    get marketDbAdd() {
+        return this.deepCopyObj({
+            id: this.ipfs,
+            ipfs: this.ipfs,
+            owner: this.owner,
+            type: this.type,
+            mediaUrl: this.mediaUrl,
+            mediaMime: this.mediaMime,
+            targetUrl: this.targetUrl,
+            targeting: this.targeting,
+            tags: this.tags,
+            title: this.title,
+            description: this.description,
+            created: this.created,
+            archived: this.archived,
+            modified: this.modified,
+            passback: this.passback
+        })
+    }
+
+    get marketDbUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            archived: this.archived,
+            modified: this.modified
+        })
+    }
+
+    get marketUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+            description: this.description,
+            archived: this.archived,
+            modified: this.modified
+        })
     }
 }
 

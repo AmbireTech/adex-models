@@ -15,6 +15,7 @@ class Campaign extends Base {
         maxPerImpression = '', // BigNumStr
         minPerImpression = '', // BigNumStr
         targeting = [], // {tag: '', score: 0}
+        minTargetingScore = null, /// optional number
         created = null, // timestamp in milliseconds
         nonce = null, // BigNumStr
         withdrawPeriodStart = null,  // timestamp in milliseconds 
@@ -39,6 +40,7 @@ class Campaign extends Base {
         this.maxPerImpression = maxPerImpression
         this.minPerImpression = minPerImpression
         this.targeting = targeting
+        this.minTargetingScore = minTargetingScore
         this.created = created
         this.nonce = nonce
         this.withdrawPeriodStart = withdrawPeriodStart
@@ -60,6 +62,7 @@ class Campaign extends Base {
             maxPerImpression: this.maxPerImpression,
             minPerImpression: this.minPerImpression,
             targeting: this.targeting,
+            minTargetingScore: this.minTargetingScore,
             created: this.created,
             nonce: this.nonce,
             withdrawPeriodStart: this.withdrawPeriodStart,

@@ -13,4 +13,6 @@ app.use(bodyParser.json())
 
 app.use('/', testRoutes)
 
+app.listen(PORT, () => console.log(`Testove mestove happens on ${PORT}`))
+
 module.exports = app

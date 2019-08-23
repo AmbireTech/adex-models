@@ -136,17 +136,6 @@ const slotWithBrokenArchived = {
 	modified : 1563204876826
 }
 
-const slotWithBrokenModified = {
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : [1, 2, 3 ,4, 5] // not a timestamp
-}
-
 // SHOULD WORK
 const slotWithNoOptionalKeys = {
 	type : 'legacy_250x250',
@@ -321,21 +310,6 @@ const unitBrokenArchived = {
 	passback: true
 }
 
-const unitBrokenModified = {
-	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: '',
-	passback: true
-}
-
 const unitBrokenPassback = {
 	type: 'legacy_250x250',
 	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
@@ -366,7 +340,7 @@ const unitNoOptional = {
 const putSlotWorking = {
 	title: 'Test slot title update',
 	description: 'Test description update',
-	fallbackUnit: 'ipfs://0000000000000000000000000000000000000000000000',
+	fallbackUnit: 'Qm00000000000000000000000000000000000000000000',
 	archived: true,
 	modified: 1563204876826
 }
@@ -404,7 +378,6 @@ module.exports = {
 	slotWithBrokenArchived,
 	slotWithBrokenDescription,
 	slotWithBrokenFallbackUnit,
-	slotWithBrokenModified,
 	slotWithBrokenTags,
 	slotWithBrokenTitle,
 	slotWithEmptyDescription,
@@ -416,7 +389,6 @@ module.exports = {
 	unitBrokenDesc,
 	unitBrokenMediaUrl,
 	unitBrokenMime,
-	unitBrokenModified,
 	unitBrokenPassback,
 	unitBrokenTags,
 	unitBrokenTargetUrl,

@@ -12,12 +12,19 @@ function postRequest(obj, endpoint) {
 		},
 		body: JSON.stringify(obj)
 	})
+	.catch((err) => {
+		console.log('==== ERROR =>', err)
+		return
+	})
 }
 
 function testRequest(obj, msg, endpoint, pass, t) {
 	return postRequest(obj, endpoint)
 		.then((res) => t.equals(res.status, pass ? 200 : 500, msg))
-		.catch((err) => t.fail(err))
+		.catch((err) => {
+			console.log('==== ERROR =>', err)
+			t.fail(msg)
+		})
 }
 
 
@@ -32,7 +39,6 @@ tape('AdSlot POST', (t) => {
 		testRequest(testData.slotWithBrokenArchived, 'Slot with invalid archived should fail', 'adslotpost', false, t),
 		testRequest(testData.slotWithBrokenDescription, 'Slot with too long description should fail', 'adslotpost', false, t),
 		testRequest(testData.slotWithBrokenFallbackUnit, 'Slot with invalid fallback unit should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenModified, 'Slot with invalid modified field should fail', 'adslotpost', false, t),
 		testRequest(testData.slotWithBrokenCreated, 'Slot with invalid created should fail', 'adslotpost', false, t),
 		testRequest(testData.slotWithBrokenTags, 'Slot with invalid tag array should fail', 'adslotpost', false, t),
 		testRequest(testData.slotWithBrokenTitle, 'Slot with too long title should fail', 'adslotpost', false, t),
@@ -48,7 +54,7 @@ tape('AdSlot POST', (t) => {
 
 tape('AdUnit POST', (t) => {
 	const requests = [
-		testRequest(testData.workingUnit, 'Unit is OK, should pass', true, t),
+		testRequest(testData.workingUnit, 'Unit is OK, should pass', 'adunitpost', true, t),
 		testRequest(testData.unitNoOptional, 'Unit with no optional fields should pass', 'adunitpost', true, t),
 		testRequest(testData.unitBrokenArchived, 'Unit with broken archived should cause error', 'adunitpost', false, t),
 		testRequest(testData.unitBrokenCreated, 'Unit with broken created should cause error', 'adunitpost', false, t),

@@ -12,6 +12,10 @@ const {
 } = require('./validations').Regexes
 const validModes = Object.keys(SignatureModes).map(key => SignatureModes[key])
 const roles = ['advertiser', 'publisher']
+// because joi will accept as valid "http:/some.com", "http:/", "http://" with scheme prop to uri\
+// translate the regex ^ - starts with http:// ot https:// and then at least one non white space character [/S]+
+// then use .uri to validate the rest of the url
+const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({scheme: ['http', 'https'], allowQuerySquareBrackets: true })
 
 module.exports = {
     adSlotPost: {
@@ -38,7 +42,7 @@ module.exports = {
         type: Joi.string().regex(typeRegex).allow(types).required().error(new Error('TYPE_ERR_UNIT')),
         mediaUrl: Joi.string().length(53).regex(ipfsRegex).required().error(new Error('IPFS_URL_ERR')),
         mediaMime: Joi.string().valid(mimeTypes).required().error(new Error('MEDIA_MIME_ERR')),
-        targetUrl: Joi.string().uri().required().error(new Error('TARGET_URL_ERR')),
+        targetUrl: targetUrlSchema.required().error(new Error('TARGET_URL_ERR')),
         targeting: Joi.array().items({
             tag: Joi.string().required().error(new Error('TAG_NAME_ERR')),
             score: Joi.number().min(0).max(100).required().error(new Error('TAG_SCORE_ERR'))
@@ -74,5 +78,9 @@ module.exports = {
             value: Joi.string().required().error(new Error('TD_VALUE_ERR'))
         }).optional(),
         role: Joi.string().valid(roles).optional().error(new Error('ROLE_ERR'))
+    },
+    validator: {
+        url: Joi.string().uri().required().error(new Error('VAL_URL_ERR')),
+        addr: Joi.string().regex(addressRegex).optional().error(new Error('VAL_ADDR_ERR'))
     }
 }

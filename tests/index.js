@@ -97,3 +97,22 @@ tape('AdUnit PUT', (t) => {
 		t.end()
 	})
 })
+
+tape('User POST', (t) => {
+	const requests = [
+		testRequest(testData.userValid, 'Valid user should pass', 'userpost', true, t),
+		testRequest(testData.userNoOptional, 'User with no optional fields should pass', 'userpost', true, t),
+		testRequest(testData.userInvalidAuthToken, 'User with invalid auth token should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidHash, 'User with invalid hash should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidIdentity, 'User with invalid identity should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidMode, 'User with invalid mode should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidPrefix, 'User with invalid prefix should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidRole, 'User with invalid role should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidSignature, 'User with invalid signature should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidSignerAddr, 'User with invalid signer address should fail', 'userpost', false, t),
+		testRequest(testData.userInvalidTypedData, 'User with invalid typed data should fail', 'userpost', false, t)
+	]
+	Promise.all(requests).then(() => {
+		t.end()
+	})
+})

@@ -17,6 +17,7 @@ class AdSlot extends Base {
         mediaUrl = '',
         mediaMime = '',
         targetUrl = '',
+        minPerImpression = null, 
         archived = false,
         modified = null,
         // UI temp
@@ -38,6 +39,7 @@ class AdSlot extends Base {
         this.title = title
         this.description = description
         this.fallbackUnit = fallbackUnit
+        this.minPerImpression = minPerImpression
         this.archived = archived
         this.modified = modified
 
@@ -71,6 +73,7 @@ class AdSlot extends Base {
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
+            minPerImpression: this.minPerImpression,
             created: this.created
                 ? new Date(this.created).getTime()
                 : Date.now()
@@ -87,6 +90,7 @@ class AdSlot extends Base {
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
+            minPerImpression: this.minPerImpression,
             created: this.created,
             archived: this.archived,
             modified: this.modified
@@ -98,6 +102,7 @@ class AdSlot extends Base {
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
+            minPerImpression: this.minPerImpression,
             archived: this.archived,
             modified: this.modified
         })

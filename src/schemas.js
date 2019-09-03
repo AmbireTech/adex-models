@@ -15,7 +15,9 @@ const roles = ['advertiser', 'publisher']
 // because joi will accept as valid "http:/some.com", "http:/", "http://" with scheme prop to uri\
 // translate the regex ^ - starts with http:// ot https:// and then at least one non white space character [/S]+
 // then use .uri to validate the rest of the url
-const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({scheme: ['http', 'https'], allowQuerySquareBrackets: true })
+const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https'], allowQuerySquareBrackets: true })
+const numericString = Joi.string().regex(/^\d+$/)
+const slotMinPerImpression = Joi.object().pattern(/^/, numericString).optional().error(new Error('SLOT_MIN_PER_IMPR'))
 
 module.exports = {
     adSlotPost: {
@@ -28,6 +30,7 @@ module.exports = {
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_SLOT')),
         description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_SLOT')),
         fallbackUnit: Joi.string().allow(null).regex(ipfsIdRegex).optional(), //.error(new Error('FALLBACK_UNIT_IPFS_ID_ERR')),
+        minPerImpression:slotMinPerImpression,
         archived: Joi.bool().optional().error(new Error('ARCHIVED_ERR')),
         modified: Joi.allow(null).error(new Error('MODIFIED_NOT_NULL_ERR'))
     },
@@ -35,6 +38,7 @@ module.exports = {
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_SLOT')),
         description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_SLOT')),
         fallbackUnit: Joi.string().allow(null).length(46).optional().regex(ipfsIdRegex).error(new Error('FALLBACK_UNIT_IPFS_ID_ERR')),
+        minPerImpression: slotMinPerImpression,
         archived: Joi.bool().required().error(new Error('ARCHIVED_ERR')),
         modified: Joi.date().timestamp().required().error(new Error('MODIFIED_NOT_TIMESTAMP_ERR'))
     },

@@ -4,6 +4,7 @@ const Account = require('../src/models/Account')
 
 // Length without '0x' or 'ipfs://'
 const IPFS_ADDR_LEN = 46
+const IPFS_NO_QM_LEN = 44
 const IDENTITY_ADDR_LEN = 40
 const SIGNATURE_LEN = 130
 const HASH_LEN = 64
@@ -12,6 +13,9 @@ const SIGNER_ADDR_LEN = 40
 
 
 function generateAddress(prefix, length) {
+	if (prefix == 'ipfs://') {
+		return 'Qm' + '0'.repeat(length - 2)
+	}
 	return prefix + '0'.repeat(length)
 }
 
@@ -344,7 +348,7 @@ const unitNoOptional = new AdUnit({
 const putSlotWorking = new AdSlot({
 	title: 'Test slot title update',
 	description: 'Test description update',
-	fallbackUnit: generateAddress('Qm', 44),
+	fallbackUnit: generateAddress('Qm', IPFS_NO_QM_LEN),
 	archived: true,
 	modified: 1563204876826
 })

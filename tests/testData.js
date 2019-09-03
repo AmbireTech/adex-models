@@ -1,4 +1,21 @@
-const slotWithOwner = {
+const AdSlot = require('../src/models/AdSlot')
+const AdUnit = require('../src/models/AdUnit')
+const Account = require('../src/models/Account')
+
+// Length without '0x' or 'ipfs://'
+const IPFS_ADDR_LEN = 46
+const IDENTITY_ADDR_LEN = 40
+const SIGNATURE_LEN = 130
+const HASH_LEN = 64
+const SIGNER_ADDR_LEN = 40
+
+
+
+function generateAddress(prefix, length) {
+	return prefix + '0'.repeat(length)
+}
+
+const slotWithOwner = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	owner: '0x0', // shouldnt be here
@@ -8,9 +25,9 @@ const slotWithOwner = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithIpfs = {
+const slotWithIpfs = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -20,10 +37,10 @@ const slotWithIpfs = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
 
-const workingSlot = {
+const workingSlot = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -32,9 +49,9 @@ const workingSlot = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithInvalidType = {
+const slotWithInvalidType = new AdSlot({
 	type : 'legacy_250x251', // shouldnt match
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -43,9 +60,9 @@ const slotWithInvalidType = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithMatchType = {
+const slotWithMatchType = new AdSlot({
 	type : 'iab_flex_1x1', // should match regex
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -54,9 +71,9 @@ const slotWithMatchType = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithBrokenTags = {
+const slotWithBrokenTags = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ], // oopsie key shouldnt be there
 	created : 1563204876826,
@@ -65,9 +82,9 @@ const slotWithBrokenTags = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithBrokenCreated = {
+const slotWithBrokenCreated = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : '15632048768261231312312',
@@ -76,9 +93,9 @@ const slotWithBrokenCreated = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithBrokenFallbackUnit = {
+const slotWithBrokenFallbackUnit = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -87,9 +104,9 @@ const slotWithBrokenFallbackUnit = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithBrokenTitle = {
+const slotWithBrokenTitle = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -98,9 +115,9 @@ const slotWithBrokenTitle = {
 	description : 'Test slot for running integration tests',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
-const slotWithBrokenDescription = {
+const slotWithBrokenDescription = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -109,10 +126,10 @@ const slotWithBrokenDescription = {
 	description : 'LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS',
 	archived : false,
 	modified : 1563204876826
-}
+})
 
 // SHOULD PASS
-const slotWithEmptyDescription = {
+const slotWithEmptyDescription = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
@@ -121,33 +138,20 @@ const slotWithEmptyDescription = {
 	description : '',
 	archived : false,
 	modified : 1563204876826
-}
-
-
-// TODO: Break archived
-const slotWithBrokenArchived = {
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : 'xxxtentacion', // must be bool
-	modified : 1563204876826
-}
+})
 
 // SHOULD WORK
-const slotWithNoOptionalKeys = {
+const slotWithNoOptionalKeys = new AdSlot({
 	type : 'legacy_250x250',
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
 	title : 'Test slot 1',
 	modified : 1563204876826
-}
+})
 
-const workingUnit = {
+const workingUnit = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -158,11 +162,11 @@ const workingUnit = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenType = {
+const unitBrokenType = new AdUnit({
 	type: 'legacy_250x251', // invalid type
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -173,11 +177,11 @@ const unitBrokenType = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenMediaUrl = {
+const unitBrokenMediaUrl = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://000000000000000000000000000000000000000000000', // 1 symbol too short to be valid
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN - 1), // 1 symbol too short to be valid
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -188,11 +192,11 @@ const unitBrokenMediaUrl = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenMime = {
+const unitBrokenMime = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/asdf', // invalid mime type
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -203,11 +207,11 @@ const unitBrokenMime = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenTargetUrl = {
+const unitBrokenTargetUrl = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'xxxtentacion.com', // invalid url
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -218,11 +222,11 @@ const unitBrokenTargetUrl = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenTargeting = {
+const unitBrokenTargeting = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ],
@@ -233,11 +237,11 @@ const unitBrokenTargeting = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenTags = {
+const unitBrokenTags = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -248,11 +252,11 @@ const unitBrokenTags = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenCreated = {
+const unitBrokenCreated = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -263,11 +267,11 @@ const unitBrokenCreated = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenTitle = {
+const unitBrokenTitle = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -278,11 +282,11 @@ const unitBrokenTitle = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenDesc = {
+const unitBrokenDesc = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -293,11 +297,11 @@ const unitBrokenDesc = {
 	archived: true,
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenArchived = {
+const unitBrokenArchived = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -308,11 +312,11 @@ const unitBrokenArchived = {
 	archived: 'not a bool',
 	modified: 1563204876825,
 	passback: true
-}
+})
 
-const unitBrokenPassback = {
+const unitBrokenPassback = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
@@ -323,59 +327,59 @@ const unitBrokenPassback = {
 	archived: true,
 	modified: 1563204876825,
 	passback: 'qweqweret'
-}
+})
 
-const unitNoOptional = {
+const unitNoOptional = new AdUnit({
 	type: 'legacy_250x250',
-	mediaUrl: 'ipfs://0000000000000000000000000000000000000000000000',
+	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
 	mediaMime: 'image/jpeg',
 	targetUrl: 'https://xxxtentacion.com',
 	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created: 1563204876826,
 	title: 'Test unit',
 	modified: 1563204876825
-}
+})
 
 // NOTE: Won't cover every case like in POST since checks are the same
-const putSlotWorking = {
+const putSlotWorking = new AdSlot({
 	title: 'Test slot title update',
 	description: 'Test description update',
-	fallbackUnit: 'Qm00000000000000000000000000000000000000000000',
+	fallbackUnit: generateAddress('Qm', 44),
 	archived: true,
 	modified: 1563204876826
-}
+})
 
 const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all fields from the POST requests
 
-const putSlotNoOptional = {
+const putSlotNoOptional = new AdSlot({
 	title: 'Test unit update',
 	archived: true,
 	modified: 1563204876826
-}
+})
 
 // optional - description
-const putUnitWorking = {
+const putUnitWorking = new AdUnit({
 	title: 'Test unit title update',
 	description: 'Test Description',
 	archived: true,
 	modified: 1563204876826
-}
+})
 
 const putUnitExtraFields = workingUnit
 
-const putUnitNoOptional = {
+const putUnitNoOptional = new AdUnit({
 	title: 'Test unit title update',
 	archived: true,
 	modified: 1563204876826
-}
+})
 
 const userValid = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -386,12 +390,12 @@ const userValid = {
 }
 
 const userInvalidIdentity = {
-	identity: '0x000000000000000000000000000000000000000', // Too short
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN - 1), // Too short
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -400,13 +404,14 @@ const userInvalidIdentity = {
 	}],
 	role: 'advertiser'
 }
+
 const userInvalidMode = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 1337,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -417,12 +422,12 @@ const userInvalidMode = {
 }
 
 const userInvalidSignature = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN - 10),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -433,12 +438,12 @@ const userInvalidSignature = {
 }
 
 const userInvalidHash = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x00000000000000000000000000000000000000000000000000000000000000000', // too long
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN + 1), // too long
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -449,12 +454,12 @@ const userInvalidHash = {
 }
 
 const userInvalidAuthToken = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 42, // should be string
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -465,12 +470,12 @@ const userInvalidAuthToken = {
 }
 
 const userInvalidsignerAddress = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x00000000000000000000000000000000000000000', // Too long
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN + 2), // Too long
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -481,12 +486,12 @@ const userInvalidsignerAddress = {
 }
 
 const userInvalidPrefix = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: [true],
 	typedData: [{
 		type: 'Type',
@@ -497,12 +502,12 @@ const userInvalidPrefix = {
 }
 
 const userInvalidTypedData = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -518,12 +523,12 @@ const userInvalidTypedData = {
 }
 
 const userInvalidRole = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000',
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
 	prefixed: true,
 	typedData: [{
 		type: 'Type',
@@ -534,12 +539,12 @@ const userInvalidRole = {
 }
 
 const userNoOptional = {
-	identity: '0x0000000000000000000000000000000000000000',
+	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
 	mode: 0,
-	signature: '0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-	hash: '0x0000000000000000000000000000000000000000000000000000000000000000',
+	signature: generateAddress('0x', SIGNATURE_LEN),
+	hash: generateAddress('0x', HASH_LEN),
 	authToken: 'This is a string',
-	signerAddress: '0x0000000000000000000000000000000000000000'
+	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN)
 }
 
 module.exports = {
@@ -548,7 +553,6 @@ module.exports = {
 	slotWithIpfs,
 	slotWithInvalidType,
 	slotWithBrokenCreated,
-	slotWithBrokenArchived,
 	slotWithBrokenDescription,
 	slotWithBrokenFallbackUnit,
 	slotWithBrokenTags,

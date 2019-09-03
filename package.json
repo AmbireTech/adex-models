@@ -4,7 +4,7 @@
   "description": "adex data models",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "./tests/integration.sh",
+    "test": "node ./tests/index.js",
     "build": "babel ./src --presets babel-preset-env --out-dir dist",
     "prepare": "npm run build"
   },
@@ -25,18 +25,13 @@
   },
   "homepage": "https://github.com/AdExBlockchain/adex-models#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
     "bs58": "^4.0.1",
     "celebrate": "^10.0.1",
-    "express": "^4.17.1",
-    "header-parser": "^1.0.0",
     "i18n-iso-countries": "^4.2.0"
   },
   "devDependencies": {
     "babel-cli": "6",
     "babel-preset-env": "^1.7.0",
-    "node-fetch": "^2.6.0",
-    "supertest": "^4.0.2",
     "tape": "^4.11.0"
   }
 }

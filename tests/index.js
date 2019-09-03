@@ -1,118 +1,70 @@
+const { Joi } = require('celebrate')
 const tape = require('tape')
+const schemas = require('../src/schemas')
 const testData = require('./testData')
-const fetch = require('node-fetch')
 
-const serverUrl = process.env.MOCK_SERVER_URL
+tape('Testing schema for POSTing ad slots', (t) => {
+	t.equals(Joi.validate(testData.workingSlot.marketAdd, schemas.adSlotPost).error, null, 'No error for normal slot')
+	t.equals(Joi.validate(testData.slotWithNoOptionalKeys.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with no optional keys')
+	t.equals(Joi.validate(testData.slotWithMatchType.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with type that matches regex')
+	t.equals(Joi.validate(testData.slotWithOwner.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with owner field, model doesn\'t pass it')
+	t.equals(Joi.validate(testData.slotWithIpfs.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with IPFS, model doesn\'t pass it')
+	t.equals(Joi.validate(testData.slotWithEmptyDescription.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with empty description field')
 
-function postRequest(obj, endpoint) {
-	return fetch(`${serverUrl}/${endpoint}`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json'
-		},
-		body: JSON.stringify(obj)
-	})
-	.catch((err) => {
-		console.log('==== ERROR =>', err)
-		return
-	})
-}
-
-function testRequest(obj, msg, endpoint, pass, t) {
-	return postRequest(obj, endpoint)
-		.then((res) => t.equals(res.status, pass ? 200 : 500, msg))
-		.catch((err) => {
-			console.log('==== ERROR =>', err)
-			t.fail(msg)
-		})
-}
-
-
-
-tape('AdSlot POST', (t) => {
-	const requests = [
-		testRequest(testData.workingSlot, 'Slot is OK, should pass', 'adslotpost', true, t),
-		testRequest(testData.slotWIthOwner, 'Doesnt accept owner as param', 'adslotpost', false, t),
-		testRequest(testData.slotWithIpfs, 'Doesnt accept ipfs as param', 'adslotpost', false, t),
-		testRequest(testData.slotWithInvalidType, 'Slot with invalid type should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenCreated, 'Slot with invalid created should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenArchived, 'Slot with invalid archived should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenDescription, 'Slot with too long description should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenFallbackUnit, 'Slot with invalid fallback unit should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenCreated, 'Slot with invalid created should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenTags, 'Slot with invalid tag array should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithBrokenTitle, 'Slot with too long title should fail', 'adslotpost', false, t),
-		testRequest(testData.slotWithEmptyDescription, 'Slot with empty description should pass', 'adslotpost', true, t),
-		testRequest(testData.slotWithMatchType, 'Slot with type that matches regex should pass', 'adslotpost', true, t),
-		testRequest(testData.slotWithNoOptionalKeys, 'Slot with no optional keys should pass', 'adslotpost', true, t)
-	]
-
-	Promise.all(requests).then(() => {
-		t.end()
-	})
+	// TODO: Maybe stringify error object and look for error code as current check is too obscure
+	t.ok(Joi.validate(testData.slotWithInvalidType.marketAdd, schemas.adSlotPost).error instanceof Error, 'Error for slot with invalid type')
+	t.ok(Joi.validate(testData.slotWithBrokenDescription.marketAdd, schemas.adSlotPost).error instanceof Error, 'Error for slot with invalid description field')
+	t.ok(Joi.validate(testData.slotWithBrokenCreated.marketAdd, schemas.adSlotPost).error instanceof Error, 'Error for slot with invalid created timestamp')
+	t.ok(Joi.validate(testData.slotWithBrokenFallbackUnit.marketAdd, schemas.adSlotPost).error instanceof Error, 'Error for slot with invalid fallbackUnit field')
+	t.ok(Joi.validate(testData.slotWithBrokenTags.marketAdd, schemas.adSlotPost).error instanceof Error, 'Error for slot with broken tags field')
+	t.ok(Joi.validate(testData.slotWithBrokenTitle.marketAdd, schemas.adSlotPost).error instanceof Error, 'Error for slot with broken title field')
+	t.end()
 })
 
-tape('AdUnit POST', (t) => {
-	const requests = [
-		testRequest(testData.workingUnit, 'Unit is OK, should pass', 'adunitpost', true, t),
-		testRequest(testData.unitNoOptional, 'Unit with no optional fields should pass', 'adunitpost', true, t),
-		testRequest(testData.unitBrokenArchived, 'Unit with broken archived should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenCreated, 'Unit with broken created should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenDesc, 'Unit with broken description should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenMediaUrl, 'Unit with broken media url should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenMime, 'Unit with broken media mime should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenModified, 'Unit with broken modified date should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenPassback, 'Unit with broken passback should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenTags, 'Unit with broken tag array should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenTargetUrl, 'Unit with broken target URL should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenTargeting, 'Unit with broken targeting tags should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenTitle, 'Unit with broken title should cause error', 'adunitpost', false, t),
-		testRequest(testData.unitBrokenType, 'Unit with broken type should cause error', 'adunitpost', false, t)
-	]
+tape('Testing schema for POSTing ad units', (t) => {
+	t.equals(Joi.validate(testData.workingUnit.marketAdd, schemas.adUnitPost).error, null, 'No error for working unit')
+	t.equals(Joi.validate(testData.unitNoOptional.marketAdd, schemas.adUnitPost).error, null, 'No error for unit with no optional fields')
 
-	Promise.all(requests).then(() => {
-		t.end()
-	})
+	t.ok(Joi.validate(testData.unitBrokenArchived.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid archived field')
+	t.ok(Joi.validate(testData.unitBrokenCreated.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid created field')
+	t.ok(Joi.validate(testData.unitBrokenDesc.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid description field')
+	t.ok(Joi.validate(testData.unitBrokenMediaUrl.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid media URL')
+	t.ok(Joi.validate(testData.unitBrokenMime.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit for invalid mime type')
+	t.ok(Joi.validate(testData.unitBrokenPassback.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid passback')
+	t.ok(Joi.validate(testData.unitBrokenTags.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid tags array')
+	t.ok(Joi.validate(testData.unitBrokenTargetUrl.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid targetUrl')
+	t.ok(Joi.validate(testData.unitBrokenTargeting.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid targeting field')
+	t.ok(Joi.validate(testData.unitBrokenTitle.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid title')
+	t.ok(Joi.validate(testData.unitBrokenType.marketAdd, schemas.adUnitPost).error instanceof Error, 'Error for unit with invalid type')
+	t.end()
 })
 
-tape('AdSlot PUT', (t) => {
-	const requests = [
-		testRequest(testData.putSlotWorking, 'Editable slot, should pass', 'adslotput', true, t),
-		testRequest(testData.putSlotExtraFields, 'Slot with uneditable fields should cause error', 'adslotput', false, t),
-		testRequest(testData.putSlotNoOptional, 'Editing slot with no optional fields should pass', 'adslotput', true, t)
-	]
-
-	Promise.all(requests).then(() => {
-		t.end()
-	})
+tape('Testing schema for PUTing ad slots', (t) => {
+	t.equals(Joi.validate(testData.putSlotExtraFields.marketUpdate, schemas.adSlotPut).error, null, 'No error for putting slot with extra fields, they shouldn\'t be passed')
+	t.equals(Joi.validate(testData.putSlotWorking.marketUpdate, schemas.adSlotPut).error, null, 'No error for working slot update')
+	t.equals(Joi.validate(testData.putSlotNoOptional.marketUpdate, schemas.adSlotPut).error, null, 'No error when optional fields are skipped')
+	t.end()
 })
 
-tape('AdUnit PUT', (t) => {
-	const requests = [
-		testRequest(testData.putUnitWorking, 'Editable unit, should pass', 'adunitput', true, t),
-		testRequest(testData.putUnitExtraFields, 'Unit with uneditable fields should cause error', 'adunitput', false, t),
-		testRequest(testData.putUnitNoOptional, 'Unit with no optionAl fields should pass', 'adunitput', true, t)
-	]
-	Promise.all(requests).then(() => {
-		t.end()
-	})
+tape('Testing schema for PUTing ad units',  (t) => {
+	t.equals(Joi.validate(testData.putUnitExtraFields.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating unit with extra fields as they shouldn\'t be passed')
+	t.equals(Joi.validate(testData.putUnitNoOptional.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating unit with no optional fields')
+	t.equals(Joi.validate(testData.putUnitWorking.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating working unit')
+	t.end()
 })
 
-tape('User POST', (t) => {
-	const requests = [
-		testRequest(testData.userValid, 'Valid user should pass', 'userpost', true, t),
-		testRequest(testData.userNoOptional, 'User with no optional fields should pass', 'userpost', true, t),
-		testRequest(testData.userInvalidAuthToken, 'User with invalid auth token should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidHash, 'User with invalid hash should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidIdentity, 'User with invalid identity should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidMode, 'User with invalid mode should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidPrefix, 'User with invalid prefix should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidRole, 'User with invalid role should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidSignature, 'User with invalid signature should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidSignerAddr, 'User with invalid signer address should fail', 'userpost', false, t),
-		testRequest(testData.userInvalidTypedData, 'User with invalid typed data should fail', 'userpost', false, t)
-	]
-	Promise.all(requests).then(() => {
-		t.end()
-	})
+tape('Testing schema for Accounts', (t) => {
+	t.equals(Joi.validate(testData.userValid, schemas.user).error, null, 'No error for adding valid user')
+	t.equals(Joi.validate(testData.userNoOptional, schemas.user).error, null, 'No error for adding user with no optional fields')
+
+	t.ok(Joi.validate(testData.userInvalidAuthToken, schemas.user).error instanceof Error, 'User with invalid auth token causes error')
+	t.ok(Joi.validate(testData.userInvalidHash, schemas.user).error instanceof Error, 'User with invalid hash causes error')
+	t.ok(Joi.validate(testData.userInvalidIdentity, schemas.user).error instanceof Error, 'User with invalid identity address causes error')
+	t.ok(Joi.validate(testData.userInvalidMode, schemas.user).error instanceof Error, 'User with invalid auth mode causes error')
+	t.ok(Joi.validate(testData.userInvalidPrefix, schemas.user).error instanceof Error, 'User with invalid prefix causes error')
+	t.ok(Joi.validate(testData.userInvalidRole, schemas.user).error instanceof Error, 'User with invalid role causes error')
+	t.ok(Joi.validate(testData.userInvalidSignature, schemas.user).error instanceof Error, 'User with invalid signature causes error')
+	t.ok(Joi.validate(testData.userInvalidsignerAddress, schemas.user).error instanceof Error, 'User with invalid signer address causes error')
+	t.ok(Joi.validate(testData.userInvalidTypedData, schemas.user).error instanceof Error, 'User with invalid typed data causes error')
+	t.end()
 })

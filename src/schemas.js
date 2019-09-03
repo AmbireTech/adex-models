@@ -30,7 +30,7 @@ module.exports = {
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_SLOT')),
         description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_SLOT')),
         fallbackUnit: Joi.string().allow(null).regex(ipfsIdRegex).optional(), //.error(new Error('FALLBACK_UNIT_IPFS_ID_ERR')),
-        minPerImpression:slotMinPerImpression,
+        minPerImpression: slotMinPerImpression,
         archived: Joi.bool().optional().error(new Error('ARCHIVED_ERR')),
         modified: Joi.allow(null).error(new Error('MODIFIED_NOT_NULL_ERR'))
     },

@@ -39,8 +39,8 @@ module.exports = {
         description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_SLOT')),
         fallbackUnit: Joi.string().allow(null).length(46).optional().regex(ipfsIdRegex).error(new Error('FALLBACK_UNIT_IPFS_ID_ERR')),
         minPerImpression: slotMinPerImpression,
-        archived: Joi.bool().required().error(new Error('ARCHIVED_ERR')),
-        modified: Joi.date().timestamp().required().error(new Error('MODIFIED_NOT_TIMESTAMP_ERR'))
+        archived: Joi.bool().optional().error(new Error('ARCHIVED_ERR')),
+        // modified: set it on the server
     },
     adUnitPost: {
         type: Joi.string().regex(typeRegex).allow(types).required().error(new Error('TYPE_ERR_UNIT')),
@@ -65,8 +65,8 @@ module.exports = {
     adUnitPut: {
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_UNIT')),
         description: Joi.string().allow('').max(300).optional().error(new Error('DESC_ERR_UNIT')),
-        archived: Joi.bool().required().error(new Error('ARCHIVED_ERR')),
-        modified: Joi.date().timestamp().required().error(new Error('MODIFIED_NOT_TIMESTAMP_ERR'))
+        archived: Joi.bool().optional().error(new Error('ARCHIVED_ERR')),
+        // modified: set it on the server
     },
     user: {
         identity: Joi.string().regex(addressRegex).required().error(new Error('IDENTITY_ERR')),

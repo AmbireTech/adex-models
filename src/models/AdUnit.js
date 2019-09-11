@@ -121,7 +121,6 @@ class AdUnit extends Base {
             title: this.title,
             description: this.description,
             archived: this.archived,
-            modified: this.modified
         })
     }
 }

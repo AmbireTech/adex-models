@@ -11,7 +11,6 @@ tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.slotWithIpfs.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with IPFS, model doesn\'t pass it')
 	t.equals(Joi.validate(testData.slotWithEmptyDescription.marketAdd, schemas.adSlotPost).error, null, 'No error for slot with empty description field')
 
-	// TODO: Maybe stringify error object and look for error code as current check is too obscure
 	t.equals(Joi.validate(testData.slotWithInvalidType.marketAdd, schemas.adSlotPost).error.toString(), 'Error: TYPE_ERR_SLOT', 'Error for slot with invalid type')
 	t.equals(Joi.validate(testData.slotWithBrokenDescription.marketAdd, schemas.adSlotPost).error.toString(), 'Error: DESC_ERR_SLOT', 'Error for slot with invalid description field')
 	t.equals(Joi.validate(testData.slotWithBrokenCreated.marketAdd, schemas.adSlotPost).error.toString(), 'Error: CREATED_DATE_ERR_SLOT', 'Error for slot with invalid created timestamp')

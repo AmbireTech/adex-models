@@ -161,8 +161,7 @@ const slotWithNoOptionalKeys = new AdSlot({
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
 	title : 'Test slot 1',
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
+	modified : 1563204876826
 })
 
 const workingUnit = new AdUnit({
@@ -371,8 +370,7 @@ const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all f
 const putSlotNoOptional = new AdSlot({
 	title: 'Test unit update',
 	archived: true,
-	modified: 1563204876826,
-	minPerImpression: { balance: '100' }
+	modified: 1563204876826
 })
 
 // optional - description

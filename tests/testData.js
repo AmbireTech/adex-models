@@ -14,7 +14,7 @@ const SIGNER_ADDR_LEN = 40
 
 function generateAddress(prefix, length) {
 	if (prefix == 'ipfs://') {
-		return 'Qm' + '0'.repeat(length - 2)
+		return prefix + 'Qm' + '0'.repeat(length - 2)
 	}
 	return prefix + '0'.repeat(length)
 }
@@ -28,7 +28,8 @@ const slotWithOwner = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithIpfs = new AdSlot({
@@ -40,7 +41,8 @@ const slotWithIpfs = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 
@@ -52,7 +54,8 @@ const workingSlot = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithInvalidType = new AdSlot({
@@ -63,7 +66,8 @@ const slotWithInvalidType = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithMatchType = new AdSlot({
@@ -74,7 +78,8 @@ const slotWithMatchType = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenTags = new AdSlot({
@@ -85,7 +90,8 @@ const slotWithBrokenTags = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenCreated = new AdSlot({
@@ -96,7 +102,8 @@ const slotWithBrokenCreated = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenFallbackUnit = new AdSlot({
@@ -107,7 +114,8 @@ const slotWithBrokenFallbackUnit = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenTitle = new AdSlot({
@@ -118,7 +126,8 @@ const slotWithBrokenTitle = new AdSlot({
 	title : 'This title is longer than 120 symbols when it should be less, which will cause celebrate to throw an error because of this.',
 	description : 'Test slot for running integration tests',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenDescription = new AdSlot({
@@ -129,7 +138,8 @@ const slotWithBrokenDescription = new AdSlot({
 	title : 'Test slot 1',
 	description : 'LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 // SHOULD PASS
@@ -141,7 +151,8 @@ const slotWithEmptyDescription = new AdSlot({
 	title : 'Test slot 1',
 	description : '',
 	archived : false,
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 // SHOULD WORK
@@ -150,7 +161,8 @@ const slotWithNoOptionalKeys = new AdSlot({
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created : 1563204876826,
 	title : 'Test slot 1',
-	modified : 1563204876826
+	modified : 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const workingUnit = new AdUnit({
@@ -350,7 +362,8 @@ const putSlotWorking = new AdSlot({
 	description: 'Test description update',
 	fallbackUnit: generateAddress('Qm', IPFS_NO_QM_LEN),
 	archived: true,
-	modified: 1563204876826
+	modified: 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all fields from the POST requests
@@ -358,7 +371,8 @@ const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all f
 const putSlotNoOptional = new AdSlot({
 	title: 'Test unit update',
 	archived: true,
-	modified: 1563204876826
+	modified: 1563204876826,
+	minPerImpression: { balance: '100' }
 })
 
 // optional - description

@@ -17,7 +17,7 @@ const roles = ['advertiser', 'publisher']
 // then use .uri to validate the rest of the url
 const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https'], allowQuerySquareBrackets: true })
 const numericString = Joi.string().regex(/^\d+$/)
-const slotMinPerImpression = Joi.object().pattern(/^/, numericString).optional().error(new Error('SLOT_MIN_PER_IMPR'))
+const slotMinPerImpression = Joi.object().allow(null).pattern(/^/, numericString).optional().error(new Error('SLOT_MIN_PER_IMPR'))
 
 module.exports = {
     adSlotPost: {

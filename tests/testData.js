@@ -1,6 +1,5 @@
 const AdSlot = require('../src/models/AdSlot')
 const AdUnit = require('../src/models/AdUnit')
-const Account = require('../src/models/Account')
 
 // Length without '0x' or 'ipfs://'
 const IPFS_ADDR_LEN = 46

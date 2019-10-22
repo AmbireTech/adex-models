@@ -23,7 +23,7 @@ const AdUnitsTypes = [
 	'legacy_300x250', 'legacy_250x250', 'legacy_240x400', 'legacy_336x280', 'legacy_180x150',
 	'legacy_300x100', 'legacy_720x300', 'legacy_468x60', 'legacy_234x60', 'legacy_88x31',
 	'legacy_120x90', 'legacy_120x60', 'legacy_120x240', 'legacy_125x125', 'legacy_728x90',
-	'legacy_160x600', 'legacy_120x600', 'legacy_300x600',
+	'legacy_160x600', 'legacy_120x600', 'legacy_300x600', 'legacy_320x50',
 	// IAB FLEX - TODO
 ]
 

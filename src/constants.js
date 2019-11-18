@@ -1,6 +1,7 @@
 const countries = require('i18n-iso-countries')
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"))
 const { PredefinedTags } = require('./tags')
+const { GoogleVisionCategories } = require('./googleVisionCategories')
 
 const SignatureModes = {
 	NO_SIG: 0,
@@ -79,6 +80,7 @@ module.exports = {
 	Ages,
 	TargetScores,
 	PredefinedTags,
+	GoogleVisionCategories,
 	MimeTypes,
 	IdentityPrivilegeLevel,
 	valueToKey

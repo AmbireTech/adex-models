@@ -91,6 +91,6 @@ module.exports = {
     campaignPut: {
         spec: Joi.object({
             title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_CAMPAIGN')),
-        })
+        }).required()
     }
 }

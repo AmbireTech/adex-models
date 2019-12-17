@@ -88,9 +88,7 @@ class Campaign extends Base {
 
     get marketDbUpdate() {
         return this.deepCopyObj({
-            spec: {
-                title: this.title,
-            }
+            title: this.title,
         })
     }
 }

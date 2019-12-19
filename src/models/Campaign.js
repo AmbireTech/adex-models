@@ -7,7 +7,7 @@ class Campaign extends Base {
         creator = '', // address
         depositAsset = '', // ERC-20) token addr 
         depositAmount = '', // amount str
-        validUntil = null, //in seconds timestamp 
+        validUntil = null, //in seconds timestamp
         // Spec props
         title = '',
         adUnits = [], // objs with AdUnits spec props
@@ -88,7 +88,7 @@ class Campaign extends Base {
 
     get marketDbUpdate() {
         return this.deepCopyObj({
-            title: this.title
+            title: this.title,
         })
     }
 }

@@ -89,7 +89,6 @@ module.exports = {
         addr: Joi.string().regex(addressRegex).optional().error(new Error('VAL_ADDR_ERR'))
     },
     campaignPut: {
-        id: Joi.string().regex(campaignAddrRegex).required().error(new Error('ID_ERR_CAMPAIGN')),
         title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_CAMPAIGN')),
     }
 }

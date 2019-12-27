@@ -86,6 +86,12 @@ class Campaign extends Base {
         return this.adUnits[0] ? this.adUnits[0].mediaUrl : ''
     }
 
+    get marketUpdate() {
+        return this.deepCopyObj({
+            title: this.title,
+        })
+    }
+
     get marketDbUpdate() {
         return this.deepCopyObj({
             title: this.title,

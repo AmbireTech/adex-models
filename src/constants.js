@@ -61,7 +61,6 @@ const IdentityPrivilegeLevel = {
 	None: 0,
 	Routines: 1,
 	Transactions: 2,
-	WithdrawTo: 3
 }
 
 const valueToKey = (obj) => {

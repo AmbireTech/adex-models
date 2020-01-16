@@ -2,7 +2,7 @@ const { Joi } = require('celebrate')
 const tape = require('tape')
 const schemas = require('../src/schemas')
 const testData = require('./testData')
-const errors = require('./errors')
+const errors = require('../src/errors')
 
 tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.workingSlot.marketAdd, schemas.adSlotPost).error, null, 'No error for normal slot')

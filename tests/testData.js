@@ -102,8 +102,8 @@ const workingUnit = new AdUnit({
 	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
+	title: generateString(20),
+	description: generateString(50),
 	archived: true,
 	modified: 1563204876825,
 	passback: true
@@ -140,7 +140,7 @@ const unitBrokenTags = new AdUnit({
 })
 
 const unitBrokenCreated = new AdUnit({
-	...workungUnit,
+	...workingUnit,
 	created: 'broken',
 })
 
@@ -171,14 +171,14 @@ const unitNoOptional = new AdUnit({
 	targetUrl: 'https://xxxtentacion.com',
 	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
 	created: 1563204876826,
-	title: 'Test unit',
+	title: generateString(20),
 	modified: 1563204876825
 })
 
 // NOTE: Won't cover every case like in POST since checks are the same
 const putSlotWorking = new AdSlot({
-	title: 'Test slot title update',
-	description: 'Test description update',
+	title: generateString(20),
+	description: generateString(50),
 	fallbackUnit: generateAddress('Qm', IPFS_NO_QM_LEN),
 	archived: true,
 	modified: 1563204876826,
@@ -188,15 +188,15 @@ const putSlotWorking = new AdSlot({
 const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all fields from the POST requests
 
 const putSlotNoOptional = new AdSlot({
-	title: 'Test unit update',
+	title: generateString(20),
 	archived: true,
 	modified: 1563204876826
 })
 
 // optional - description
 const putUnitWorking = new AdUnit({
-	title: 'Test unit title update',
-	description: 'Test Description',
+	title: generateString(20),
+	description: generateString(50),
 	archived: true,
 	modified: 1563204876826
 })
@@ -204,7 +204,7 @@ const putUnitWorking = new AdUnit({
 const putUnitExtraFields = workingUnit
 
 const putUnitNoOptional = new AdUnit({
-	title: 'Test unit title update',
+	title: generateString(20),
 	archived: true,
 	modified: 1563204876826
 })
@@ -288,6 +288,19 @@ const userNoOptional = {
 	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN)
 }
 
+const putCampaignWorking = {
+	title: generateString(120)
+}
+
+const putCampaignBrokenTitle = {
+	title: generateString(121) // over 120 limit
+}
+
+const putCampaignExtraProperties = {
+	title: generateString(120),
+	description: generateString(200)
+}
+
 module.exports = {
 	workingSlot,
 	slotWithOwner,
@@ -330,5 +343,8 @@ module.exports = {
 	userInvalidSignature,
 	userInvalidsignerAddress,
 	userInvalidTypedData,
-	userNoOptional
+	userNoOptional,
+	putCampaignWorking,
+	putCampaignBrokenTitle,
+	putCampaignExtraProperties,
 }

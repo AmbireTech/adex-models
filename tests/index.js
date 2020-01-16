@@ -67,3 +67,10 @@ tape('Testing schema for Accounts', (t) => {
 	t.equals(Joi.validate(testData.userInvalidTypedData, schemas.user).error.toString(), 'Error: TD_VALUE_ERR', 'User with invalid typed data causes error')
 	t.end()
 })
+
+tape('Testing schema for editing campaigns', (t) => {
+	t.equals(Joi.validate(testData.putCampaignWorking, schemas.campaignPut).error, null, 'No error for editing a campaign')
+	t.equals(Joi.validate(testData.putCampaignBrokenTitle, schemas.campaignPut).error.toString(), 'Error: TITLE_ERR_CAMPAIGN', 'Campaign with broken title returns error')
+	t.ok(Joi.validate(testData.putCampaignExtraProperties, schemas.campaignPut).error, 'Editing campaign won\'t work with more than the title property')
+	t.end()
+})

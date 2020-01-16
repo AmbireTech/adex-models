@@ -8,7 +8,8 @@ const {
     typeRegex,
     addressRegex,
     signatureRegex,
-    hashRegex
+    hashRegex,
+    campaignAddrRegex
 } = require('./validations').Regexes
 const validModes = Object.keys(SignatureModes).map(key => SignatureModes[key])
 const roles = ['advertiser', 'publisher']
@@ -86,5 +87,8 @@ module.exports = {
     validator: {
         url: Joi.string().uri().required().error(new Error('VAL_URL_ERR')),
         addr: Joi.string().regex(addressRegex).optional().error(new Error('VAL_ADDR_ERR'))
+    },
+    campaignPut: {
+        title: Joi.string().min(3).max(120).required().error(new Error('TITLE_ERR_CAMPAIGN')),
     }
 }

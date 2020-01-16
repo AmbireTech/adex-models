@@ -13,10 +13,11 @@ class Account extends Base {
         identity = {
             address: '',
             status: 'pending',
-            privileges: [{ address: null, level: 0, status: 0 }],
-            balanceEth: '0',
-            balanceDai: '0',
-            validatorAuthTokens: {}
+            currentPrivileges: {},
+            isLimitedVolume: true,
+            relayerData: {},
+            validatorAuthTokens: {},
+
         },
         wallet = {
             authSig: '', // Signature for adex-market session

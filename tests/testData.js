@@ -18,32 +18,9 @@ function generateAddress(prefix, length) {
 	return prefix + '0'.repeat(length)
 }
 
-const slotWithOwner = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	owner: '0x0', // shouldnt be here
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
-})
-
-const slotWithIpfs = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	ipfs : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t', // shouldnt be here
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
-})
-
+function generateString(length) {
+	return '0'.repeat(length)
+}
 
 const workingSlot = new AdSlot({
 	type : 'legacy_250x250',
@@ -57,101 +34,55 @@ const workingSlot = new AdSlot({
 	minPerImpression: { balance: '100' }
 })
 
+const slotWithOwner = new AdSlot({
+	...workingSlot,
+	owner: '0x0', // shouldnt be here
+})
+
+const slotWithIpfs = new AdSlot({
+	...workingSlot,
+	ipfs : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t', // shouldnt be here
+})
+
 const slotWithInvalidType = new AdSlot({
+	...workingSlot,
 	type : 'legacy_250x251', // shouldnt match
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
 })
 
 const slotWithMatchType = new AdSlot({
+	...workingSlot,
 	type : 'iab_flex_1x1', // should match regex
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenTags = new AdSlot({
-	type : 'legacy_250x250',
+	...workingSlot,
 	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ], // oopsie key shouldnt be there
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenCreated = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
+	...workingSlot,
 	created : '15632048768261231312312',
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
 })
 
 const slotWithBrokenFallbackUnit = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2', // one symbol short
-	title : 'Test slot 1',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
+	...workingSlot,
+	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2',
 })
 
 const slotWithBrokenTitle = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'This title is longer than 120 symbols when it should be less, which will cause celebrate to throw an error because of this.',
-	description : 'Test slot for running integration tests',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
+	...workingSlot,
+	title : generateString(121), // longer than limit
 })
 
 const slotWithBrokenDescription = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
-	description : 'LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS LONGER THAN 1200 SYMBOLS',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
+	...workingSlot,
+	description : generateString(1201), // over 1200 limit
 })
 
 // SHOULD PASS
 const slotWithEmptyDescription = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
-	title : 'Test slot 1',
+	...workingSlot,
 	description : '',
-	archived : false,
-	modified : 1563204876826,
-	minPerImpression: { balance: '100' }
 })
 
 // SHOULD WORK
@@ -179,168 +110,58 @@ const workingUnit = new AdUnit({
 })
 
 const unitBrokenType = new AdUnit({
+	...workingUnit,
 	type: 'legacy_250x251', // invalid type
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenMediaUrl = new AdUnit({
-	type: 'legacy_250x250',
+	...workingUnit,
 	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN - 1), // 1 symbol too short to be valid
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenMime = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
+	...workingUnit,
 	mediaMime: 'image/asdf', // invalid mime type
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenTargetUrl = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
+	...workingUnit,
 	targetUrl: 'xxxtentacion.com', // invalid url
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenTargeting = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
+	...workingUnit,
+	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ], // bad key value
 })
 
 const unitBrokenTags = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
+	...workingUnit,
+	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60, oopsie: 'woopsie' } ], // bad key value
 })
 
 const unitBrokenCreated = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
+	...workungUnit,
 	created: 'broken',
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenTitle = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
+	...workingUnit,
 	title: 42,
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenDesc = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
+	...workingUnit,
 	description:  [1, 2, 3, 4, 5],
-	archived: true,
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenArchived = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
+	...workingUnit,
 	archived: 'not a bool',
-	modified: 1563204876825,
-	passback: true
 })
 
 const unitBrokenPassback = new AdUnit({
-	type: 'legacy_250x250',
-	mediaUrl: generateAddress('ipfs://', IPFS_ADDR_LEN),
-	mediaMime: 'image/jpeg',
-	targetUrl: 'https://xxxtentacion.com',
-	targeting: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created: 1563204876826,
-	title: 'Test unit',
-	description: 'Test unit',
-	archived: true,
-	modified: 1563204876825,
-	passback: 'qweqweret'
+	...workingUnit,
+	passback: 'not a bool'
 })
 
 const unitNoOptional = new AdUnit({
@@ -405,125 +226,42 @@ const userValid = {
 }
 
 const userInvalidIdentity = {
+	...userValid,
 	identity: generateAddress('0x', IDENTITY_ADDR_LEN - 1), // Too short
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidMode = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
+	...userValid,
 	mode: 1337,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidSignature = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
+	...userValid,
 	signature: generateAddress('0x', SIGNATURE_LEN - 10),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidHash = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
+	...userValid,
 	hash: generateAddress('0x', HASH_LEN + 1), // too long
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidAuthToken = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
+	...userValid,
 	authToken: 42, // should be string
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidsignerAddress = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
+	...userValid,
 	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN + 2), // Too long
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidPrefix = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
+	...userValid,
 	prefixed: [true],
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
-	role: 'advertiser'
 }
 
 const userInvalidTypedData = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
+	...userValid,
 	typedData: [{
 		type: 'Type',
 		name: 'Name',
@@ -531,25 +269,13 @@ const userInvalidTypedData = {
 	},
 	{
 		type: 'Type',
-		name: 'Name'
+		name: 'Name', // missing value
 	}
 ],
-	role: 'advertiser'
 }
 
 const userInvalidRole = {
-	identity: generateAddress('0x', IDENTITY_ADDR_LEN),
-	mode: 0,
-	signature: generateAddress('0x', SIGNATURE_LEN),
-	hash: generateAddress('0x', HASH_LEN),
-	authToken: 'This is a string',
-	signerAddress: generateAddress('0x', SIGNER_ADDR_LEN),
-	prefixed: true,
-	typedData: [{
-		type: 'Type',
-		name: 'Name',
-		value: 'Value'
-	}],
+	...userValid,
 	role: 'something_else'
 }
 

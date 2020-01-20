@@ -4,9 +4,7 @@
   "description": "adex data models",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "node ./tests/index.js",
-    "build": "babel ./src --presets babel-preset-env --out-dir dist",
-    "prepare": "npm run build"
+    "test": "node ./tests/index.js"
   },
   "repository": {
     "type": "git",
@@ -30,8 +28,6 @@
     "i18n-iso-countries": "^4.2.0"
   },
   "devDependencies": {
-    "babel-cli": "6",
-    "babel-preset-env": "^1.7.0",
     "tape": "^4.11.0"
   }
 }

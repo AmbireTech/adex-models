@@ -91,7 +91,9 @@ class AdSlot extends Base {
             description: this.description,
             fallbackUnit: this.fallbackUnit,
             minPerImpression: this.minPerImpression,
-            created: this.created,
+            created: this.created
+                ? new Date(this.created)
+                : new Date(Date.now()),
             archived: this.archived,
             modified: this.modified
         })

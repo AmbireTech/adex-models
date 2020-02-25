@@ -100,7 +100,9 @@ class AdUnit extends Base {
             tags: this.tags,
             title: this.title,
             description: this.description,
-            created: this.created,
+            created: this.created
+                ? new Date(this.created)
+                : new Date(Date.now()),
             archived: this.archived,
             modified: this.modified,
             passback: this.passback

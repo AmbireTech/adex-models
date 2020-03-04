@@ -18,6 +18,9 @@ tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.slotWithBrokenFallbackUnit.marketAdd, schemas.adSlotPost).error.toString().slice(0, 15), 'ValidationError', 'Error for slot with invalid fallbackUnit field') // Failing to match regex results in ValidationError
 	t.equals(Joi.validate(testData.slotWithBrokenTags.marketAdd, schemas.adSlotPost).error.toString().slice(0, 15), 'ValidationError', 'Error for slot with broken tags field')
 	t.equals(Joi.validate(testData.slotWithBrokenTitle.marketAdd, schemas.adSlotPost).error.message, errors.TITLE_ERR_SLOT, 'Error for slot with broken title field')
+
+	t.equals(Joi.validate(testData.slotWithInvalidWebsite.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field')
+	t.equals(Joi.validate(testData.slotWithInvalidWebsiteSchema.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field (scheme)')
 	t.end()
 })
 
@@ -73,5 +76,13 @@ tape('Testing schema for editing campaigns', (t) => {
 	t.equals(Joi.validate(testData.putCampaignWorking, schemas.campaignPut).error, null, 'No error for editing a campaign')
 	t.equals(Joi.validate(testData.putCampaignBrokenTitle, schemas.campaignPut).error.message, errors.TITLE_ERR_CAMPAIGN, 'Campaign with broken title returns error')
 	t.ok(Joi.validate(testData.putCampaignExtraProperties, schemas.campaignPut).error.toString().slice(0, 15), 'ValidationError', 'Editing campaign won\'t work with more than the title property')
+	t.end()
+})
+
+tape('Testing schema for account', (t) => {
+	t.equals(Joi.validate(testData.validAccount.email, schemas.account.email).error, null, 'No error for account')
+	t.equals(Joi.validate(testData.accountInvalidEmail.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email')
+	t.equals(Joi.validate(testData.accountInvalidEmailTLD.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email top level domain')
+	t.equals(Joi.validate(testData.accountInvalidEmailUnicode.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email - unicode characters')
 	t.end()
 })

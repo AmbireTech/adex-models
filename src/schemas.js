@@ -22,7 +22,7 @@ const numericString = Joi.string().regex(/^\d+$/)
 const slotMinPerImpression = Joi.object().allow(null).pattern(/^/, numericString).optional().error(new Error(errors.SLOT_MIN_PER_IMPR))
 // TODO: bump celebrate/joi version to add tlsd validations (joi 16+) for slot website
 // That will require update of using .allow([]) (it is not allowed at joi 16+)
-const slotWebsiteSchema = Joi.string().required().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR))
+const slotWebsiteSchema = Joi.string().allow(null).optional().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR))
 
 module.exports = {
     adSlotPost: {
@@ -46,6 +46,7 @@ module.exports = {
         fallbackUnit: Joi.string().allow(null).length(46).optional().regex(ipfsIdRegex).error(new Error(errors.FALLBACK_UNIT_IPFS_ID_ERR)),
         minPerImpression: slotMinPerImpression,
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
+        website: slotWebsiteSchema,
         // modified: set it on the server
     },
     adUnitPost: {

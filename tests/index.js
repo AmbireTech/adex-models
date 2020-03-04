@@ -78,3 +78,11 @@ tape('Testing schema for editing campaigns', (t) => {
 	t.ok(Joi.validate(testData.putCampaignExtraProperties, schemas.campaignPut).error.toString().slice(0, 15), 'ValidationError', 'Editing campaign won\'t work with more than the title property')
 	t.end()
 })
+
+tape('Testing schema for account', (t) => {
+	t.equals(Joi.validate(testData.validAccount.email, schemas.account.email).error, null, 'No error for account')
+	t.equals(Joi.validate(testData.accountInvalidEmail.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email')
+	t.equals(Joi.validate(testData.accountInvalidEmailTLD.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email top level domain')
+	t.equals(Joi.validate(testData.accountInvalidEmailUnicode.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email - unicode characters')
+	t.end()
+})

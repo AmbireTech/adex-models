@@ -1,5 +1,6 @@
 const AdSlot = require('../src/models/AdSlot')
 const AdUnit = require('../src/models/AdUnit')
+const Account = require('../src/models/Account')
 
 // Length without '0x' or 'ipfs://'
 const IPFS_ADDR_LEN = 46
@@ -313,6 +314,25 @@ const putCampaignExtraProperties = {
 	description: generateString(200)
 }
 
+const validAccount = new Account({
+	email: 'heprotecc@heatacc.com'
+})
+
+const accountInvalidEmail = {
+	...validAccount,
+	email: 'heproteccheatacc.com'
+}
+
+const accountInvalidEmailTLD = {
+	...validAccount,
+	email: 'heprotecc@heatacc.comrade'
+}
+
+const accountInvalidEmailUnicode = {
+	...validAccount,
+	email: 'heproteⒸⒸ@heⒶtⒶcc.com'
+}
+
 module.exports = {
 	workingSlot,
 	slotWithOwner,
@@ -361,4 +381,8 @@ module.exports = {
 	putCampaignWorking,
 	putCampaignBrokenTitle,
 	putCampaignExtraProperties,
+	validAccount,
+	accountInvalidEmail,
+	accountInvalidEmailTLD,
+	accountInvalidEmailUnicode
 }

@@ -20,6 +20,8 @@ const errors = require('./errors')
 const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https'], allowQuerySquareBrackets: true })
 const numericString = Joi.string().regex(/^\d+$/)
 const slotMinPerImpression = Joi.object().allow(null).pattern(/^/, numericString).optional().error(new Error(errors.SLOT_MIN_PER_IMPR))
+// TODO: bump celebrate/joi version to add tlsd validations (joi 16+) for slot website
+// That will require update of using .allow([]) (it is not allowed at joi 16+)
 const slotWebsiteSchema = Joi.string().required().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR))
 
 module.exports = {
@@ -93,5 +95,8 @@ module.exports = {
     },
     campaignPut: {
         title: Joi.string().min(3).max(120).required().error(new Error(errors.TITLE_ERR_CAMPAIGN)),
+    },
+    account: {
+        email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),
     }
 }

@@ -18,6 +18,9 @@ tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.slotWithBrokenFallbackUnit.marketAdd, schemas.adSlotPost).error.toString().slice(0, 15), 'ValidationError', 'Error for slot with invalid fallbackUnit field') // Failing to match regex results in ValidationError
 	t.equals(Joi.validate(testData.slotWithBrokenTags.marketAdd, schemas.adSlotPost).error.toString().slice(0, 15), 'ValidationError', 'Error for slot with broken tags field')
 	t.equals(Joi.validate(testData.slotWithBrokenTitle.marketAdd, schemas.adSlotPost).error.message, errors.TITLE_ERR_SLOT, 'Error for slot with broken title field')
+
+	t.equals(Joi.validate(testData.slotWithInvalidWebsite.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field')
+	t.equals(Joi.validate(testData.slotWithInvalidWebsiteSchema.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field (scheme)')
 	t.end()
 })
 

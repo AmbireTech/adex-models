@@ -20,6 +20,7 @@ const errors = require('./errors')
 const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https'], allowQuerySquareBrackets: true })
 const numericString = Joi.string().regex(/^\d+$/)
 const slotMinPerImpression = Joi.object().allow(null).pattern(/^/, numericString).optional().error(new Error(errors.SLOT_MIN_PER_IMPR))
+const slotWebsiteSchema = Joi.string().required().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR))
 
 module.exports = {
     adSlotPost: {
@@ -33,6 +34,7 @@ module.exports = {
         description: Joi.string().allow('').max(300).optional().error(new Error(errors.DESC_ERR_SLOT)),
         fallbackUnit: Joi.string().allow(null).regex(ipfsIdRegex).optional(), //.error(new Error(errors.FALLBACK_UNIT_IPFS_ID_ERR)),
         minPerImpression: slotMinPerImpression,
+        website: slotWebsiteSchema,
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
         modified: Joi.allow(null).error(new Error(errors.MODIFIED_NOT_NULL_ERR))
     },

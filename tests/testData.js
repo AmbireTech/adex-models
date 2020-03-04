@@ -30,6 +30,7 @@ const workingSlot = new AdSlot({
 	title : 'Test slot 1',
 	description : 'Test slot for running integration tests',
 	archived : false,
+	website: 'https://www.example.com',
 	modified : 1563204876826,
 	minPerImpression: { balance: '100' }
 })
@@ -79,6 +80,16 @@ const slotWithBrokenDescription = new AdSlot({
 	description : generateString(1201), // over 1200 limit
 })
 
+const slotWithInvalidWebsite = new AdSlot({
+	...workingSlot,
+	website : 'example[]fewfe{}',
+})
+
+const slotWithInvalidWebsiteSchema = new AdSlot({
+	...workingSlot,
+	website : 'tls://ggg.example.com',
+})
+
 // SHOULD PASS
 const slotWithEmptyDescription = new AdSlot({
 	...workingSlot,
@@ -87,11 +98,12 @@ const slotWithEmptyDescription = new AdSlot({
 
 // SHOULD WORK
 const slotWithNoOptionalKeys = new AdSlot({
-	type : 'legacy_250x250',
-	tags : [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
-	created : 1563204876826,
-	title : 'Test slot 1',
-	modified : 1563204876826
+	type: 'legacy_250x250',
+	tags: [ { tag : 'games', score : 42 }, { tag : 'usa', score : 60 } ],
+	created: 1563204876826,
+	title: 'Test slot 1',
+	modified: 1563204876826,
+	website: workingSlot.website 
 })
 
 const workingUnit = new AdUnit({
@@ -312,6 +324,8 @@ module.exports = {
 	slotWithBrokenTags,
 	slotWithBrokenTitle,
 	slotWithEmptyDescription,
+	slotWithInvalidWebsite,
+	slotWithInvalidWebsiteSchema,
 	slotWithMatchType,
 	slotWithNoOptionalKeys,
 	workingUnit,

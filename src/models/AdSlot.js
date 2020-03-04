@@ -134,6 +134,7 @@ class AdSlot extends Base {
             description: this.description,
             fallbackUnit: this.fallbackUnit,
             minPerImpression: this.minPerImpression,
+            website: this.website,
             archived: this.archived,
         })
     }

@@ -21,6 +21,7 @@ tape('Testing schema for POSTing ad slots', (t) => {
 
 	t.equals(Joi.validate(testData.slotWithInvalidWebsite.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field')
 	t.equals(Joi.validate(testData.slotWithInvalidWebsiteSchema.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field (scheme)')
+	t.equals(Joi.validate(testData.slotWithInvalidWebsiteSchemaHttp.marketAdd, schemas.adSlotPost).error.message, errors.SLOT_WEBSITE_ERR, 'Error for slot with invalid website field (http)')
 	t.end()
 })
 

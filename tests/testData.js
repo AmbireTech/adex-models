@@ -91,6 +91,11 @@ const slotWithInvalidWebsiteSchema = new AdSlot({
 	website : 'tls://ggg.example.com',
 })
 
+const slotWithInvalidWebsiteSchemaHttp = new AdSlot({
+	...workingSlot,
+	website : 'http://wwww.example.com',
+})
+
 // SHOULD PASS
 const slotWithEmptyDescription = new AdSlot({
 	...workingSlot,
@@ -346,6 +351,7 @@ module.exports = {
 	slotWithEmptyDescription,
 	slotWithInvalidWebsite,
 	slotWithInvalidWebsiteSchema,
+	slotWithInvalidWebsiteSchemaHttp,
 	slotWithMatchType,
 	slotWithNoOptionalKeys,
 	workingUnit,

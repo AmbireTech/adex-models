@@ -7,6 +7,7 @@ class AdSlot extends Base {
         // Spec props
         type = '',
         tags = [],
+        autoTags = [],
         owner = '',
         created = null,
         // Non spec props
@@ -32,6 +33,7 @@ class AdSlot extends Base {
         // Spec props
         this.type = type
         this.tags = tags
+        this.autoTags = autoTags
         this.owner = owner
         this.created = created
 
@@ -63,6 +65,7 @@ class AdSlot extends Base {
         return this.deepCopyObj({
             type: this.type,
             tags: this.tags,
+            autoTags: this.autoTags,
             owner: this.owner,
             created: this.created
         })
@@ -90,6 +93,7 @@ class AdSlot extends Base {
             owner: this.owner,
             type: this.type,
             tags: this.tags,
+            autoTags: this.autoTags,
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
@@ -121,6 +125,7 @@ class AdSlot extends Base {
           targetUrl: this.targetUrl,
           targeting: [],
           tags: [],
+          autoTags: [],
           owner: this.owner,
           created: this.created
                 ? new Date(this.created).getTime()

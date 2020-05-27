@@ -15,6 +15,8 @@ class Campaign extends Base {
         maxPerImpression = '', // BigNumStr
         minPerImpression = '', // BigNumStr
         targeting = [], // {tag: '', score: 0}
+        targetingRules = [],
+        audienceInput = { version: '', inputs: {} }, // { version: '', inputs: { location: { value: ['TIER_1', 'US'], action: 'in' } } 
         minTargetingScore = null, /// optional number
         created = null, // timestamp in milliseconds
         nonce = null, // BigNumStr
@@ -40,6 +42,8 @@ class Campaign extends Base {
         this.maxPerImpression = maxPerImpression
         this.minPerImpression = minPerImpression
         this.targeting = targeting
+        this.targetingRules = targetingRules
+        this.audienceInput = audienceInput
         this.minTargetingScore = minTargetingScore
         this.created = created
         this.nonce = nonce
@@ -61,7 +65,8 @@ class Campaign extends Base {
             validators: this.validators,
             maxPerImpression: this.maxPerImpression,
             minPerImpression: this.minPerImpression,
-            targeting: this.targeting,
+            targetingRules: this.targetingRules,
+            audienceInput: this.audienceInput,
             minTargetingScore: this.minTargetingScore,
             created: this.created,
             nonce: this.nonce,
@@ -77,6 +82,7 @@ class Campaign extends Base {
             creator: this.creator,
             depositAsset: this.depositAsset,
             depositAmount: this.depositAmount,
+            validUntil: this.validUntil,
             validUntil: this.validUntil,
             spec: this.spec
         })

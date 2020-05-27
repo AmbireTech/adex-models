@@ -34,9 +34,39 @@ const AllCountries = Object.keys(countryNames)
 		return {
 			code: key,
 			name: countryNames[key],
-			value: `location_${key}`
+			value: `location_${key}`,
+			ruleValue: key,
 		}
 	})
+
+
+const CountryTiers = [
+	{
+		code: 'TIER_1',
+		ruleValue: 'TIER_1',
+		name: 'Tier 1',
+		countries: ['AU', 'AT', 'US', 'CA', 'DE', 'UK', 'JP']
+	},
+	{
+		code: 'TIER_2',
+		ruleValue: 'TIER_2',
+		name: 'Tier 2',
+		countries: ['AD', 'AG', 'AR', 'BH']
+	},
+	{
+		code: 'TIER_3',
+		ruleValue: 'TIER_3',
+		name: 'Tier 3',
+		countries: ['BG', 'AL', 'AI', 'BR']
+	},
+	{
+		code: 'TIER_4',
+		ruleValue: 'TIER_4',
+		name: 'Tier 4',
+		countries: ['AM', 'BJ', 'BD', 'BI']
+	}
+]
+
 
 const Genders = ['gender_male', 'gender_female', 'gender_other']
 
@@ -75,6 +105,7 @@ module.exports = {
 	SignaturePrefixes,
 	AdUnitsTypes,
 	AllCountries,
+	CountryTiers,
 	Genders,
 	Ages,
 	TargetScores,

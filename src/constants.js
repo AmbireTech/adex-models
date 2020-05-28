@@ -39,27 +39,26 @@ const AllCountries = Object.keys(countryNames)
 		}
 	})
 
-
 const CountryTiers = {
 	TIER_1: {
 		ruleValue: 'TIER_1',
 		name: 'Tier 1',
-		countries: ['AU', 'AT', 'US', 'CA', 'DE', 'UK', 'JP']
+		countries: ['AU','CA','CH','DE','GB','IE','IS','LU','NL','NO','SE','SG','US']
 	},
 	TIER_2: {
 		ruleValue: 'TIER_2',
 		name: 'Tier 2',
-		countries: ['AD', 'AG', 'AR', 'BH']
+		countries: ['AD','AE','AG','AR','AT','AW','BB','BE','BH','BM','BN','BS','CK','CL','CW','CY','CZ','DK','EE','ES','FI','FK','FO','FR','GD','GF','GI','GL','GP','GQ','GR','HK','HR','HU','IC','IL','IT','JP','KR','KW','KY','LI','LT','LV','MC','MO','MQ','MT','NZ','OM','PF','PL','PT','QA','RU','SA','SC','SI','SK','TT','TW','UY','VA','VE','VG','VI']
 	},
 	TIER_3: {
 		ruleValue: 'TIER_3',
 		name: 'Tier 3',
-		countries: ['BG', 'AL', 'AI', 'BR']
+		countries: ['AL','AO','AZ','BA','BG','BR','BW','BY','BZ','CN','CO','CR','CU','DO','DZ','EC','FJ','GA','IQ','IR','JM','JO','KZ','LB','LC','LY','ME','MK','MN','MU','MX','MY','NA','PA','PE','PY','RO','RS','SR','TH','TN','TR','TV','VC','ZA']
 	},
 	TIER_4:  {
 		ruleValue: 'TIER_4',
 		name: 'Tier 4',
-		countries: ['AM', 'BJ', 'BD', 'BI']
+		countries: ['AF','AM','BD','BF','BI','BJ','BO','BT','CD','CF','CI','CM','EG','ER','ET','GE','GH','GM','GN','GT','GY','HN','HT','ID','IN','KE','KH','KP','LA','LK','LR','LS','MA','MD','MG','ML','MM','MR','MW','MZ','NE','NG','NI','NP','PG','PH','PK','RW','SB','SD','SL','SN','SO','SV','SY','SZ','TD','TG','TO','TZ','UA','UG','UZ','VN','VU','WS','WS','YE','ZM','ZR','ZW']
 	}
 }
 

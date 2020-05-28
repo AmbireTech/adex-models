@@ -1,4 +1,5 @@
 const bs58 = require('bs58')
+const { CountryTiers } = require('./constants')
 
 const IPFS_BASE_58_LEADING = '1220'
 
@@ -37,14 +38,45 @@ const getAdSizeByType = (type) => {
 }
 
 // TODO: fix it
-const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider ='') => {
+const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
     return provider + mediaUrl.substring(7)
 }
 
+const auCountriesToRueCountries = inputCountries => {
+    const ruleCountries = inputCountries.reduce((all, c) => {
+        return [...all, ...((CountryTiers[c] || {}).countries || [c])]
+    }, [])
+        .filter((c, i, all) => all.indexOf(c) === i)
+
+    return ruleCountries
+}
+
+const audienceInputToTargetingRules = audienceInput => {
+    if (audienceInput.version === '1') {
+        const { inputs } = audienceInput
+        const { location, categories, publishers } = inputs
+        const rules = {
+            onlyShowIf: {
+                and: [
+                    ...(location.apply !== 'allin' ? { [location.apply]: [auCountriesToRueCountries(location[apply]), { get: 'country' }] } : {}),
+                    ...(publishers.apply !== 'allin' ? { [publishers.apply]: [publishers[apply], { get: 'publisherId' }] } : {}),
+                    { ...(categories.apply.includes('in') ? { intersects: [{ get: 'adSlot.categories' }, categories.in] } : {}) },
+                    { ...(categories.apply.includes('nin') ? { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } : {}) }
+
+                ]
+            }
+        }
+
+        return rules
+
+    }
+}
+
 module.exports = {
-    ipfsHashTo32BytesHex: ipfsHashTo32BytesHex,
-    from32BytesHexIpfs: from32BytesHexIpfs,
-    toLowerCaseString: toLowerCaseString,
-    getAdSizeByType: getAdSizeByType,
-    getMediaUrlWithProvider: getMediaUrlWithProvider
+    ipfsHashTo32BytesHex,
+    from32BytesHexIpfs,
+    toLowerCaseString,
+    getAdSizeByType,
+    getMediaUrlWithProvider,
+    audienceInputToTargetingRules
 }

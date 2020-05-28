@@ -66,7 +66,6 @@ class Campaign extends Base {
             maxPerImpression: this.maxPerImpression,
             minPerImpression: this.minPerImpression,
             targetingRules: this.targetingRules,
-            audienceInput: this.audienceInput,
             minTargetingScore: this.minTargetingScore,
             created: this.created,
             nonce: this.nonce,

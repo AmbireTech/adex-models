@@ -42,7 +42,7 @@ const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
     return provider + mediaUrl.substring(7)
 }
 
-const auCountriesToRueCountries = inputCountries => {
+const inputCountriesToRuleCountries = inputCountries => {
     const ruleCountries = inputCountries.reduce((all, c) => {
         return [...all, ...((CountryTiers[c] || {}).countries || [c])]
     }, [])
@@ -58,10 +58,10 @@ const audienceInputToTargetingRules = audienceInput => {
         const rules = {
             onlyShowIf: {
                 and: [
-                    ...(location.apply !== 'allin' ? { [location.apply]: [auCountriesToRueCountries(location[apply]), { get: 'country' }] } : {}),
-                    ...(publishers.apply !== 'allin' ? { [publishers.apply]: [publishers[apply], { get: 'publisherId' }] } : {}),
-                    { ...(categories.apply.includes('in') ? { intersects: [{ get: 'adSlot.categories' }, categories.in] } : {}) },
-                    { ...(categories.apply.includes('nin') ? { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } : {}) }
+                    ...([location.apply !== 'allin' ? { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } : {}]),
+                    ...([publishers.apply !== 'allin' ? { [publishers.apply]: [publishers[publishers.apply], { get: 'publisherId' }] } : {}]),
+                    ...([categories.apply.includes('in') ? { intersects: [{ get: 'adSlot.categories' }, categories.in] } : {}]) ,
+                    ...([categories.apply.includes('nin') ? { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } : {}]) 
 
                 ]
             }

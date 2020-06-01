@@ -55,20 +55,14 @@ const audienceInputToTargetingRules = audienceInput => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
         const { location, categories, publishers } = inputs
-        const rules = {
-            onlyShowIf: {
-                and: [
-                    ...([location.apply !== 'allin' ? { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } : {}]),
-                    ...([publishers.apply !== 'allin' ? { [publishers.apply]: [publishers[publishers.apply], { get: 'publisherId' }] } : {}]),
-                    ...([categories.apply.includes('in') ? { intersects: [{ get: 'adSlot.categories' }, categories.in] } : {}]) ,
-                    ...([categories.apply.includes('nin') ? { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } : {}]) 
-
-                ]
-            }
-        }
+        const rules = [
+            ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
+            ...(publishers.apply !== 'allin' ? [{ onlyShowIf: { [publishers.apply]: [publishers[publishers.apply], { get: 'publisherId' }] } }] : []),
+            ...(categories.apply.includes('in') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
+            ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
+        ]
 
         return rules
-
     }
 }
 

@@ -54,12 +54,15 @@ const inputCountriesToRuleCountries = inputCountries => {
 const audienceInputToTargetingRules = audienceInput => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
-        const { location, categories, publishers } = inputs
+        const { location, categories, publishers, advanced } = inputs
         const rules = [
             ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
             ...(publishers.apply !== 'allin' ? [{ onlyShowIf: { [publishers.apply]: [publishers[publishers.apply], { get: 'publisherId' }] } }] : []),
             ...(categories.apply.includes('in') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
             ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
+            ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'Incentive'] } }]),
+            ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
+            ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
         ]
 
         return rules

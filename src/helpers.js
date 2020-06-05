@@ -79,7 +79,7 @@ const audienceInputToTargetingRules = audienceInput => {
             ...(getPublisherRulesV1(publishers)),
             ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
             ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
-            ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'Incentive'] } }]),
+            ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
             ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
             ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
         ]

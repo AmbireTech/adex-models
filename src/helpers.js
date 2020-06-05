@@ -51,13 +51,32 @@ const inputCountriesToRuleCountries = inputCountries => {
     return ruleCountries
 }
 
+
+const getPublisherRulesV1 = publishers => {
+    const action = publishers.apply
+    if (action === 'allin') {
+        return []
+    } else {
+        const { publisherIds, hostnames } = publishers[action].reduce((rules, value) => {
+            const { hostname, publisher } = JSON.parse(value)
+            rules.hostnames.add(hostname)
+            rules.publisherIds.add(publisher)
+            return rules
+        }, { publisherIds: new Set(), hostnames: new Set() })
+
+        return [{ onlyShowIf: { [action]: [Array.from(publisherIds.values()), { get: 'publisherId' }] } },
+        { onlyShowIf: { [action]: [Array.from(hostnames.values()), { get: 'adSlot.hostname' }] } },
+        ]
+    }
+}
+
 const audienceInputToTargetingRules = audienceInput => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
         const { location, categories, publishers, advanced } = inputs
         const rules = [
             ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
-            ...(publishers.apply !== 'allin' ? [{ onlyShowIf: { [publishers.apply]: [publishers[publishers.apply], { get: 'publisherId' }] } }] : []),
+            ...(getPublisherRulesV1(publishers)),
             ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
             ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
             ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'Incentive'] } }]),

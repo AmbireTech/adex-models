@@ -73,7 +73,7 @@ const getPublisherRulesV1 = publishers => {
 const audienceInputToTargetingRules = audienceInput => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
-        const { location, categories, publishers, advanced } = inputs
+        const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
         const rules = [
             ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
             ...(getPublisherRulesV1(publishers)),

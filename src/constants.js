@@ -28,12 +28,12 @@ const AdUnitsTypes = [
 	// IAB FLEX - TODO
 ]
 
-const countryNames = countries.getNames('en')
-const AllCountries = Object.keys(countryNames)
+const CountryNames = countries.getNames('en')
+const AllCountries = Object.keys(CountryNames)
 	.map(key => {
 		return {
 			code: key,
-			name: countryNames[key],
+			name: CountryNames[key],
 			value: `location_${key}`,
 			ruleValue: key,
 		}
@@ -100,6 +100,7 @@ module.exports = {
 	SignaturePrefixes,
 	AdUnitsTypes,
 	AllCountries,
+	CountryNames,
 	CountryTiers,
 	Genders,
 	Ages,

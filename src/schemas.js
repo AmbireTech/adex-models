@@ -100,7 +100,7 @@ module.exports = {
         email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),
     },
     audiencePost: {
-        campaignId: Joi.string().allow(null).min(66).max(66).optional().error(new Error(errors.AUDIENCE_CAMPAIGN_ID_ERR)),
+        campaignId: Joi.string().allow(null).length(66).optional().error(new Error(errors.AUDIENCE_CAMPAIGN_ID_ERR)),
         version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
         inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
         title: Joi.string().allow(null).min(3).max(300).optional().error(new Error(errors.AUDIENCE_TITLE_ERR)),

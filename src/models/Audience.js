@@ -2,7 +2,8 @@ const Base = require('./Base')
 
 class Audience extends Base {
     constructor({
-        id = '',
+        id = '',        
+        campaignId = null,
         version = '1',
         inputs = {},
         owner = '',
@@ -16,7 +17,7 @@ class Audience extends Base {
         super()
 
         this.id = id
-
+        this.campaignId = campaignId
         this.version = version
         this.inputs = inputs
         this.owner = owner
@@ -32,7 +33,8 @@ class Audience extends Base {
 
     get marketAdd() {
         return this.deepCopyObj({
-            type: this.type,
+            campaignId: this. campaignId,
+            version: this.version,
             inputs: this.inputs,
             title: this.title,
             owner: this.owner,
@@ -41,7 +43,8 @@ class Audience extends Base {
 
     get marketDbAdd() {
         return this.deepCopyObj({
-            type: this.type,
+            campaignId: this. campaignId,
+            version: this.version,
             inputs: this.inputs,
             title: this.title,
             owner: this.owner,
@@ -51,7 +54,8 @@ class Audience extends Base {
 
     get marketDbUpdate() {
         return this.deepCopyObj({
-            type: this.type,
+            campaignId: this. campaignId,
+            version: this.version,
             inputs: this.inputs,
             title: this.title,
             owner: this.owner,
@@ -63,7 +67,8 @@ class Audience extends Base {
 
     get marketUpdate() {
         return this.deepCopyObj({
-            type: this.type,
+            campaignId: this. campaignId,
+            version: this.version,
             inputs: this.inputs,
             title: this.title,
             owner: this.owner,

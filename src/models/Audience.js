@@ -37,7 +37,6 @@ class Audience extends Base {
             version: this.version,
             inputs: this.inputs,
             title: this.title,
-            owner: this.owner,
         })
     }
 
@@ -54,12 +53,9 @@ class Audience extends Base {
 
     get marketDbUpdate() {
         return this.deepCopyObj({
-            campaignId: this. campaignId,
             version: this.version,
             inputs: this.inputs,
             title: this.title,
-            owner: this.owner,
-            created: this.created,
             archived: this.archived,
             modified: this.modified
         })
@@ -67,14 +63,10 @@ class Audience extends Base {
 
     get marketUpdate() {
         return this.deepCopyObj({
-            campaignId: this. campaignId,
             version: this.version,
             inputs: this.inputs,
             title: this.title,
-            owner: this.owner,
-            created: this.created,
             archived: this.archived,
-            modified: this.modified
         })
     }
 }

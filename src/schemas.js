@@ -99,9 +99,10 @@ module.exports = {
     account: {
         email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),
     },
-    audienceInputPost: {
+    audiencePost: {
         version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
-        inputs: Joi.object().required().error(new Error(errors.VAL_ADDR_ERR)),
+        inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
+        title: Joi.string().allow(null).min(3).max(300).optional().error(new Error(errors.AUDIENCE_TITLE_ERR)),
     }
 
 }

@@ -95,6 +95,7 @@ module.exports = {
     },
     campaignPut: {
         title: Joi.string().min(3).max(120).required().error(new Error(errors.TITLE_ERR_CAMPAIGN)),
+        targetingRules: Joi.array().optional()
     },
     account: {
         email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),

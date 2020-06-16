@@ -15,7 +15,7 @@ class Campaign extends Base {
         maxPerImpression = '', // BigNumStr
         minPerImpression = '', // BigNumStr
         targeting = [], // {tag: '', score: 0}
-        targetingRules = [],
+        targetingRules = null,
         audienceInput = { version: '', inputs: {} }, // { version: '', inputs: { location: { in: ['TIER_1', 'BG'], nin: ['TIER_4', 'MK'], apply: ['in', 'min'] /*or apply: 'in' in single action mode */ } } 
         minTargetingScore = null, /// optional number
         created = null, // timestamp in milliseconds

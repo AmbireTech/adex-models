@@ -94,12 +94,15 @@ class Campaign extends Base {
     get marketUpdate() {
         return this.deepCopyObj({
             title: this.title,
+            targetingRules: this.targetingRules,
         })
     }
 
     get marketDbUpdate() {
         return this.deepCopyObj({
             title: this.title,
+            targetingRules: this.targetingRules,
+            modified: this.modified,
         })
     }
 }

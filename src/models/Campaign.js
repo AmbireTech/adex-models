@@ -15,6 +15,8 @@ class Campaign extends Base {
         maxPerImpression = '', // BigNumStr
         minPerImpression = '', // BigNumStr
         targeting = [], // {tag: '', score: 0}
+        targetingRules = null,
+        audienceInput = { version: '', inputs: {} }, // { version: '', inputs: { location: { in: ['TIER_1', 'BG'], nin: ['TIER_4', 'MK'], apply: ['in', 'min'] /*or apply: 'in' in single action mode */ } } 
         minTargetingScore = null, /// optional number
         created = null, // timestamp in milliseconds
         nonce = null, // BigNumStr
@@ -40,6 +42,8 @@ class Campaign extends Base {
         this.maxPerImpression = maxPerImpression
         this.minPerImpression = minPerImpression
         this.targeting = targeting
+        this.targetingRules = targetingRules
+        this.audienceInput = audienceInput
         this.minTargetingScore = minTargetingScore
         this.created = created
         this.nonce = nonce
@@ -61,7 +65,7 @@ class Campaign extends Base {
             validators: this.validators,
             maxPerImpression: this.maxPerImpression,
             minPerImpression: this.minPerImpression,
-            targeting: this.targeting,
+            targetingRules: this.targetingRules,
             minTargetingScore: this.minTargetingScore,
             created: this.created,
             nonce: this.nonce,
@@ -78,6 +82,7 @@ class Campaign extends Base {
             depositAsset: this.depositAsset,
             depositAmount: this.depositAmount,
             validUntil: this.validUntil,
+            validUntil: this.validUntil,
             spec: this.spec
         })
     }
@@ -86,15 +91,27 @@ class Campaign extends Base {
         return this.adUnits[0] ? this.adUnits[0].mediaUrl : ''
     }
 
+    get audienceInputMarket() {
+        return this.audienceInput.version &&  Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
+            version:  this.audienceInput.version,
+            inputs: this.audienceInput.inputs,
+        }) : null
+    }
+
     get marketUpdate() {
         return this.deepCopyObj({
             title: this.title,
+            targetingRules: this.targetingRules,
+            audienceInput: this.audienceInputMarket,
         })
     }
 
     get marketDbUpdate() {
         return this.deepCopyObj({
             title: this.title,
+            targetingRules: this.targetingRules,
+            audienceInput: this.audienceInputMarket,
+            modified: this.modified,
         })
     }
 }

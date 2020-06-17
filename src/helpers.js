@@ -1,4 +1,5 @@
 const bs58 = require('bs58')
+const { CountryTiers } = require('./constants')
 
 const IPFS_BASE_58_LEADING = '1220'
 
@@ -37,14 +38,62 @@ const getAdSizeByType = (type) => {
 }
 
 // TODO: fix it
-const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider ='') => {
+const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
     return provider + mediaUrl.substring(7)
 }
 
+const inputCountriesToRuleCountries = inputCountries => {
+    const ruleCountries = inputCountries.reduce((all, c) => {
+        const countries = CountryTiers[c] ? CountryTiers[c].countries : [c]
+        return all.concat(countries)
+    }, [])
+        .filter((c, i, all) => all.indexOf(c) === i)
+
+    return ruleCountries
+}
+
+
+const getPublisherRulesV1 = publishers => {
+    const action = publishers.apply
+    if (action === 'allin') {
+        return []
+    } else {
+        const { publisherIds, hostnames } = publishers[action].reduce((rules, value) => {
+            const { hostname, publisher } = JSON.parse(value)
+            rules.hostnames.add(hostname)
+            rules.publisherIds.add(publisher)
+            return rules
+        }, { publisherIds: new Set(), hostnames: new Set() })
+
+        return [{ onlyShowIf: { [action]: [Array.from(publisherIds.values()), { get: 'publisherId' }] } },
+        { onlyShowIf: { [action]: [Array.from(hostnames.values()), { get: 'adSlot.hostname' }] } },
+        ]
+    }
+}
+
+const audienceInputToTargetingRules = audienceInput => {
+    if (audienceInput.version === '1') {
+        const { inputs } = audienceInput
+        const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+        const rules = [
+            ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
+            ...(getPublisherRulesV1(publishers)),
+            ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
+            ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
+            ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
+            ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
+            ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
+        ]
+
+        return rules
+    }
+}
+
 module.exports = {
-    ipfsHashTo32BytesHex: ipfsHashTo32BytesHex,
-    from32BytesHexIpfs: from32BytesHexIpfs,
-    toLowerCaseString: toLowerCaseString,
-    getAdSizeByType: getAdSizeByType,
-    getMediaUrlWithProvider: getMediaUrlWithProvider
+    ipfsHashTo32BytesHex,
+    from32BytesHexIpfs,
+    toLowerCaseString,
+    getAdSizeByType,
+    getMediaUrlWithProvider,
+    audienceInputToTargetingRules
 }

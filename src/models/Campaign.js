@@ -95,6 +95,7 @@ class Campaign extends Base {
         return this.deepCopyObj({
             title: this.title,
             targetingRules: this.targetingRules,
+            audienceInput: this.audienceInput,
         })
     }
 
@@ -102,6 +103,7 @@ class Campaign extends Base {
         return this.deepCopyObj({
             title: this.title,
             targetingRules: this.targetingRules,
+            audienceInput: this.audienceInput,
             modified: this.modified,
         })
     }

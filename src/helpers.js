@@ -44,7 +44,8 @@ const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
 
 const inputCountriesToRuleCountries = inputCountries => {
     const ruleCountries = inputCountries.reduce((all, c) => {
-        return [...all, ...((CountryTiers[c] || {}).countries || [c])]
+        const countries = CountryTiers[c] ? CountryTiers[c].countries : [c]
+        return all.concat(countries)
     }, [])
         .filter((c, i, all) => all.indexOf(c) === i)
 

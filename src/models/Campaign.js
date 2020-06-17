@@ -91,11 +91,18 @@ class Campaign extends Base {
         return this.adUnits[0] ? this.adUnits[0].mediaUrl : ''
     }
 
+    get audienceInputMarket() {
+        return this.audienceInput.version &&  Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
+            version:  this.audienceInput.version,
+            inputs: this.audienceInput.inputs,
+        }) : null
+    }
+
     get marketUpdate() {
         return this.deepCopyObj({
             title: this.title,
             targetingRules: this.targetingRules,
-            audienceInput: this.audienceInput,
+            audienceInput: this.audienceInputMarket,
         })
     }
 
@@ -103,7 +110,7 @@ class Campaign extends Base {
         return this.deepCopyObj({
             title: this.title,
             targetingRules: this.targetingRules,
-            audienceInput: this.audienceInput,
+            audienceInput: this.audienceInputMarket,
             modified: this.modified,
         })
     }

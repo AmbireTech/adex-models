@@ -48,7 +48,7 @@ const CountryTiers = {
 	TIER_2: {
 		ruleValue: 'TIER_2',
 		name: 'Tier 2',
-		countries: ['AD','AE','AG','AR','AT','AW','BB','BE','BH','BM','BN','BS','CK','CL','CW','CY','CZ','DK','EE','ES','FI','FK','FO','FR','GD','GF','GI','GL','GP','GQ','GR','HK','HR','HU','IC','IL','IT','JP','KR','KW','KY','LI','LT','LV','MC','MO','MQ','MT','NZ','OM','PF','PL','PT','QA','RU','SA','SC','SI','SK','TT','TW','UY','VA','VE','VG','VI']
+		countries: ['AD','AE','AG','AR','AT','AW','BB','BE','BH','BM','BN','BS','CK','CL','CW','CY','CZ','DK','EE','ES','FI','FK','FO','FR','GD','GF','GI','GL','GP','GQ','GR','HK','HR','HU','IC','IL','IT','JP','KR','KW','KY','LI','LT','LV','MC','MO','MQ','MT','NZ','OM','PF','PL','PT','QA','RU','SA','SC','SI', 'SM', 'SK','TT','TW','UY','VA','VE','VG','VI']
 	},
 	TIER_3: {
 		ruleValue: 'TIER_3',
@@ -58,7 +58,7 @@ const CountryTiers = {
 	TIER_4:  {
 		ruleValue: 'TIER_4',
 		name: 'Tier 4',
-		countries: ['AF','AM','BD','BF','BI','BJ','BO','BT','CD','CF','CI','CM','EG','ER','ET','GE','GH','GM','GN','GT','GY','HN','HT','ID','IN','KE','KH','KP','LA','LK','LR','LS','MA','MD','MG','ML','MM','MR','MW','MZ','NE','NG','NI','NP','PG','PH','PK','RW','SB','SD','SL','SN','SO','SV','SY','SZ','TD','TG','TO','TZ','UA','UG','UZ','VN','VU','WS','WS','YE','ZM','ZR','ZW']
+		countries: ['AF','AM','BD','BF','BI','BJ','BO','BT','CD','CF','CI','CM','EG','ER','ET','GE','GH','GM','GN','GT', 'GU', 'GY','HN','HT','ID','IN','KE', 'KG', 'KH','KP','LA','LK','LR','LS','MA','MD','MG','ML','MM','MR', 'MV', 'MW','MZ', 'NC', 'NE','NG','NI','NP','PG','PH','PK', 'PR', 'PS', 'RW','SB','SD','SL','SN','SO','SV','SY','SZ','TD','TG', 'TJ', 'TM', 'TO','TZ','UA','UG','UZ','VN','VU','WS','WS', 'XK', 'YE','ZM','ZR','ZW']
 	}
 }
 

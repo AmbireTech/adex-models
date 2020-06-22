@@ -28,12 +28,14 @@ const AdUnitsTypes = [
 	// IAB FLEX - TODO
 ]
 
+const numericToAlpha2 = countries.numericToAlpha2
+
 const CountryNames = countries.getNames('en')
 const AllCountries = Object.keys(CountryNames)
 	.map(key => {
 		return {
 			code: key,
-			name: CountryNames[key],
+			name: Array.isArray(CountryNames[key]) ? CountryNames[key][0] : CountryNames[key],
 			value: `location_${key}`,
 			ruleValue: key,
 		}
@@ -43,22 +45,22 @@ const CountryTiers = {
 	TIER_1: {
 		ruleValue: 'TIER_1',
 		name: 'Tier 1',
-		countries: ['AU','CA','CH','DE','GB','IE','IS','LU','NL','NO','SE','SG','US']
+		countries: ['AU', 'CA', 'CH', 'DE', 'GB', 'IE', 'IS', 'LU', 'NL', 'NO', 'SE', 'SG', 'US']
 	},
 	TIER_2: {
 		ruleValue: 'TIER_2',
 		name: 'Tier 2',
-		countries: ['AD','AE','AG','AR','AT','AW','BB','BE','BH','BM','BN','BS','CK','CL','CW','CY','CZ','DK','EE','ES','FI','FK','FO','FR','GD','GF','GI','GL','GP','GQ','GR','HK','HR','HU','IC','IL','IT','JP','KR','KW','KY','LI','LT','LV','MC','MO','MQ','MT','NZ','OM','PF','PL','PT','QA','RU','SA','SC','SI', 'SM', 'SK','TT','TW','UY','VA','VE','VG','VI']
+		countries: ['AD', 'AE', 'AG', 'AR', 'AT', 'AW', 'BB', 'BE', 'BH', 'BM', 'BN', 'BS', 'CK', 'CL', 'CW', 'CY', 'CZ', 'DK', 'EE', 'ES', 'FI', 'FK', 'FO', 'FR', 'GD', 'GF', 'GI', 'GL', 'GP', 'GQ', 'GR', 'HK', 'HR', 'HU', 'IC', 'IL', 'IT', 'JP', 'KR', 'KW', 'KY', 'LI', 'LT', 'LV', 'MC', 'MO', 'MQ', 'MT', 'NZ', 'OM', 'PF', 'PL', 'PT', 'QA', 'RU', 'SA', 'SC', 'SI', 'SM', 'SK', 'TT', 'TW', 'UY', 'VA', 'VE', 'VG', 'VI']
 	},
 	TIER_3: {
 		ruleValue: 'TIER_3',
 		name: 'Tier 3',
-		countries: ['AL','AO','AZ','BA','BG','BR','BW','BY','BZ','CN','CO','CR','CU','DO','DZ','EC','FJ','GA','IQ','IR','JM','JO','KZ','LB','LC','LY','ME','MK','MN','MU','MX','MY','NA','PA','PE','PY','RO','RS','SR','TH','TN','TR','TV','VC','ZA']
+		countries: ['AL', 'AO', 'AZ', 'BA', 'BG', 'BR', 'BW', 'BY', 'BZ', 'CN', 'CO', 'CR', 'CU', 'DO', 'DZ', 'EC', 'FJ', 'GA', 'IQ', 'IR', 'JM', 'JO', 'KZ', 'LB', 'LC', 'LY', 'ME', 'MK', 'MN', 'MU', 'MX', 'MY', 'NA', 'PA', 'PE', 'PY', 'RO', 'RS', 'SR', 'TH', 'TN', 'TR', 'TV', 'VC', 'ZA']
 	},
-	TIER_4:  {
+	TIER_4: {
 		ruleValue: 'TIER_4',
 		name: 'Tier 4',
-		countries: ['AF','AM','BD','BF','BI','BJ','BO','BT','CD','CF','CI','CM','EG','ER','ET','GE','GH','GM','GN','GT', 'GU', 'GY','HN','HT','ID','IN','KE', 'KG', 'KH','KP','LA','LK','LR','LS','MA','MD','MG','ML','MM','MR', 'MV', 'MW','MZ', 'NC', 'NE','NG','NI','NP','PG','PH','PK', 'PR', 'PS', 'RW','SB','SD','SL','SN','SO','SV','SY','SZ','TD','TG', 'TJ', 'TM', 'TO','TZ','UA','UG','UZ','VN','VU','WS','WS', 'XK', 'YE','ZM','ZR','ZW']
+		countries: ['AF', 'AM', 'BD', 'BF', 'BI', 'BJ', 'BO', 'BT', 'CD', 'CF', 'CI', 'CM', 'EG', 'ER', 'ET', 'GE', 'GH', 'GM', 'GN', 'GT', 'GU', 'GY', 'HN', 'HT', 'ID', 'IN', 'KE', 'KG', 'KH', 'KP', 'LA', 'LK', 'LR', 'LS', 'MA', 'MD', 'MG', 'ML', 'MM', 'MR', 'MV', 'MW', 'MZ', 'NC', 'NE', 'NG', 'NI', 'NP', 'PG', 'PH', 'PK', 'PR', 'PS', 'RW', 'SB', 'SD', 'SL', 'SN', 'SO', 'SV', 'SY', 'SZ', 'TD', 'TG', 'TJ', 'TM', 'TO', 'TZ', 'UA', 'UG', 'UZ', 'VN', 'VU', 'WS', 'WS', 'XK', 'YE', 'ZM', 'ZR', 'ZW']
 	}
 }
 
@@ -99,6 +101,7 @@ module.exports = {
 	SignatureModes,
 	SignaturePrefixes,
 	AdUnitsTypes,
+	numericToAlpha2,
 	AllCountries,
 	CountryNames,
 	CountryTiers,

@@ -102,10 +102,10 @@ const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienc
 
     const selectedCategoriesMinCpms = Object.values(Object.fromEntries(Object.entries(minByCategory).filter(([key, value]) => {
 
-        const inSelected = !categories.in || !categories.in.length || categories.in.some(c => c === 'ALL' || (key === getLevelOneCategory(c)))
-        const inExcluded = (categories.nin || []).some(c => key === getLevelOneCategory(c))
+        const inSelected = !categories.apply.includes('in') || !categories.in || !categories.in.length || categories.in.some(c => c === 'ALL' || (key === getLevelOneCategory(c)))
+        const notExcluded = !categories.apply.includes('nin') || !(categories.nin || []).some(c => key === getLevelOneCategory(c))
 
-        return inSelected && !inExcluded
+        return inSelected && notExcluded
     })))
 
     const minCat = selectedCategoriesMinCpms.length ? Math.min(...selectedCategoriesMinCpms) : minCategoryCpm

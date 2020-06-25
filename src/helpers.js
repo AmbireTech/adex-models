@@ -89,11 +89,51 @@ const audienceInputToTargetingRules = audienceInput => {
     }
 }
 
+const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
+    const { inputs } = audienceInput
+    const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+    const selectedCategoriesMinCpms = Object.values(Object.fromEntries(Object.entries(minByCategory).filter(([key, value]) => {
+
+        const inSelected = (categories.in || []).some(c => c === 'ALL' || c.includes(key))
+        const inExcluded = !(categories.nin || []).some(c => c.includes(key))
+
+        return inSelected && !inExcluded
+    })))
+
+    const minCat = Math.min.apply(null, selectedCategoriesMinCpms)
+    const maxCat = Math.max.apply(null, selectedCategoriesMinCpms)
+
+    const selectedCountryCoefficients = Object.entries(CountryTiers).filter(([key, value]) => {
+        if (location.apply == 'allin') {
+            return true
+        }
+        const isInThisTier = (location[location.apply] || []).some(c => c === key || value.countries.includes(key))
+
+        if (location.apply == 'in') {
+            return isInThisTier
+        }
+        if (location.apply == 'nin') {
+            return !isInThisTier
+        }
+
+        return true
+    }).map(([key, _]) => countryTiersCoefficients[key])
+
+    const selectedCountryCoefficients = selectedCountryTiers.map(key => countryTiersCoefficients[key])
+
+    const minCountryCoef = Math.min.apply(null, selectedCountryCoefficients)
+    const maxCountryCoef = Math.max.apply(null, selectedCountryCoefficients)
+
+
+    return { min: minCat * minCountryCoef, max: maxCat * maxCountryCoef }
+}
+
 module.exports = {
     ipfsHashTo32BytesHex,
     from32BytesHexIpfs,
     toLowerCaseString,
     getAdSizeByType,
     getMediaUrlWithProvider,
-    audienceInputToTargetingRules
+    audienceInputToTargetingRules,
+    getSuggestedCPMRange
 }

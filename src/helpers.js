@@ -89,25 +89,34 @@ const audienceInputToTargetingRules = audienceInput => {
     }
 }
 
+const getLevelOneCategory = cat =>
+    cat.split('-')[0]
+
+const getToFixedDecimal = num =>
+    parseFloat(num.toFixed(2))
+
 const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
     const { inputs } = audienceInput
     const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+    const minCategoryCpm = Math.min(...Object.values(minByCategory))
+
     const selectedCategoriesMinCpms = Object.values(Object.fromEntries(Object.entries(minByCategory).filter(([key, value]) => {
 
-        const inSelected = (categories.in || []).some(c => c === 'ALL' || c.includes(key))
-        const inExcluded = !(categories.nin || []).some(c => c.includes(key))
+        const inSelected = !categories.in || !categories.in.length || categories.in.some(c => c === 'ALL' || (key === getLevelOneCategory(c)))
+        const inExcluded = (categories.nin || []).some(c => key === getLevelOneCategory(c))
 
         return inSelected && !inExcluded
     })))
 
-    const minCat = Math.min.apply(null, selectedCategoriesMinCpms)
-    const maxCat = Math.max.apply(null, selectedCategoriesMinCpms)
+    const minCat = selectedCategoriesMinCpms.length ? Math.min(...selectedCategoriesMinCpms) : minCategoryCpm
+    const maxCat = selectedCategoriesMinCpms.length ? Math.max(...selectedCategoriesMinCpms) : minCategoryCpm
 
     const selectedCountryCoefficients = Object.entries(CountryTiers).filter(([key, value]) => {
         if (location.apply == 'allin') {
             return true
         }
-        const isInThisTier = (location[location.apply] || []).some(c => c === key || value.countries.includes(key))
+
+        const isInThisTier = (location[location.apply] || []).some(c => (c === key) || value.countries.includes(c))
 
         if (location.apply == 'in') {
             return isInThisTier
@@ -119,11 +128,12 @@ const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienc
         return true
     }).map(([key, _]) => countryTiersCoefficients[key])
 
-    const minCountryCoef = Math.min.apply(null, selectedCountryCoefficients)
-    const maxCountryCoef = Math.max.apply(null, selectedCountryCoefficients)
+    const minTierCoefficient = Math.min(...Object.values(countryTiersCoefficients))
+    const minCountryCoef = selectedCountryCoefficients.length ? Math.min(...selectedCountryCoefficients) : minTierCoefficient
+    const maxCountryCoef = selectedCountryCoefficients.length ? Math.max(...selectedCountryCoefficients) : minTierCoefficient
 
 
-    return { min: minCat * minCountryCoef, max: maxCat * maxCountryCoef }
+    return { min: getToFixedDecimal(minCat * minCountryCoef), max: getToFixedDecimal(maxCat * maxCountryCoef) }
 }
 
 module.exports = {

@@ -119,8 +119,6 @@ const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienc
         return true
     }).map(([key, _]) => countryTiersCoefficients[key])
 
-    const selectedCountryCoefficients = selectedCountryTiers.map(key => countryTiersCoefficients[key])
-
     const minCountryCoef = Math.min.apply(null, selectedCountryCoefficients)
     const maxCountryCoef = Math.max.apply(null, selectedCountryCoefficients)
 

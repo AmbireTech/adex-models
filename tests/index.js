@@ -3,6 +3,8 @@ const tape = require('tape')
 const schemas = require('../src/schemas')
 const testData = require('./testData')
 const errors = require('../src/errors')
+const helpersTestData = require('./helpersTestData')
+const helpers = require('../src/helpers')
 
 tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.workingSlot.marketAdd, schemas.adSlotPost).error, null, 'No error for normal slot')
@@ -50,7 +52,7 @@ tape('Testing schema for PUTing ad slots', (t) => {
 	t.end()
 })
 
-tape('Testing schema for PUTing ad units',  (t) => {
+tape('Testing schema for PUTing ad units', (t) => {
 	t.equals(Joi.validate(testData.putUnitExtraFields.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating unit with extra fields as they shouldn\'t be passed')
 	t.equals(Joi.validate(testData.putUnitNoOptional.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating unit with no optional fields')
 	t.equals(Joi.validate(testData.putUnitWorking.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating working unit')
@@ -85,5 +87,19 @@ tape('Testing schema for account', (t) => {
 	t.equals(Joi.validate(testData.accountInvalidEmail.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email')
 	t.equals(Joi.validate(testData.accountInvalidEmailTLD.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email top level domain')
 	t.equals(Joi.validate(testData.accountInvalidEmailUnicode.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email - unicode characters')
+	t.end()
+})
+
+
+const { minByCategory, countryTiersCoefficients, audienceInput1, audienceInput2, audienceInput3, audienceInput4, audienceInput5, audienceInput6 } = helpersTestData
+tape('Testing getSuggestedCPMRange', (t) => {
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ min: 0.3, max: 0.3 }), '1 loc tier "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ min: 2.4, max: 2.4 }), '1 loc country "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput3 })), JSON.stringify({ min: 0.4, max: 1.6 }), ' loc tiers "in", 1 cat "in" 2 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4 })), JSON.stringify({ min: 0.3, max: 7.5 }), '2 loc tiers "in", 0 cat "in" , 1 cat "nin" works')
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ min: 0.3, max: 7.5 }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ min: 0.3, max: 7.5 }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedCPMRange({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput6 })), JSON.stringify({ min: 0.6, max: 1.5 }), '1 loc tier "nin", 1 cat "in"  works')
+
 	t.end()
 })

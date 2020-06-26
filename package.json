@@ -25,6 +25,7 @@
   "dependencies": {
     "bs58": "^4.0.1",
     "celebrate": "^10.0.1",
+    "ethers": "4.0.47",
     "i18n-iso-countries": "6.0.0"
   },
   "devDependencies": {

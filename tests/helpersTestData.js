@@ -70,6 +70,13 @@ audienceInput8.inputs.location.apply = 'in'
 audienceInput8.inputs.location.in = ['DE','BA', 'GD', 'PR'] // 1 3 2 4
 audienceInput8.inputs.categories.in = ['IAB3'] // 0.6
 
+
+const audienceInput9 = deepCopyObj(audienceInput1)
+audienceInput9.inputs.location.apply = 'nin'
+audienceInput9.inputs.location.nin = ['TIER_1', 'BG'] // max x2.5 in x1
+audienceInput9.inputs.categories.in = ['IAB3'] // 0.6
+
+
 const minByCategory = {
     IAB1: 0.5, // 'Arts & Entertainment'
     IAB2: 0.5, // 'Automotive'
@@ -153,6 +160,7 @@ module.exports = {
     audienceInput6,
     audienceInput7,
     audienceInput8,
+    audienceInput9,
     decimals,
     pricingBounds1,
     pricingBounds2,

@@ -142,13 +142,24 @@ const getClampedNumber = (x, min, max) => {
 const getSelectedCountryTiersFormAudienceInput = (location) => {
     const { apply } = location
     if (apply === 'in') {
-        return Object.fromEntries(Object.entries(CountryTiers).filter(([key, value]) => {
-            return location.in.some(x => x === key || value.countries.includes(x))
-        }))
+        return Object.fromEntries(Object.entries({ ...CountryTiers })
+            .filter(([key, value]) => {
+                return location.in.some(x => x === key || value.countries.includes(x))
+            })
+            .map(([key, value]) => {
+                if (location.in.includes(key)) {
+                    return [key, value]
+                }
+
+                const countries = [...value.countries].filter(x => location.in.includes(x))
+                return [key, { ...value, countries }]
+            })
+        )
     } else if (apply === 'nin') {
-        return Object.fromEntries(Object.entries(CountryTiers).filter(([key, value]) => {
-            return !location.nin.some(x => x === key || value.countries.includes(x))
-        }))
+        return Object.fromEntries(Object.entries(CountryTiers)
+            .filter(([key, value]) => {
+                return !location.nin.some(x => x === key || value.countries.includes(x))
+            }))
     }
 
     return { ...CountryTiers }

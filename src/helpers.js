@@ -52,50 +52,16 @@ const inputCountriesToRuleCountries = inputCountries => {
     return ruleCountries
 }
 
-
-const getPublisherRulesV1 = publishers => {
-    const action = publishers.apply
-    if (action === 'allin') {
-        return []
-    } else {
-        const { publisherIds, hostnames } = publishers[action].reduce((rules, value) => {
-            const { hostname, publisher } = JSON.parse(value)
-            rules.hostnames.add(hostname)
-            rules.publisherIds.add(publisher)
-            return rules
-        }, { publisherIds: new Set(), hostnames: new Set() })
-
-        return [{ onlyShowIf: { [action]: [Array.from(publisherIds.values()), { get: 'publisherId' }] } },
-        { onlyShowIf: { [action]: [Array.from(hostnames.values()), { get: 'adSlot.hostname' }] } },
-        ]
-    }
-}
-
-const audienceInputToTargetingRules = audienceInput => {
-    if (audienceInput.version === '1') {
-        const { inputs } = audienceInput
-        const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
-        const rules = [
-            ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
-            ...(getPublisherRulesV1(publishers)),
-            ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
-            ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
-            ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
-            ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
-            ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
-        ]
-
-        return rules
-    }
-}
-
 const getLevelOneCategory = cat =>
     cat.split('-')[0]
 
 const getToFixedDecimal = num =>
     parseFloat(num.toFixed(2))
 
-const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
+
+
+
+const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
     const { inputs } = audienceInput
     const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
     const minCategoryCpm = Math.min(...Object.values(minByCategory))
@@ -136,6 +102,58 @@ const getSuggestedCPMRange = ({ minByCategory, countryTiersCoefficients, audienc
     return { min: getToFixedDecimal(minCat * minCountryCoef), max: getToFixedDecimal(maxCat * maxCountryCoef) }
 }
 
+const getSuggestedPricingBounds = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
+    if (audienceInput.version === '1') {
+        return getSuggestedPricingBoundsV1({ minByCategory, countryTiersCoefficients, audienceInput })
+    }
+}
+
+
+const getPublisherRulesV1 = publishers => {
+    const action = publishers.apply
+    if (action === 'allin') {
+        return []
+    } else {
+        const { publisherIds, hostnames } = publishers[action].reduce((rules, value) => {
+            const { hostname, publisher } = JSON.parse(value)
+            rules.hostnames.add(hostname)
+            rules.publisherIds.add(publisher)
+            return rules
+        }, { publisherIds: new Set(), hostnames: new Set() })
+
+        return [{ onlyShowIf: { [action]: [Array.from(publisherIds.values()), { get: 'publisherId' }] } },
+        { onlyShowIf: { [action]: [Array.from(hostnames.values()), { get: 'adSlot.hostname' }] } },
+        ]
+    }
+}
+
+const getPriceRulesV1 = ({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds }) => {
+    const suggestedPricingBounds = getSuggestedPricingBounds({ audienceInput, minByCategory, countryTiersCoefficients })
+
+    return []
+}
+
+const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTiersCoefficients }) => {
+    if (audienceInput.version === '1') {
+        const { inputs } = audienceInput
+        const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+        const rules = [
+            ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
+            ...(getPublisherRulesV1(publishers)),
+            ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
+            ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
+            ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
+            ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
+            ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
+            ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds }))
+        ]
+
+        return rules
+    }
+}
+
+
+
 module.exports = {
     ipfsHashTo32BytesHex,
     from32BytesHexIpfs,
@@ -143,5 +161,5 @@ module.exports = {
     getAdSizeByType,
     getMediaUrlWithProvider,
     audienceInputToTargetingRules,
-    getSuggestedCPMRange
+    getSuggestedPricingBounds
 }

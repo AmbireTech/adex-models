@@ -1,5 +1,6 @@
 const bs58 = require('bs58')
 const { CountryTiers } = require('./constants')
+const { formatUnits, parseUnits } = require('ethers/utils')
 
 const IPFS_BASE_58_LEADING = '1220'
 
@@ -127,13 +128,91 @@ const getPublisherRulesV1 = publishers => {
     }
 }
 
-const getPriceRulesV1 = ({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds }) => {
-    const suggestedPricingBounds = getSuggestedPricingBounds({ audienceInput, minByCategory, countryTiersCoefficients })
+const getClampedNumber = (x, min, max) => {
+    if (x < min) {
+        return min
+    }
+    if (x > max) {
+        return max
+    }
 
-    return []
+    return x
 }
 
-const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTiersCoefficients }) => {
+const getSelectedCountryTiersFormAudienceInput = (location) => {
+    const { apply } = location
+    if (apply === 'in') {
+        return Object.fromEntries(Object.entries(CountryTiers).filter(([key, value]) => {
+            return location.in.some(x => x === key || value.countries.includes(x))
+        }))
+    } else if (apply === 'nin') {
+        return Object.fromEntries(Object.entries(CountryTiers).filter(([key, value]) => {
+            return !location.nin.some(x => x === key || value.countries.includes(x))
+        }))
+    }
+
+    return { ...CountryTiers }
+}
+
+const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBounds, decimals }) => {
+    const { inputs } = audienceInput
+    const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+    // using floats for easier math as it is no crucial
+    const userPricingBounds = {
+        min: parseFloat(formatUnits(pricingBounds.min, decimals)),
+        max: parseFloat(formatUnits(pricingBounds.max, decimals)),
+    }
+
+    // It can be done despite the apply type be we can keep the rules smaller if price rules match show rules
+    const selectedTiers = getSelectedCountryTiersFormAudienceInput(location)
+
+    const selectedTiersOrdered = Object.entries(countryTiersCoefficients)
+        .filter(([key, value]) => !!selectedTiers[key])
+        .sort((a, b) => a[1] - b[1])
+
+    // The lower tier is with coefficient is 1 as it is already calculated in pricingBounds
+    // then we normalize the higher tiers coefficients to the lower one
+    const normalizedCountryTiersCoefficients = Object.fromEntries(selectedTiersOrdered
+        .map(([key, value], index, entries) => {
+            if (index === 0) {
+                return [key, 1]
+            } else {
+                const normalizedCoefficient = countryTiersCoefficients[key] / countryTiersCoefficients[entries[0][0]]
+
+                return [key, normalizedCoefficient]
+            }
+
+        }))
+
+    const topSelectedTier = selectedTiersOrdered.pop()[0]
+
+
+    const rules = []
+
+    // Add price rules for each tier
+    Object.values(selectedTiers).forEach(tier => {
+        const multiplier = (normalizedCountryTiersCoefficients[tier.ruleValue])
+
+        const isTopSelectedTier = topSelectedTier === tier.ruleValue
+
+        if (multiplier !== 1 || isTopSelectedTier) {
+            const price = isTopSelectedTier ? userPricingBounds.max : userPricingBounds.min * multiplier
+            const tierPrice = getClampedNumber(price, userPricingBounds.min, userPricingBounds.max)
+
+            rules.push({
+                if: [
+                    { in: [{ get: 'country' }, ...tier.countries] },
+                    { set: ['price.IMPRESSION', { bn: parseUnits(tierPrice.toFixed(4), decimals).toString() }] }
+                ]
+            })
+        }
+    })
+
+
+    return rules
+}
+
+const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }) => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
         const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
@@ -145,7 +224,7 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
             ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
             ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
-            ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds }))
+            ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }))
         ]
 
         return rules

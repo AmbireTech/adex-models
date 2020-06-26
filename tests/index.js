@@ -91,7 +91,7 @@ tape('Testing schema for account', (t) => {
 })
 
 
-const { minByCategory, countryTiersCoefficients, audienceInput1, audienceInput2, audienceInput3, audienceInput4, audienceInput5, audienceInput6, audienceInput7, decimals, pricingBounds1, pricingBounds2, pricingBounds3, pricingBounds4, pricingBounds6 } = helpersTestData
+const { minByCategory, countryTiersCoefficients, audienceInput1, audienceInput2, audienceInput3, audienceInput4, audienceInput5, audienceInput6, audienceInput7, audienceInput8, decimals, pricingBounds1, pricingBounds2, pricingBounds3, pricingBounds4, pricingBounds6 } = helpersTestData
 tape('Testing getSuggestedPricingBounds', (t) => {
 	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ min: 0.3, max: 0.3 }), '1 loc tier "in", 1 cat "in"  works')
 	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ min: 2.4, max: 2.4 }), '1 loc country "in", 1 cat "in"  works')
@@ -111,7 +111,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	// 0.6 - 1.5 all tiers
 	const rules = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput7, decimals, pricingBounds: pricingBounds6 })
 
-	// return tier riles ordered as input order
+	// return tier rules ordered by top tier
 	// TIER_1 max - 1.5
 	t.equals(rules[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier countries with 4 tiers selected')
 	// TIER_2 0.6(min) * 2.5 = 1.5
@@ -119,6 +119,20 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	// TIER_3 0.6(min) * 1.5 = 0.9
 	t.equals(rules[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
 	t.equals(rules[7], undefined, 'no rule for min tier as this is the default min price')
+
+	// 0.6 - 1.5 all tiers
+	const rulesWithSingleCountryInAllTiers = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput8, decimals, pricingBounds: pricingBounds6 })
+
+	// return tier rules ordered by top tier
+	// TIER_1 DE max - 1.5
+	t.equals(rules[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier country with 4 tiers selected')
+	// TIER_2  GD 0.6(min) * 2.5 = 1.5
+	t.equals(rules[5].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2 country')
+
+	// TIER_3 BA 0.6(min) * 1.5 = 0.9
+	t.equals(rules[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3 country')
+
+	t.equals(rules[7], undefined, 'no rule for min tier country as this is the default min price')
 
 	t.end()
 })

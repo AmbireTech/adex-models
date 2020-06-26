@@ -60,13 +60,6 @@ audienceInput6.inputs.location.apply = 'nin'
 audienceInput6.inputs.location.nin = ['TIER_1'] // x2.5
 audienceInput6.inputs.categories.in = ['IAB3'] // 0.6
 
-
-console.log('audienceInput1', audienceInput1.inputs.location.in)
-console.log('audienceInput2', audienceInput2.inputs.location.in)
-console.log('audienceInput3', audienceInput3.inputs.location.in)
-console.log('audienceInput4', audienceInput4.inputs.location.in)
-
-
 const minByCategory = {
     IAB1: 0.5, // 'Arts & Entertainment'
     IAB2: 0.5, // 'Automotive'
@@ -103,6 +96,44 @@ const countryTiersCoefficients = {
     TIER_4: 1,
 }
 
+const decimals = 18
+
+// match audienceInput1 Suggested { min: 0.3, max: 0.3 }
+const pricingBounds1 = {
+    min: '300000000000000000',
+    max: '300000000000000000'
+}
+
+// match audienceInput2 Suggested { min: 2.4, max: 2.4 }
+const pricingBounds2 = {
+    min: '2400000000000000000',
+    max: '2400000000000000000'
+}
+
+// match audienceInput3 Suggested { min: 0.4, max: 1.6 }
+const pricingBounds3 = {
+    min: '400000000000000000',
+    max: '1600000000000000000'
+}
+
+// match audienceInput4 Suggested { min: 0.3, max: 7.5 }
+const pricingBounds4 = {
+    min: '300000000000000000',
+    max: '7500000000000000000'
+}
+
+// match audienceInput5 Suggested { min: 0.3, max: 7.5 }
+const pricingBounds5 = {
+    min: '300000000000000000',
+    max: '7500000000000000000'
+}
+
+// match audienceInput6 Suggested { min: 0.6, max: 1.5 }
+const pricingBounds6 = {
+    min: '600000000000000000',
+    max: '1500000000000000000'
+}
+
 module.exports = {
     audienceInput1,
     audienceInput2,
@@ -110,6 +141,13 @@ module.exports = {
     audienceInput4,
     audienceInput5,
     audienceInput6,
+    decimals,
+    pricingBounds1,
+    pricingBounds2,
+    pricingBounds3,
+    pricingBounds4,
+    pricingBounds5,
+    pricingBounds6,
     minByCategory,
     countryTiersCoefficients
 }

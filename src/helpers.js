@@ -43,6 +43,9 @@ const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
     return provider + mediaUrl.substring(7)
 }
 
+const areAllCountriesSelected = inputCountries =>
+    Object.keys(CountryTiers).every(c => inputCountries.includes(c))
+
 const inputCountriesToRuleCountries = inputCountries => {
     const ruleCountries = inputCountries.reduce((all, c) => {
         const countries = CountryTiers[c] ? CountryTiers[c].countries : [c]
@@ -230,8 +233,11 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
         const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+        const allCountriesSelected = location.apply !== 'allin' && areAllCountriesSelected(location[location.apply])
         const rules = [
-            ...(location.apply !== 'allin' ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
+            ...(!allCountriesSelected ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
+            ...(allCountriesSelected && location.apply === 'in' ? [] : []),
+            ...(allCountriesSelected && location.apply === 'nin' ? [{ onlyShowIf: false }] : []),
             ...(getPublisherRulesV1(publishers)),
             ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
             ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),

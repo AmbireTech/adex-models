@@ -158,7 +158,11 @@ const getSelectedCountryTiersFormAudienceInput = (location) => {
     } else if (apply === 'nin') {
         return Object.fromEntries(Object.entries(CountryTiers)
             .filter(([key, value]) => {
-                return !location.nin.some(x => x === key || value.countries.includes(x))
+                return !location.nin.includes(key) || !value.countries.every(x => location.nin.includes(x))
+            })
+            .map(([key, value]) => {
+                const countries = [...value.countries].filter(x => !location.nin.includes(x))
+                return [key, { ...value, countries }]
             }))
     }
 

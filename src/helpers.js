@@ -163,15 +163,14 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
         max: parseFloat(formatUnits(pricingBounds.max, decimals)),
     }
 
-    // It can be done despite the apply type be we can keep the rules smaller if price rules match show rules
     const selectedTiers = getSelectedCountryTiersFormAudienceInput(location)
 
     const selectedTiersOrdered = Object.entries(countryTiersCoefficients)
         .filter(([key, value]) => !!selectedTiers[key])
         .sort((a, b) => a[1] - b[1])
 
-    // The lower tier is with coefficient is 1 as it is already calculated in pricingBounds
-    // then we normalize the higher tiers coefficients to the lower one
+    // The lowest tier is with coefficient is 1 as it is already calculated in pricingBounds
+    // then we normalize the higher tiers coefficients to the lowest one
     const normalizedCountryTiersCoefficients = Object.fromEntries(selectedTiersOrdered
         .map(([key, value], index, entries) => {
             if (index === 0) {
@@ -227,6 +226,7 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }))
         ]
 
+        console.log('rules', JSON.stringify(rules, 2, null))
         return rules
     }
 }

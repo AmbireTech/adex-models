@@ -255,6 +255,19 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
     }
 }
 
+const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals }) => {
+    if (rulesInput.version === '1') {
+        const { inputs } = audienceInput
+        const { allowAdultContent = false, autoSetMinCPM = false } = inputs
+        const rules = [
+            ...(autoSetMinCPM && suggestedMinCPM ? [{ onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).toString() }] } }] : []),
+            ...(allowAdultContent ? [] : [{ onlyShowIf: { nin: [{ get: 'adUnitCategories' }, 'Adult'] }, }]),
+        ]
+
+        return rules
+    }
+}
+
 module.exports = {
     ipfsHashTo32BytesHex,
     from32BytesHexIpfs,
@@ -262,5 +275,6 @@ module.exports = {
     getAdSizeByType,
     getMediaUrlWithProvider,
     audienceInputToTargetingRules,
+    slotRulesInputToTargetingRules,
     getSuggestedPricingBounds
 }

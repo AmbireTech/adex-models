@@ -103,7 +103,8 @@ const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, 
     const maxCountryCoef = selectedCountryCoefficients.length ? Math.max(...selectedCountryCoefficients) : minTierCoefficient
 
 
-    return { min: getToFixedDecimal(minCat * minCountryCoef), max: getToFixedDecimal(maxCat * maxCountryCoef) }
+    // Returns decimal strings as user input values because it is not used for calculations
+    return { min: (minCat * minCountryCoef).toFixed(2), max: (maxCat * maxCountryCoef).toFixed(2) }
 }
 
 const getSuggestedPricingBounds = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {

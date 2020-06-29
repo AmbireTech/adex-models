@@ -95,7 +95,7 @@ const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, 
             return !isInThisTier
         }
 
-        return true
+        return false
     }).map(([key, _]) => countryTiersCoefficients[key])
 
     const minTierCoefficient = Math.min(...Object.values(countryTiersCoefficients))

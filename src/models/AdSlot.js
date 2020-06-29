@@ -18,7 +18,9 @@ class AdSlot extends Base {
         mediaUrl = '',
         mediaMime = '',
         targetUrl = '',
-        minPerImpression = null,
+        rules = null,
+        rulesInput = { version: '', inputs: {} }, // { version: '', inputs: { autoSetMinCPM: true, allowAdultContent: false} } 
+        minPerImpression = null, // BigNumStr // OBSOLETE - TODO: remove
         website = '',
         archived = false,
         modified = null,
@@ -42,6 +44,8 @@ class AdSlot extends Base {
         this.title = title
         this.description = description
         this.fallbackUnit = fallbackUnit
+        this.rules = rules
+        this.rulesInput = rulesInput
         this.minPerImpression = minPerImpression
         this.website = website
         this.archived = archived
@@ -79,6 +83,8 @@ class AdSlot extends Base {
             description: this.description,
             fallbackUnit: this.fallbackUnit,
             minPerImpression: this.minPerImpression,
+            rules: this.rules,
+            rulesInput: this.rulesInput,
             website: this.website,
             created: this.created
                 ? new Date(this.created).getTime()
@@ -97,6 +103,8 @@ class AdSlot extends Base {
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
+            rules: this.rules,
+            rulesInput: this.rulesInput,
             minPerImpression: this.minPerImpression,
             website: this.website,
             created: this.created,
@@ -110,6 +118,8 @@ class AdSlot extends Base {
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
+            rules: this.rules,
+            rulesInput: this.rulesInput,
             minPerImpression: this.minPerImpression,
             website: this.website,
             archived: this.archived,
@@ -138,6 +148,8 @@ class AdSlot extends Base {
             title: this.title,
             description: this.description,
             fallbackUnit: this.fallbackUnit,
+            rules: this.rules,
+            rulesInput: this.rulesInput,
             minPerImpression: this.minPerImpression,
             website: this.website,
             archived: this.archived,

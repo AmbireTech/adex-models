@@ -3,6 +3,8 @@ const tape = require('tape')
 const schemas = require('../src/schemas')
 const testData = require('./testData')
 const errors = require('../src/errors')
+const helpersTestData = require('./helpersTestData')
+const helpers = require('../src/helpers')
 
 tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.workingSlot.marketAdd, schemas.adSlotPost).error, null, 'No error for normal slot')
@@ -50,7 +52,7 @@ tape('Testing schema for PUTing ad slots', (t) => {
 	t.end()
 })
 
-tape('Testing schema for PUTing ad units',  (t) => {
+tape('Testing schema for PUTing ad units', (t) => {
 	t.equals(Joi.validate(testData.putUnitExtraFields.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating unit with extra fields as they shouldn\'t be passed')
 	t.equals(Joi.validate(testData.putUnitNoOptional.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating unit with no optional fields')
 	t.equals(Joi.validate(testData.putUnitWorking.marketUpdate, schemas.adUnitPut).error, null, 'No error for updating working unit')
@@ -87,3 +89,66 @@ tape('Testing schema for account', (t) => {
 	t.equals(Joi.validate(testData.accountInvalidEmailUnicode.email, schemas.account.email).error.message, errors.ACCOUNT_EMAIL_ERR, 'Campaign with invalid email - unicode characters')
 	t.end()
 })
+
+
+const { minByCategory, countryTiersCoefficients, audienceInput1, audienceInput2, audienceInput3, audienceInput4, audienceInput5, audienceInput6, audienceInput7, audienceInput8, audienceInput9, decimals, pricingBounds1, pricingBounds2, pricingBounds3, pricingBounds4, pricingBounds6 } = helpersTestData
+tape('Testing getSuggestedPricingBounds', (t) => {
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ min: '0.30', max: '0.30' }), '1 loc tier "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ min: '2.40', max: '2.40' }), '1 loc country "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput3 })), JSON.stringify({ min: '0.40', max: '1.60' }), ' loc tiers "in", 1 cat "in" 2 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4 })), JSON.stringify({ min: '0.30', max: '7.50' }), '2 loc tiers "in", 0 cat "in" , 1 cat "nin" works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ min: '0.30', max: '7.50' }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput6 })), JSON.stringify({ min: '0.60', max: '1.50' }), '1 loc tier "nin", 1 cat "in"  works')
+
+	t.end()
+})
+
+tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
+	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1, decimals, pricingBounds: pricingBounds1 })[4].if[1].set[1].bn, '300000000000000000', 'set exact price when no difference between min and max')
+	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1, decimals, pricingBounds: pricingBounds2 })[4].if[1].set[1].bn, '2400000000000000000', 'set exact price when no difference between min and max (higher numbers)')
+	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4, decimals, pricingBounds: pricingBounds4 })[5].if[1].set[1].bn, '7500000000000000000', 'set max price to top tier countries')
+
+	// 0.6 - 1.5 all tiers
+	const rules = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput7, decimals, pricingBounds: pricingBounds6 })
+
+	// return tier rules ordered by top tier
+	// TIER_1 max - 1.5
+	t.equals(rules[3].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier countries with 4 tiers selected')
+	// TIER_2 0.6(min) * 2.5 = 1.5
+	t.equals(rules[4].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2')
+	// TIER_3 0.6(min) * 1.5 = 0.9
+	t.equals(rules[5].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
+	t.equals(rules[6], undefined, 'no rule for min tier as this is the default min price')
+
+	// 0.6 - 1.5 all tiers
+	const rulesWithSingleCountryInAllTiers = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput8, decimals, pricingBounds: pricingBounds6 })
+
+	// return tier rules ordered by top tier
+	// TIER_1 DE max - 1.5
+	t.equals(rulesWithSingleCountryInAllTiers[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier country with 4 tiers selected')
+	// TIER_2  GD 0.6(min) * 2.5 = 1.5
+	t.equals(rulesWithSingleCountryInAllTiers[5].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2 country')
+
+	// TIER_3 BA 0.6(min) * 1.5 = 0.9
+	t.equals(rulesWithSingleCountryInAllTiers[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3 country')
+
+	t.equals(rulesWithSingleCountryInAllTiers[7], undefined, 'no rule for min tier country as this is the default min price')
+
+
+	// 0.6  nin t1 1 country t3 min 0.6 * 1, max 0.6 * 2.5 - suggested but used { min: 0.6, max: 1.5 } pricingBounds6
+ 	const rulesWithNinLocation = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput9, decimals, pricingBounds: pricingBounds6 })
+
+	// return tier rules ordered by top tier
+	// TIER_1 max - 1.5
+	t.equals(rulesWithNinLocation[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier countries with 4 tiers selected')
+	// TIER_2 0.6(min) * 2.5 = 1.5
+	t.equals(rulesWithNinLocation[5].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2')
+	// TIER_3 0.6(min) * 1.5 = 0.9
+	t.equals(rulesWithNinLocation[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
+	t.equals(rulesWithNinLocation[6].if[0].in.includes('BG'), false, 'excluded single country is not included in price rule')
+	t.equals(rulesWithNinLocation[7], undefined, 'no rule for min tier as this is the default min price')
+
+	t.end()
+})
+
+

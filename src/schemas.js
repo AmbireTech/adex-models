@@ -35,6 +35,7 @@ module.exports = {
         description: Joi.string().allow('').max(300).optional().error(new Error(errors.DESC_ERR_SLOT)),
         fallbackUnit: Joi.string().allow(null).regex(ipfsIdRegex).optional(), //.error(new Error(errors.FALLBACK_UNIT_IPFS_ID_ERR)),
         minPerImpression: slotMinPerImpression,
+        rules: Joi.array().optional(),
         website: Joi.string().required().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR)),
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
         modified: Joi.allow(null).error(new Error(errors.MODIFIED_NOT_NULL_ERR))
@@ -44,6 +45,7 @@ module.exports = {
         description: Joi.string().allow('').max(300).optional().error(new Error(errors.DESC_ERR_SLOT)),
         fallbackUnit: Joi.string().allow(null).length(46).optional().regex(ipfsIdRegex).error(new Error(errors.FALLBACK_UNIT_IPFS_ID_ERR)),
         minPerImpression: slotMinPerImpression,
+        rules: Joi.array().optional(),
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
         website: Joi.string().allow('').optional().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR)),
         // modified: set it on the server

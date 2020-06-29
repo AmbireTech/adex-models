@@ -111,7 +111,7 @@ const slotWithNoOptionalKeys = new AdSlot({
 	title: 'Test slot 1',
 	modified: 1563204876826,
 	website: workingSlot.website,
-	rulesInput: { version: '1', inputs: {} }
+	rulesInput: null
 })
 
 const workingUnit = new AdUnit({
@@ -203,8 +203,9 @@ const putSlotWorking = new AdSlot({
 	archived: true,
 	modified: 1563204876826,
 	minPerImpression: { balance: '100' },
-	rulesInput: { version: '1', inputs: {} }
 })
+
+putSlotWorking.rulesInput = undefined
 
 const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all fields from the POST requests
 

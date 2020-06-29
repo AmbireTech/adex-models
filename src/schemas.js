@@ -39,7 +39,7 @@ module.exports = {
         rulesInput: Joi.object().keys({
             version: Joi.string().min(1).max(69).required().error(new Error(errors.SLOT_RULES_VERSION_ERR)),
             inputs: Joi.object().required().error(new Error(errors.SLOT_RULES_INPUTS_ERR)),
-        }).allow(null),
+        }).allow(null).optional(),
         website: Joi.string().required().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR)),
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
         modified: Joi.allow(null).error(new Error(errors.MODIFIED_NOT_NULL_ERR))
@@ -53,7 +53,7 @@ module.exports = {
         rulesInput: Joi.object().keys({
             version: Joi.string().min(1).max(69).required().error(new Error(errors.SLOT_RULES_VERSION_ERR)),
             inputs: Joi.object().required().error(new Error(errors.SLOT_RULES_INPUTS_ERR)),
-        }).allow(null),
+        }).allow(null).optional(),
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
         website: Joi.string().allow('').optional().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR)),
         // modified: set it on the server
@@ -109,7 +109,7 @@ module.exports = {
         audienceInput: Joi.object().keys({
             version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
             inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
-        }).allow(null)
+        }).allow(null).optional()
     },
     account: {
         email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),

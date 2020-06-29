@@ -69,7 +69,7 @@ const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, 
             !categories.in ||
             !categories.in.length ||
             categories.in.some(c => c === 'ALL' || (key === getLevelOneCategory(c)))
-            
+
         const notExcluded = !categories.apply.includes('nin') ||
             !(categories.nin || []).some(c => key === getLevelOneCategory(c))
 
@@ -251,7 +251,6 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }))
         ]
 
-        console.log('rules', JSON.stringify(rules, 2, null))
         return rules
     }
 }

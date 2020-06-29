@@ -59,25 +59,25 @@ const inputCountriesToRuleCountries = inputCountries => {
 const getLevelOneCategory = cat =>
     cat.split('-')[0]
 
-const getToFixedDecimal = num =>
-    parseFloat(num.toFixed(2))
-
-
-
-
 const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
     const { inputs } = audienceInput
     const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
-    const minCategoryCpm = Math.min(...Object.values(minByCategory))
 
     const selectedCategoriesMinCpms = Object.values(Object.fromEntries(Object.entries(minByCategory).filter(([key, value]) => {
 
-        const inSelected = !categories.apply.includes('in') || !categories.in || !categories.in.length || categories.in.some(c => c === 'ALL' || (key === getLevelOneCategory(c)))
-        const notExcluded = !categories.apply.includes('nin') || !(categories.nin || []).some(c => key === getLevelOneCategory(c))
+        const inSelected = !categories.apply.includes('in') ||
+            !categories.in ||
+            !categories.in.length ||
+            categories.in.some(c => c === 'ALL' || (key === getLevelOneCategory(c)))
+            
+        const notExcluded = !categories.apply.includes('nin') ||
+            !(categories.nin || []).some(c => key === getLevelOneCategory(c))
 
         return inSelected && notExcluded
     })))
 
+    // Set min category from all as default if no selected categories
+    const minCategoryCpm = Math.min(...Object.values(minByCategory))
     const minCat = selectedCategoriesMinCpms.length ? Math.min(...selectedCategoriesMinCpms) : minCategoryCpm
     const maxCat = selectedCategoriesMinCpms.length ? Math.max(...selectedCategoriesMinCpms) : minCategoryCpm
 
@@ -98,6 +98,7 @@ const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, 
         return false
     }).map(([key, _]) => countryTiersCoefficients[key])
 
+    // Set min country coefficient from all as default if no selected countries
     const minTierCoefficient = Math.min(...Object.values(countryTiersCoefficients))
     const minCountryCoef = selectedCountryCoefficients.length ? Math.min(...selectedCountryCoefficients) : minTierCoefficient
     const maxCountryCoef = selectedCountryCoefficients.length ? Math.max(...selectedCountryCoefficients) : minTierCoefficient
@@ -204,7 +205,6 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 
     const topSelectedTier = selectedTiersOrdered.pop()[0]
 
-
     const rules = []
 
     // Add price rules for each tier
@@ -255,8 +255,6 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
         return rules
     }
 }
-
-
 
 module.exports = {
     ipfsHashTo32BytesHex,

@@ -213,6 +213,9 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 
         const isTopSelectedTier = topSelectedTier === tier.ruleValue
 
+        // If multiplier === 1 this is min tier so no rule
+        // If only one tier is selected it actually min tier and top tier at the same time
+        // In this case we count it as top tier and set the max bound
         if (multiplier !== 1 || isTopSelectedTier) {
             const price = isTopSelectedTier ? userPricingBounds.max : userPricingBounds.min * multiplier
             const tierPrice = getClampedNumber(price, userPricingBounds.min, userPricingBounds.max)

@@ -19,7 +19,7 @@ class AdSlot extends Base {
         mediaMime = '',
         targetUrl = '',
         rules = null,
-        rulesInput = { version: '', inputs: '' }, // { version: '', inputs: { autoSetMinCPM: true, allowAdultContent: false} } 
+        rulesInput = { version: '', inputs: {} }, // { version: '', inputs: { autoSetMinCPM: true, allowAdultContent: false} } 
         minPerImpression = null, // BigNumStr // OBSOLETE - TODO: remove
         website = '',
         archived = false,

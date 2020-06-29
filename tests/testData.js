@@ -29,6 +29,7 @@ const workingSlot = new AdSlot({
 	created : 1563204876826,
 	fallbackUnit : 'QmWWQSuPMS6aXCbZKpEjPHPUZN2NjB3YrhJTHsV4X3vb2t',
 	title : 'Test slot 1',
+	rulesInput: { version: '1', inputs: {} },
 	description : 'Test slot for running integration tests',
 	archived : false,
 	website: 'https://www.example.com',
@@ -109,7 +110,8 @@ const slotWithNoOptionalKeys = new AdSlot({
 	created: 1563204876826,
 	title: 'Test slot 1',
 	modified: 1563204876826,
-	website: workingSlot.website 
+	website: workingSlot.website,
+	rulesInput: { version: '1', inputs: {} }
 })
 
 const workingUnit = new AdUnit({
@@ -200,7 +202,8 @@ const putSlotWorking = new AdSlot({
 	fallbackUnit: generateAddress('Qm', IPFS_NO_QM_LEN),
 	archived: true,
 	modified: 1563204876826,
-	minPerImpression: { balance: '100' }
+	minPerImpression: { balance: '100' },
+	rulesInput: { version: '1', inputs: {} }
 })
 
 const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all fields from the POST requests
@@ -208,7 +211,8 @@ const putSlotExtraFields = workingSlot // Shouldn't be able to submit with all f
 const putSlotNoOptional = new AdSlot({
 	title: generateString(20),
 	archived: true,
-	modified: 1563204876826
+	modified: 1563204876826,
+	rulesInput: null
 })
 
 // optional - description

@@ -93,12 +93,12 @@ tape('Testing schema for account', (t) => {
 
 const { minByCategory, countryTiersCoefficients, audienceInput1, audienceInput2, audienceInput3, audienceInput4, audienceInput5, audienceInput6, audienceInput7, audienceInput8, audienceInput9, decimals, pricingBounds1, pricingBounds2, pricingBounds3, pricingBounds4, pricingBounds6 } = helpersTestData
 tape('Testing getSuggestedPricingBounds', (t) => {
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ min: 0.3, max: 0.3 }), '1 loc tier "in", 1 cat "in"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ min: 2.4, max: 2.4 }), '1 loc country "in", 1 cat "in"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput3 })), JSON.stringify({ min: 0.4, max: 1.6 }), ' loc tiers "in", 1 cat "in" 2 cat "nin"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4 })), JSON.stringify({ min: 0.3, max: 7.5 }), '2 loc tiers "in", 0 cat "in" , 1 cat "nin" works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ min: 0.3, max: 7.5 }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput6 })), JSON.stringify({ min: 0.6, max: 1.5 }), '1 loc tier "nin", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ min: '0.30', max: '0.30' }), '1 loc tier "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ min: '2.40', max: '2.40' }), '1 loc country "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput3 })), JSON.stringify({ min: '0.40', max: '1.60' }), ' loc tiers "in", 1 cat "in" 2 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4 })), JSON.stringify({ min: '0.30', max: '7.50' }), '2 loc tiers "in", 0 cat "in" , 1 cat "nin" works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ min: '0.30', max: '7.50' }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput6 })), JSON.stringify({ min: '0.60', max: '1.50' }), '1 loc tier "nin", 1 cat "in"  works')
 
 	t.end()
 })

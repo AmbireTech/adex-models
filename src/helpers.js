@@ -257,7 +257,7 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
 
 const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals }) => {
     if (rulesInput.version === '1') {
-        const { inputs } = audienceInput
+        const { inputs } = rulesInput
         const { allowAdultContent = false, autoSetMinCPM = false } = inputs
         const rules = [
             ...(autoSetMinCPM && suggestedMinCPM ? [{ onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).toString() }] } }] : []),

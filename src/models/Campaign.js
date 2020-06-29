@@ -12,12 +12,13 @@ class Campaign extends Base {
         title = '',
         adUnits = [], // objs with AdUnits spec props
         validators = [], // 2 objs {id: '', url: '', fee: ''} , 1st - leader, 2nd - follower
-        maxPerImpression = '', // BigNumStr
-        minPerImpression = '', // BigNumStr
-        targeting = [], // {tag: '', score: 0}
+        pricingBounds = null, //{ CLICK: { min: "0", max: "1000" } }
+        maxPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
+        minPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
+        targeting = [], // {tag: '', score: 0} // OBSOLETE - TODO: remove
         targetingRules = null,
         audienceInput = { version: '', inputs: {} }, // { version: '', inputs: { location: { in: ['TIER_1', 'BG'], nin: ['TIER_4', 'MK'], apply: ['in', 'min'] /*or apply: 'in' in single action mode */ } } 
-        minTargetingScore = null, /// optional number
+        minTargetingScore = null, /// optional number // OBSOLETE - TODO: remove
         created = null, // timestamp in milliseconds
         nonce = null, // BigNumStr
         withdrawPeriodStart = null,  // timestamp in milliseconds 
@@ -39,6 +40,7 @@ class Campaign extends Base {
         this.title = title
         this.adUnits = adUnits
         this.validators = validators
+        this.pricingBounds = pricingBounds
         this.maxPerImpression = maxPerImpression
         this.minPerImpression = minPerImpression
         this.targeting = targeting
@@ -63,6 +65,7 @@ class Campaign extends Base {
             title: this.title,
             adUnits: this.adUnits,
             validators: this.validators,
+            pricingBounds: this.pricingBounds,
             maxPerImpression: this.maxPerImpression,
             minPerImpression: this.minPerImpression,
             targetingRules: this.targetingRules,
@@ -92,8 +95,8 @@ class Campaign extends Base {
     }
 
     get audienceInputMarket() {
-        return this.audienceInput.version &&  Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
-            version:  this.audienceInput.version,
+        return this.audienceInput.version && Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
+            version: this.audienceInput.version,
             inputs: this.audienceInput.inputs,
         }) : null
     }

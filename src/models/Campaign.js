@@ -17,7 +17,7 @@ class Campaign extends Base {
         minPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
         targeting = [], // {tag: '', score: 0} // OBSOLETE - TODO: remove
         targetingRules = null,
-        audienceInput = { version: '', inputs: {} }, // { version: '', inputs: { location: { in: ['TIER_1', 'BG'], nin: ['TIER_4', 'MK'], apply: ['in', 'min'] /*or apply: 'in' in single action mode */ } } 
+        audienceInput = null, // { version: '', inputs: { location: { in: ['TIER_1', 'BG'], nin: ['TIER_4', 'MK'], apply: ['in', 'min'] /*or apply: 'in' in single action mode */ } } 
         minTargetingScore = null, /// optional number // OBSOLETE - TODO: remove
         created = null, // timestamp in milliseconds
         nonce = null, // BigNumStr

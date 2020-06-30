@@ -253,6 +253,8 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
 
         return rules
     }
+
+    throw new Error('INVALID_AUDIENCE_INPUT_VERSION')
 }
 
 const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals }) => {
@@ -266,6 +268,8 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
 
         return rules
     }
+
+    throw new Error('INVALID_RULES_INPUT_VERSION')
 }
 
 module.exports = {

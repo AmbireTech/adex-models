@@ -95,7 +95,7 @@ class Campaign extends Base {
     }
 
     get audienceInputMarket() {
-        return this.audienceInput.version && Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
+        return  this.audienceInput && this.audienceInput.version && Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
             version: this.audienceInput.version,
             inputs: this.audienceInput.inputs,
         }) : null

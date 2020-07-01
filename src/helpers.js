@@ -237,7 +237,7 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
         const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
-        const allCountriesSelected = location.apply !== 'allin' && areAllCountriesSelected(location[location.apply])
+        const allCountriesSelected = location.apply === 'allin' || areAllCountriesSelected(location[location.apply])
         const rules = [
             ...(!allCountriesSelected ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
             ...(allCountriesSelected && location.apply === 'in' ? [] : []),

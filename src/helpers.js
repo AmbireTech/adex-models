@@ -43,10 +43,10 @@ const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
     return provider + mediaUrl.substring(7)
 }
 
-const areAllCountriesSelected = inputCountries =>
-    Object.keys(CountryTiers).every(c => inputCountries.includes(c))
+const areAllCountriesSelected = (inputCountries = []) =>
+    inputCountries && inputCountries.length ? Object.keys(CountryTiers).every(c => inputCountries.includes(c)) : false
 
-const inputCountriesToRuleCountries = inputCountries => {
+const inputCountriesToRuleCountries = (inputCountries = []) => {
     const ruleCountries = inputCountries.reduce((all, c) => {
         const countries = CountryTiers[c] ? CountryTiers[c].countries : [c]
         return all.concat(countries)
@@ -122,8 +122,12 @@ const getPublisherRulesV1 = publishers => {
     } else {
         const { publisherIds, hostnames } = publishers[action].reduce((rules, value) => {
             const { hostname, publisher } = JSON.parse(value)
-            rules.hostnames.add(hostname)
-            rules.publisherIds.add(publisher)
+            if (hostname) {
+                rules.hostnames.add(hostname)
+            }
+            if (publisher) {
+                rules.publisherIds.add(publisher)
+            }
             return rules
         }, { publisherIds: new Set(), hostnames: new Set() })
 
@@ -243,8 +247,8 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(allCountriesSelected && location.apply === 'in' ? [] : []),
             ...(allCountriesSelected && location.apply === 'nin' ? [{ onlyShowIf: false }] : []),
             ...(getPublisherRulesV1(publishers)),
-            ...(categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
-            ...(categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
+            ...(categories.apply && categories.apply.includes('in') && !categories.in.includes('ALL') ? [{ onlyShowIf: { intersects: [{ get: 'adSlot.categories' }, categories.in] } }] : []),
+            ...(categories.apply && categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
             ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
             ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
             ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),

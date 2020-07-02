@@ -12,7 +12,7 @@ class Campaign extends Base {
         title = '',
         adUnits = [], // objs with AdUnits spec props
         validators = [], // 2 objs {id: '', url: '', fee: ''} , 1st - leader, 2nd - follower
-        pricingBounds = null, //{ CLICK: { min: "0", max: "1000" } }
+        pricingBounds = null, //{IMPRESSION: { CLICK: { min: "0", max: "1000" } }}
         maxPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
         minPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
         targeting = [], // {tag: '', score: 0} // OBSOLETE - TODO: remove

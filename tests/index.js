@@ -93,12 +93,12 @@ tape('Testing schema for account', (t) => {
 
 const { minByCategory, countryTiersCoefficients, audienceInput1, audienceInput2, audienceInput3, audienceInput4, audienceInput5, audienceInput6, audienceInput7, audienceInput8, audienceInput9, decimals, pricingBounds1, pricingBounds2, pricingBounds3, pricingBounds4, pricingBounds6 } = helpersTestData
 tape('Testing getSuggestedPricingBounds', (t) => {
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ min: '0.30', max: '0.30' }), '1 loc tier "in", 1 cat "in"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ min: '2.40', max: '2.40' }), '1 loc country "in", 1 cat "in"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput3 })), JSON.stringify({ min: '0.40', max: '1.60' }), ' loc tiers "in", 1 cat "in" 2 cat "nin"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4 })), JSON.stringify({ min: '0.30', max: '7.50' }), '2 loc tiers "in", 0 cat "in" , 1 cat "nin" works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ min: '0.30', max: '7.50' }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
-	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput6 })), JSON.stringify({ min: '0.60', max: '1.50' }), '1 loc tier "nin", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1 })), JSON.stringify({ IMPRESSION: { min: '0.30', max: '0.30' } }), '1 loc tier "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput2 })), JSON.stringify({ IMPRESSION: { min: '2.40', max: '2.40' } }), '1 loc country "in", 1 cat "in"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput3 })), JSON.stringify({ IMPRESSION: { min: '0.40', max: '1.60' } }), ' loc tiers "in", 1 cat "in" 2 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4 })), JSON.stringify({ IMPRESSION: { min: '0.30', max: '7.50' } }), '2 loc tiers "in", 0 cat "in" , 1 cat "nin" works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput5 })), JSON.stringify({ IMPRESSION: { min: '0.30', max: '7.50' } }), '2 loc "in", 1 cat "ALL" "in", 1 cat "nin"  works')
+	t.equals(JSON.stringify(helpers.getSuggestedPricingBounds({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput6 })), JSON.stringify({ IMPRESSION: { min: '0.60', max: '1.50' } }), '1 loc tier "nin", 1 cat "in"  works')
 
 	t.end()
 })
@@ -136,7 +136,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 
 
 	// 0.6  nin t1 1 country t3 min 0.6 * 1, max 0.6 * 2.5 - suggested but used { min: 0.6, max: 1.5 } pricingBounds6
- 	const rulesWithNinLocation = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput9, decimals, pricingBounds: pricingBounds6 })
+	const rulesWithNinLocation = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput9, decimals, pricingBounds: pricingBounds6 })
 
 	// return tier rules ordered by top tier
 	// TIER_1 max - 1.5

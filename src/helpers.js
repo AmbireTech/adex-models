@@ -105,7 +105,7 @@ const getSuggestedPricingBoundsV1 = ({ minByCategory, countryTiersCoefficients, 
 
 
     // Returns decimal strings as user input values because it is not used for calculations
-    return { min: (minCat * minCountryCoef).toFixed(2), max: (maxCat * maxCountryCoef).toFixed(2) }
+    return { IMPRESSION: { min: (minCat * minCountryCoef).toFixed(2), max: (maxCat * maxCountryCoef).toFixed(2) } }
 }
 
 const getSuggestedPricingBounds = ({ minByCategory, countryTiersCoefficients, audienceInput }) => {
@@ -183,8 +183,8 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
     const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
     // using floats for easier math as it is no crucial
     const userPricingBounds = {
-        min: parseFloat(formatUnits(pricingBounds.min, decimals)),
-        max: parseFloat(formatUnits(pricingBounds.max, decimals)),
+        min: parseFloat(formatUnits(pricingBounds.IMPRESSION.min, decimals)),
+        max: parseFloat(formatUnits(pricingBounds.IMPRESSION.max, decimals)),
     }
 
     const selectedTiers = getSelectedCountryTiersFormAudienceInput(location)

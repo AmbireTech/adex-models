@@ -62,12 +62,12 @@ audienceInput6.inputs.categories.in = ['IAB3'] // 0.6
 
 const audienceInput7 = deepCopyObj(audienceInput1)
 audienceInput7.inputs.location.apply = 'in'
-audienceInput7.inputs.location.in = ['TIER_1','TIER_2', 'TIER_3', 'TIER_4'] // x1, x4
+audienceInput7.inputs.location.in = ['TIER_1', 'TIER_2', 'TIER_3', 'TIER_4'] // x1, x4
 audienceInput7.inputs.categories.in = ['IAB3'] // 0.6
 
 const audienceInput8 = deepCopyObj(audienceInput1)
 audienceInput8.inputs.location.apply = 'in'
-audienceInput8.inputs.location.in = ['DE','BA', 'GD', 'PR'] // 1 3 2 4
+audienceInput8.inputs.location.in = ['DE', 'BA', 'GD', 'PR'] // 1 3 2 4
 audienceInput8.inputs.categories.in = ['IAB3'] // 0.6
 
 
@@ -117,38 +117,50 @@ const decimals = 18
 
 // match audienceInput1 Suggested { min: 0.3, max: 0.3 }
 const pricingBounds1 = {
-    min: '300000000000000000',
-    max: '300000000000000000'
+    IMPRESSION: {
+        min: '300000000000000000',
+        max: '300000000000000000'
+    }
 }
 
 // match audienceInput2 Suggested { min: 2.4, max: 2.4 }
 const pricingBounds2 = {
-    min: '2400000000000000000',
-    max: '2400000000000000000'
+    IMPRESSION: {
+        min: '2400000000000000000',
+        max: '2400000000000000000'
+    }
 }
 
 // match audienceInput3 Suggested { min: 0.4, max: 1.6 }
 const pricingBounds3 = {
-    min: '400000000000000000',
-    max: '1600000000000000000'
+    IMPRESSION: {
+        min: '400000000000000000',
+        max: '1600000000000000000'
+    }
 }
 
 // match audienceInput4 Suggested { min: 0.3, max: 7.5 }
 const pricingBounds4 = {
-    min: '300000000000000000',
-    max: '7500000000000000000'
+    IMPRESSION: {
+        min: '300000000000000000',
+        max: '7500000000000000000'
+    }
 }
 
 // match audienceInput5 Suggested { min: 0.3, max: 7.5 }
 const pricingBounds5 = {
-    min: '300000000000000000',
-    max: '7500000000000000000'
+    IMPRESSION: {
+        min: '300000000000000000',
+        max: '7500000000000000000'
+    }
 }
 
 // match audienceInput6 Suggested { min: 0.6, max: 1.5 }
 const pricingBounds6 = {
-    min: '600000000000000000',
-    max: '1500000000000000000'
+    IMPRESSION: {
+        min: '600000000000000000',
+        max: '1500000000000000000'
+    }
 }
 
 module.exports = {

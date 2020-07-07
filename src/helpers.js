@@ -226,7 +226,7 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 
             rules.push({
                 if: [
-                    { in: [{ get: 'country' }, ...tier.countries] },
+                    { in: [[...tier.countries], { get: 'country' }] },
                     { set: ['price.IMPRESSION', { bn: parseUnits(tierPrice.toFixed(4), decimals).toString() }] }
                 ]
             })

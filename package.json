@@ -29,6 +29,7 @@
     "i18n-iso-countries": "6.0.0"
   },
   "devDependencies": {
+    "adex-adview-manager": "^2.0.8",
     "tape": "^4.11.0"
   }
 }

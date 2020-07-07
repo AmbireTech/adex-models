@@ -1,5 +1,6 @@
 const { Joi } = require('celebrate')
 const tape = require('tape')
+const { evaluateMultiple } = require('adex-adview-manager/lib/rules')
 const schemas = require('../src/schemas')
 const testData = require('./testData')
 const errors = require('../src/errors')
@@ -119,6 +120,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	// TIER_3 0.6(min) * 1.5 = 0.9
 	t.equals(rules[5].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
 	t.equals(rules[6], undefined, 'no rule for min tier as this is the default min price')
+	t.doesNotThrow(() => evaluateMultiple({}, {}, rules), 'rules are evaluated with no errors')
 
 	// 0.6 - 1.5 all tiers
 	const rulesWithSingleCountryInAllTiers = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput8, decimals, pricingBounds: pricingBounds6 })
@@ -134,6 +136,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 
 	t.equals(rulesWithSingleCountryInAllTiers[7], undefined, 'no rule for min tier country as this is the default min price')
 
+	t.doesNotThrow(() => evaluateMultiple({}, {}, rulesWithSingleCountryInAllTiers), 'rulesWithSingleCountryInAllTiers are evaluated with no errors')
 
 	// 0.6  nin t1 1 country t3 min 0.6 * 1, max 0.6 * 2.5 - suggested but used { min: 0.6, max: 1.5 } pricingBounds6
 	const rulesWithNinLocation = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput9, decimals, pricingBounds: pricingBounds6 })
@@ -147,6 +150,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	t.equals(rulesWithNinLocation[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
 	t.equals(rulesWithNinLocation[6].if[0].in.includes('BG'), false, 'excluded single country is not included in price rule')
 	t.equals(rulesWithNinLocation[7], undefined, 'no rule for min tier as this is the default min price')
+	t.doesNotThrow(() => evaluateMultiple({}, {}, rulesWithNinLocation), 'rulesWithNinLocation are evaluated with no errors')
 
 	t.end()
 })

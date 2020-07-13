@@ -251,7 +251,7 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(categories.apply && categories.apply.includes('nin') ? [{ onlyShowIf: { not: { intersects: [{ get: 'adSlot.categories' }, categories.nin] } } }] : []),
             ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
             ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
-            ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { mul: [{ div: [{ get: 'campaignSecondsActive' }, { get: 'campaignSecondsDuration' }] }, { get: 'campaignBudget' }] }] } }] : []),
+            ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { div: [{ mul: [{ get: 'campaignSecondsActive' }, { get: 'campaignBudget' }] }, { get: 'campaignSecondsDuration' }] }] } }] : []),
             ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }))
         ]
 
@@ -266,7 +266,7 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
         const { inputs } = rulesInput
         const { allowAdultContent = false, autoSetMinCPM = false } = inputs
         const rules = [
-            ...(autoSetMinCPM && suggestedMinCPM ? [{ onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).toString() }] } }] : []),
+            ...(autoSetMinCPM || suggestedMinCPM ? [{ onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).toString() }] } }] : []),
             ...(allowAdultContent ? [] : [{ onlyShowIf: { nin: [{ get: 'adUnitCategories' }, 'Adult'] }, }]),
         ]
 

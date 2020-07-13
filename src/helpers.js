@@ -267,7 +267,7 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
         const { allowAdultContent = false, autoSetMinCPM = false } = inputs
         const rules = [
             ...(autoSetMinCPM || suggestedMinCPM ? [{ onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).toString() }] } }] : []),
-            ...(allowAdultContent ? [] : [{ onlyShowIf: { nin: [{ get: 'adUnitCategories' }, 'Adult'] }, }]),
+            ...(allowAdultContent ? [] : [{ onlyShowIf: { not: { intersects: [{ get: 'adUnitCategories' }, ['IAB25-2', 'IAB25-3', 'IAB25-4', 'IAB25-5']] } } }]),
         ]
 
         return rules

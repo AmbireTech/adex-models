@@ -452,7 +452,7 @@
       "IAB26-2": "Warez",
       "IAB26-3": "Spyware / Malware / Malicious",
       "IAB26-4": "Copyright Infringement",
-      "IAB26-WS1": "Illegal Drugs & Paraphernalia",
+      "IAB26-WS1": "Recreational Drugs & Paraphernalia",
       "IAB26-WS2": "Phishing"
     }
   },
@@ -856,7 +856,7 @@
     "IAB26-2": "Warez",
     "IAB26-3": "Spyware / Malware / Malicious",
     "IAB26-4": "Copyright Infringement",
-    "IAB26-WS1": "Illegal Drugs & Paraphernalia",
+    "IAB26-WS1": "Recreational Drugs & Paraphernalia",
     "IAB26-WS2": "Deceptive / Phishing"
   }
 }

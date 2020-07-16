@@ -447,8 +447,8 @@
       "IAB25-WS2": "Streaming Media"
     },
     "IAB26": {
-      "IAB26": "Illegal Content",
-      "IAB26-1": "Illegal Content",
+      "IAB26": "Irregular Content",
+      "IAB26-1": "Clandestine Content",
       "IAB26-2": "Warez",
       "IAB26-3": "Spyware / Malware / Malicious",
       "IAB26-4": "Copyright Infringement",
@@ -851,8 +851,8 @@
     "IAB25-7": "Incentivized",
     "IAB25-WS1": "Content Server",
     "IAB25-WS2": "Streaming Media",
-    "IAB26": "Illegal Content",
-    "IAB26-1": "Illegal Content",
+    "IAB26": "Irregular Content",
+    "IAB26-1": "Clandestine Content",
     "IAB26-2": "Warez",
     "IAB26-3": "Spyware / Malware / Malicious",
     "IAB26-4": "Copyright Infringement",

@@ -262,11 +262,21 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
 }
 
 const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals }) => {
+    if (!suggestedMinCPM) {
+        throw new Error('INVALID_SUGGESTED_MIN_CPM')
+    }
+    if (!decimals) {
+        throw new Error('INVALID_DECIMALS')
+    }    
     if (rulesInput.version === '1') {
         const { inputs } = rulesInput
         const { allowAdultContent = false, autoSetMinCPM = false } = inputs
         const rules = [
-            ...(autoSetMinCPM || suggestedMinCPM ? [{ onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).toString() }] } }] : []),
+            ...(autoSetMinCPM || suggestedMinCPM
+                ? [
+                    // NOTE: We pass CPM but the rule is for impression
+                    { onlyShowIf: { gt: [{ get: 'price.IMPRESSION' }, { bn: parseUnits(suggestedMinCPM, decimals).div(1000).toString() }] } }]
+                : []),
             ...(allowAdultContent ? [] : [{ onlyShowIf: { not: { intersects: [{ get: 'adUnitCategories' }, ['IAB25-2', 'IAB25-3', 'IAB25-4', 'IAB25-5']] } } }]),
         ]
 

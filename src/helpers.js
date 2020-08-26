@@ -1,6 +1,6 @@
 const bs58 = require('bs58')
 const { CountryTiers } = require('./constants')
-const { formatUnits, parseUnits } = require('ethers/utils')
+const { formatUnits, parseUnits } = require('@ethersproject/units')
 
 const IPFS_BASE_58_LEADING = '1220'
 

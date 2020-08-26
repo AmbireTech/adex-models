@@ -1,6 +1,6 @@
 const bs58 = require('bs58')
-const { CountryTiers } = require('./constants')
-const { formatUnits, parseUnits } = require('ethers/utils')
+const { CountryTiers, OsGroups } = require('./constants')
+const { formatUnits, parseUnits } = require('@ethersproject/units')
 
 const IPFS_BASE_58_LEADING = '1220'
 
@@ -46,6 +46,9 @@ const getMediaUrlWithProvider = (mediaUrl = 'ipfs://', provider = '') => {
 const areAllCountriesSelected = (inputCountries = []) =>
     inputCountries && inputCountries.length ? Object.keys(CountryTiers).every(c => inputCountries.includes(c)) : false
 
+const areAllDevicesSelected = (inputDevices = []) =>
+    inputDevices && inputDevices.length ? Object.keys(OsGroups).every(c => inputDevices.includes(c)) : false
+
 const inputCountriesToRuleCountries = (inputCountries = []) => {
     const ruleCountries = inputCountries.reduce((all, c) => {
         const countries = CountryTiers[c] ? CountryTiers[c].countries : [c]
@@ -54,6 +57,17 @@ const inputCountriesToRuleCountries = (inputCountries = []) => {
         .filter((c, i, all) => all.indexOf(c) === i)
 
     return ruleCountries
+}
+
+// by userAgentOS
+const inputDevicesToRuleDevices = (inputDevices = []) => {
+    const ruleDevices = inputDevices.reduce((all, d) => {
+        const agentOs = OsGroups[d] ? OsGroups[d].oss : [c]
+        return all.concat(agentOs)
+    }, [])
+        .filter((c, i, all) => all.indexOf(c) === i)
+
+    return ruleDevices
 }
 
 const getLevelOneCategory = cat =>
@@ -240,8 +254,9 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }) => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
-        const { location = {}, categories = {}, publishers = {}, advanced = {} } = inputs
+        const { location = {}, categories = {}, publishers = {}, advanced = {}, devices = {} } = inputs
         const allCountriesSelected = location.apply === 'allin' || areAllCountriesSelected(location[location.apply])
+        const allDevicesSelected = devices.apply === 'allin' || areAllDevicesSelected(devices[devices.apply])
         const rules = [
             ...(!allCountriesSelected ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
             ...(allCountriesSelected && location.apply === 'in' ? [] : []),
@@ -252,7 +267,8 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(advanced.includeIncentivized ? [] : [{ onlyShowIf: { nin: [{ get: 'adSlot.categories' }, 'IAB25-7'] } }]),
             ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
             ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { div: [{ mul: [{ get: 'campaignSecondsActive' }, { get: 'campaignBudget' }] }, { get: 'campaignSecondsDuration' }] }] } }] : []),
-            ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }))
+            ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals })),
+            ...(!allDevicesSelected ? [{ onlyShowIf: { [devices.apply]: [inputDevicesToRuleDevices(devices[devices.apply]), { get: 'userAgentOS' }] } }] : []),
         ]
 
         return rules
@@ -267,7 +283,7 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
     }
     if (!decimals) {
         throw new Error('INVALID_DECIMALS')
-    }    
+    }
     if (rulesInput.version === '1') {
         const { inputs } = rulesInput
         const { allowAdultContent = false, autoSetMinCPM = false } = inputs

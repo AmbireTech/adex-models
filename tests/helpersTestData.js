@@ -29,7 +29,13 @@ const audienceInput1 = {
         "advanced": {
             "includeIncentivized": true,
             "disableFrequencyCapping": true
-        }
+        },
+        "devices": {
+            "in": [
+                "GROUP_MOBILE"
+            ],
+            "apply": "in"
+        },
     },
 }
 
@@ -39,7 +45,6 @@ audienceInput2.inputs.categories.in = ['IAB3'] // 0.6
 
 const audienceInput3 = deepCopyObj(audienceInput1)
 audienceInput3.inputs.location.in = ['TIER_1', 'TIER_4'] // x4, x1
-audienceInput3.inputs.categories.apply = ['in', 'nin']
 audienceInput3.inputs.categories.in = ['IAB16'] // 0.4 - in is Required for input (translated to empty rule if not selected)
 audienceInput3.inputs.categories.nin = ['IAB23', 'IAB24'] // not - 3, 0.1, other min 0.2
 

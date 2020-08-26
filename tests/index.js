@@ -119,7 +119,11 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	t.equals(rules[4].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2')
 	// TIER_3 0.6(min) * 1.5 = 0.9
 	t.equals(rules[5].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
-	t.equals(rules[6], undefined, 'no rule for min tier as this is the default min price')
+
+	// User agent test
+	t.equals(rules[6].onlyShowIf.in[0][0], 'Android', 'should have Android in user agent')
+	t.equals(rules[6].onlyShowIf.in[1].get, 'userAgentOS', 'should get userAgentOS')
+	t.equals(rules[7], undefined, 'no rule for min tier as this is the default min price')
 	t.doesNotThrow(() => evaluateMultiple({}, {}, rules), 'rules are evaluated with no errors')
 
 	// 0.6 - 1.5 all tiers
@@ -134,7 +138,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	// TIER_3 BA 0.6(min) * 1.5 = 0.9
 	t.equals(rulesWithSingleCountryInAllTiers[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3 country')
 
-	t.equals(rulesWithSingleCountryInAllTiers[7], undefined, 'no rule for min tier country as this is the default min price')
+	t.equals(rulesWithSingleCountryInAllTiers[8], undefined, 'no rule for min tier country as this is the default min price')
 
 	t.doesNotThrow(() => evaluateMultiple({}, {}, rulesWithSingleCountryInAllTiers), 'rulesWithSingleCountryInAllTiers are evaluated with no errors')
 
@@ -149,7 +153,7 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	// TIER_3 0.6(min) * 1.5 = 0.9
 	t.equals(rulesWithNinLocation[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
 	t.equals(rulesWithNinLocation[6].if[0].in.includes('BG'), false, 'excluded single country is not included in price rule')
-	t.equals(rulesWithNinLocation[7], undefined, 'no rule for min tier as this is the default min price')
+	t.equals(rulesWithNinLocation[8], undefined, 'no rule for min tier as this is the default min price')
 	t.doesNotThrow(() => evaluateMultiple({}, {}, rulesWithNinLocation), 'rulesWithNinLocation are evaluated with no errors')
 
 	t.end()

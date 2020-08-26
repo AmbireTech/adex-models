@@ -265,22 +265,22 @@ const OsGroups= {
 	GROUP_DESKTOP: {
 		ruleValue: 'GROUP_DESKTOP',
 		name: 'GROUP_DESKTOP',
-		browsers: ['Windows [Phone/Mobile]', 'Mac OS', 'Chromium OS' , 'Linux', 'CentOS', 'Fedora', 'FreeBSD', 'Debian', 'RedHat', 'Ubuntu', 'OpenBSD', 'Arch', 'Solaris']
+		oss: ['Windows [Phone/Mobile]', 'Mac OS', 'Chromium OS' , 'Linux', 'CentOS', 'Fedora', 'FreeBSD', 'Debian', 'RedHat', 'Ubuntu', 'OpenBSD', 'Arch', 'Solaris']
 	},
 	GROUP_MOBILE: {
 		ruleValue: 'GROUP_MOBILE',
 		name: 'GROUP_MOBILE',
-		browsers: ['Android', 'iOS']
+		oss: ['Android', 'iOS']
 	},
 	GROUP_ANDROID: {
 		ruleValue: 'GROUP_ANDROID',
 		name: 'GROUP_ANDROID',
-		browsers: ['Android']
+		oss: ['Android']
 	},
 	GROUP_IOS: {
 		ruleValue: 'GROUP_IOS',
 		name: 'GROUP_IOS',
-		browsers: ['iOS']
+		oss: ['iOS']
 	}
 }
 

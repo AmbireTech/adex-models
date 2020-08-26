@@ -198,9 +198,13 @@ const UA_BROWSERS = [
 ]
 
 const UA_OS = [
+	'Android',
+	'iOS',
+	'Windows [Phone/Mobile]',
+	'Mac OS',
+	'Linux',
 	'AIX',
 	'Amiga OS',
-	'Android',
 	'Arch',
 	'Bada',
 	'BeOS',
@@ -217,13 +221,10 @@ const UA_OS = [
 	'Gentoo',
 	'GNU',
 	'Haiku',
-	'Hurd',
-	'iOS',
+	'Hurd',	
 	'Joli',
 	'KaiOS',
 	'Linpus',
-	'Linux',
-	'Mac OS',
 	'Mageia',
 	'Mandriva',
 	'MeeGo',
@@ -255,9 +256,33 @@ const UA_OS = [
 	'Unix',
 	'VectorLinux',
 	'WebOS',
-	'Windows [Phone/Mobile]',
 	'Zenwalk',
 ]
+
+
+// NOTE: currently only this is used
+const OsGroups= {
+	GROUP_DESKTOP: {
+		ruleValue: 'GROUP_DESKTOP',
+		name: 'GROUP_DESKTOP',
+		browsers: ['Windows [Phone/Mobile]', 'Mac OS', 'Chromium OS' , 'Linux', 'CentOS', 'Fedora', 'FreeBSD', 'Debian', 'RedHat', 'Ubuntu', 'OpenBSD', 'Arch', 'Solaris']
+	},
+	GROUP_MOBILE: {
+		ruleValue: 'GROUP_MOBILE',
+		name: 'GROUP_MOBILE',
+		browsers: ['Android', 'iOS']
+	},
+	GROUP_ANDROID: {
+		ruleValue: 'GROUP_ANDROID',
+		name: 'GROUP_ANDROID',
+		browsers: ['Android']
+	},
+	GROUP_IOS: {
+		ruleValue: 'GROUP_IOS',
+		name: 'GROUP_IOS',
+		browsers: ['iOS']
+	}
+}
 
 const valueToKey = (obj) => {
 	return Object.keys(obj).reduce((newObj, key) => {
@@ -284,4 +309,5 @@ module.exports = {
 	valueToKey,
 	UA_BROWSERS,
 	UA_OS,
+	OsGroups,
 }

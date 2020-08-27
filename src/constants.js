@@ -267,11 +267,6 @@ const OsGroups= {
 		name: 'GROUP_DESKTOP',
 		oss: ['Windows [Phone/Mobile]', 'Mac OS', 'Chromium OS' , 'Linux', 'CentOS', 'Fedora', 'FreeBSD', 'Debian', 'RedHat', 'Ubuntu', 'OpenBSD', 'Arch', 'Solaris']
 	},
-	GROUP_MOBILE: {
-		ruleValue: 'GROUP_MOBILE',
-		name: 'GROUP_MOBILE',
-		oss: ['Android', 'iOS']
-	},
 	GROUP_ANDROID: {
 		ruleValue: 'GROUP_ANDROID',
 		name: 'GROUP_ANDROID',

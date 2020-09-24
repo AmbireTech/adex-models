@@ -225,6 +225,10 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 
     const rules = []
 
+    console.log('selectedTiers', selectedTiers)
+    console.log('topSelectedTier', topSelectedTier)
+    console.log('normalizedCountryTiersCoefficients', normalizedCountryTiersCoefficients)
+
     // Add price rules for each tier
     Object.values(selectedTiers).forEach(tier => {
         const multiplier = (normalizedCountryTiersCoefficients[tier.ruleValue])
@@ -268,7 +272,7 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
             ...(advanced.disableFrequencyCapping ? [] : [{ onlyShowIf: { gt: [{ get: 'adView.secondsSinceCampaignImpression' }, 300] } }]),
             ...(advanced.limitDailyAverageSpending ? [{ onlyShowIf: { lt: [{ get: 'campaignTotalSpent' }, { div: [{ mul: [{ get: 'campaignSecondsActive' }, { get: 'campaignBudget' }] }, { get: 'campaignSecondsDuration' }] }] } }] : []),
             ...(getPriceRulesV1({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals })),
-            ...(!allDevicesSelected ? [{ onlyShowIf: { [devices.apply]: [inputDevicesToRuleDevices(devices[devices.apply]), { get: 'userAgentOS' }] } }] : []),
+            ...(!allDevicesSelected && devices.apply ? [{ onlyShowIf: { [devices.apply]: [inputDevicesToRuleDevices(devices[devices.apply]), { get: 'userAgentOS' }] } }] : []),
         ]
 
         return rules
@@ -302,6 +306,25 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
     throw new Error('INVALID_RULES_INPUT_VERSION')
 }
 
+const useInputValuePerMileToTokenValue = (value, decimals) => {
+    return parseUnits(value, decimals).div(1000).toString()
+}
+
+const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals }) => {
+    if(!pricingBounds) {
+        throw new Error('ERR_PRICING_BOUNDS_NOT_PROVIDED')
+    } else if  (!pricingBounds.IMPRESSION) {
+        throw new Error('ERR_PRICING_BOUNDS_IMPRESSION_NOT_PROVIDED')
+    }
+
+    const impression = { ...pricingBounds.IMPRESSION }
+    impression.min = useInputValuePerMileToTokenValue(impression.min, decimals)
+    impression.max = useInputValuePerMileToTokenValue(impression.max, decimals)
+    pricingBoundsInRuleValue.IMPRESSION = impression
+
+    return pricingBoundsInRuleValue
+}
+
 module.exports = {
     ipfsHashTo32BytesHex,
     from32BytesHexIpfs,
@@ -310,5 +333,6 @@ module.exports = {
     getMediaUrlWithProvider,
     audienceInputToTargetingRules,
     slotRulesInputToTargetingRules,
-    getSuggestedPricingBounds
+    getSuggestedPricingBounds,
+    userInputPricingBoundsPerMileToRulesValue
 }

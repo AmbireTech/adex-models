@@ -225,10 +225,6 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 
     const rules = []
 
-    console.log('selectedTiers', selectedTiers)
-    console.log('topSelectedTier', topSelectedTier)
-    console.log('normalizedCountryTiersCoefficients', normalizedCountryTiersCoefficients)
-
     // Add price rules for each tier
     Object.values(selectedTiers).forEach(tier => {
         const multiplier = (normalizedCountryTiersCoefficients[tier.ruleValue])
@@ -239,13 +235,18 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
         // If only one tier is selected it actually min tier and top tier at the same time
         // In this case we count it as top tier and set the max bound
         if (multiplier !== 1 || isTopSelectedTier) {
+
             const price = isTopSelectedTier ? userPricingBounds.max : userPricingBounds.min * multiplier
+            console.log('price', price)
+
             const tierPrice = getClampedNumber(price, userPricingBounds.min, userPricingBounds.max)
+            console.log('tierPrice', tierPrice)
+
 
             rules.push({
                 if: [
                     { in: [[...tier.countries], { get: 'country' }] },
-                    { set: ['price.IMPRESSION', { bn: parseUnits(tierPrice.toFixed(4), decimals).toString() }] }
+                    { set: ['price.IMPRESSION', { bn: parseUnits(tierPrice.toFixed(8), decimals).toString() }] }
                 ]
             })
         }
@@ -311,16 +312,19 @@ const useInputValuePerMileToTokenValue = (value, decimals) => {
 }
 
 const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals }) => {
-    if(!pricingBounds) {
+    if (!pricingBounds) {
         throw new Error('ERR_PRICING_BOUNDS_NOT_PROVIDED')
-    } else if  (!pricingBounds.IMPRESSION) {
+    } else if (!pricingBounds.IMPRESSION) {
         throw new Error('ERR_PRICING_BOUNDS_IMPRESSION_NOT_PROVIDED')
     }
 
-    const impression = { ...pricingBounds.IMPRESSION }
-    impression.min = useInputValuePerMileToTokenValue(impression.min, decimals)
-    impression.max = useInputValuePerMileToTokenValue(impression.max, decimals)
-    pricingBoundsInRuleValue.IMPRESSION = impression
+    const pricingBoundsInRuleValue = {
+        IMPRESSION: {
+            min: useInputValuePerMileToTokenValue(pricingBounds.IMPRESSION.min, decimals),
+            max: useInputValuePerMileToTokenValue(pricingBounds.IMPRESSION.max, decimals)
+        }
+
+    }
 
     return pricingBoundsInRuleValue
 }

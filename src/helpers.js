@@ -338,5 +338,6 @@ module.exports = {
     audienceInputToTargetingRules,
     slotRulesInputToTargetingRules,
     getSuggestedPricingBounds,
-    userInputPricingBoundsPerMileToRulesValue
+    userInputPricingBoundsPerMileToRulesValue,
+    useInputValuePerMileToTokenValue
 }

@@ -311,6 +311,11 @@ const useInputValuePerMileToTokenValue = (value, decimals) => {
     return parseUnits(value, decimals).div(1000).toString()
 }
 
+const bondPerActionToUserInputPerMileValue = (actionValue, decimals) => {
+    // hax instead bigNumberify
+    return  formatUnits(parseUnits(actionValue, 0).mul(1000)).toString()
+}
+
 const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals }) => {
     if (!pricingBounds) {
         throw new Error('ERR_PRICING_BOUNDS_NOT_PROVIDED')
@@ -329,6 +334,21 @@ const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals }) 
     return pricingBoundsInRuleValue
 }
 
+const pricingBondsToUserInputPerMile = ({pricingBounds, decimals}) => {
+    if (!pricingBounds) {
+        throw new Error('ERR_PRICING_BOUNDS_NOT_PROVIDED')
+    } else if (!pricingBounds.IMPRESSION) {
+        throw new Error('ERR_PRICING_BOUNDS_IMPRESSION_NOT_PROVIDED')
+    }
+
+    const pricingBoundsCPMUserInput = {
+        IMPRESSION: {
+            min: bondPerActionToUserInputPerMileValue(pricingBounds.IMPRESSION.min, decimals),
+            max: bondPerActionToUserInputPerMileValue(pricingBounds.IMPRESSION.max, decimals)
+        }
+    }
+}
+
 module.exports = {
     ipfsHashTo32BytesHex,
     from32BytesHexIpfs,
@@ -339,5 +359,8 @@ module.exports = {
     slotRulesInputToTargetingRules,
     getSuggestedPricingBounds,
     userInputPricingBoundsPerMileToRulesValue,
-    useInputValuePerMileToTokenValue
+    useInputValuePerMileToTokenValue,
+    pricingBondsToUserInputPerMile,
+    bondPerActionToUserInputPerMileValue,
+    pricingBondsToUserInputPerMile
 }

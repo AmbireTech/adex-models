@@ -2,7 +2,7 @@ const Base = require('./Base')
 
 class Audience extends Base {
     constructor({
-        id = '',        
+        id = '',
         campaignId = null,
         version = '1',
         inputs = {},
@@ -10,6 +10,7 @@ class Audience extends Base {
         created = null,
         modified = null,
         title = '',
+        pricingBoundsCPMUserInput = null,
         description = '',
         archived = false,
         temp = {},
@@ -24,6 +25,7 @@ class Audience extends Base {
         this.created = created
         this.modified = modified
         this.title = title
+        this.pricingBoundsCPMUserInput = pricingBoundsCPMUserInput
         this.description = description
         this.archived = archived
         this.temp = temp
@@ -33,19 +35,22 @@ class Audience extends Base {
 
     get marketAdd() {
         return this.deepCopyObj({
-            campaignId: this. campaignId,
+            campaignId: this.campaignId,
             version: this.version,
             inputs: this.inputs,
             title: this.title,
+            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput
+
         })
     }
 
     get marketDbAdd() {
         return this.deepCopyObj({
-            campaignId: this. campaignId,
+            campaignId: this.campaignId,
             version: this.version,
             inputs: this.inputs,
             title: this.title,
+            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
             owner: this.owner,
             created: this.created,
         })

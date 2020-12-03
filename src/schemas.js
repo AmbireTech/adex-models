@@ -110,7 +110,8 @@ module.exports = {
             version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
             inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
         }).allow(null).optional(),
-        pricingBoundsCPMUserInput: Joi.object().allow(null).optional()
+        pricingBoundsCPMUserInput: Joi.object().allow(null).optional(),
+        pricingBonds: Joi.object().allow(null).optional(),
     },
     account: {
         email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),
@@ -120,6 +121,7 @@ module.exports = {
         version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
         inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
         title: Joi.string().allow(null).min(3).max(300).optional().error(new Error(errors.AUDIENCE_TITLE_ERR)),
+        pricingBoundsCPMUserInput: Joi.object().allow(null).optional()
     },
     audiencePut: {
         version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),

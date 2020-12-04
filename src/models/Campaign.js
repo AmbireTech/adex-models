@@ -108,7 +108,8 @@ class Campaign extends Base {
             title: this.title,
             targetingRules: this.targetingRules,
             audienceInput: this.audienceInputMarket,
-            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput
+            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
+            pricingBounds: this.pricingBounds
         })
     }
 
@@ -118,6 +119,7 @@ class Campaign extends Base {
             targetingRules: this.targetingRules,
             audienceInput: this.audienceInputMarket,
             pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
+            pricingBounds: this.pricingBounds,
             modified: this.modified,
         })
     }

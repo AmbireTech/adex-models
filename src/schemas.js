@@ -9,7 +9,7 @@ const {
     addressRegex,
     signatureRegex,
     hashRegex,
-    campaignAddrRegex
+    // campaignAddrRegex
 } = require('./validations').Regexes
 const validModes = Object.keys(SignatureModes).map(key => SignatureModes[key])
 const roles = ['advertiser', 'publisher']

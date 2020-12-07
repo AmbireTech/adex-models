@@ -316,9 +316,9 @@ const useInputValuePerMileToTokenValue = ({ value, decimals, divBy = 1, mulBy = 
         .toString()
 }
 
-const bondPerActionToUserInputPerMileValue = (actionValue) => {
+const bondPerActionToUserInputPerMileValue = (actionValue, decimals = 0) => {
     // hax instead bigNumberify
-    return formatUnits(parseUnits(actionValue, 0).mul(1000)).toString()
+    return formatUnits(parseUnits(actionValue, 0).mul(1000), decimals).toString()
 }
 
 const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals, minCoef = 1, maxCoef = 1 }) => {
@@ -351,6 +351,8 @@ const pricingBondsToUserInputPerMile = ({ pricingBounds, decimals }) => {
             max: bondPerActionToUserInputPerMileValue(pricingBounds.IMPRESSION.max, decimals)
         }
     }
+
+    return pricingBoundsCPMUserInput
 }
 
 module.exports = {
@@ -366,5 +368,4 @@ module.exports = {
     useInputValuePerMileToTokenValue,
     pricingBondsToUserInputPerMile,
     bondPerActionToUserInputPerMileValue,
-    pricingBondsToUserInputPerMile
 }

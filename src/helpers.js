@@ -237,11 +237,7 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
         if (multiplier !== 1 || isTopSelectedTier) {
 
             const price = isTopSelectedTier ? userPricingBounds.max : userPricingBounds.min * multiplier
-            console.log('price', price)
-
             const tierPrice = getClampedNumber(price, userPricingBounds.min, userPricingBounds.max)
-            console.log('tierPrice', tierPrice)
-
 
             rules.push({
                 if: [

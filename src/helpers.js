@@ -252,7 +252,7 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
     return rules
 }
 
-// pricingBounds per action BM string
+// pricingBounds per action BN string
 const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }) => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
@@ -304,7 +304,7 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
     throw new Error('INVALID_RULES_INPUT_VERSION')
 }
 
-const useInputValuePerMileToTokenValue = ({ value, decimals, divBy = 1, mulBy = 1 } = {}) => {
+const userInputValuePerMileToTokenValue = ({ value, decimals, divBy = 1, mulBy = 1 } = {}) => {
     return parseUnits(value, decimals)
         .mul(mulBy || 1)
         .div(1000)
@@ -326,8 +326,8 @@ const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals, mi
 
     const pricingBoundsInRuleValue = {
         IMPRESSION: {
-            min: useInputValuePerMileToTokenValue({ value: pricingBounds.IMPRESSION.min, decimals, divBy: minCoef }),
-            max: useInputValuePerMileToTokenValue({ value: pricingBounds.IMPRESSION.max, decimals, mulBy: maxCoef })
+            min: userInputValuePerMileToTokenValue({ value: pricingBounds.IMPRESSION.min, decimals, divBy: minCoef }),
+            max: userInputValuePerMileToTokenValue({ value: pricingBounds.IMPRESSION.max, decimals, mulBy: maxCoef })
         }
     }
 
@@ -361,7 +361,7 @@ module.exports = {
     slotRulesInputToTargetingRules,
     getSuggestedPricingBounds,
     userInputPricingBoundsPerMileToRulesValue,
-    useInputValuePerMileToTokenValue,
+    userInputValuePerMileToTokenValue,
     pricingBondsToUserInputPerMile,
     bondPerActionToUserInputPerMileValue,
 }

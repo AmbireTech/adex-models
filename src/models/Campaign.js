@@ -13,6 +13,7 @@ class Campaign extends Base {
         adUnits = [], // objs with AdUnits spec props
         validators = [], // 2 objs {id: '', url: '', fee: ''} , 1st - leader, 2nd - follower
         pricingBounds = null, //{IMPRESSION: { CLICK: { min: "0", max: "1000" } }}
+        pricingBoundsCPMUserInput = null, // {IMPRESSION: { CLICK: { min: "0", max: "1000" } }} - per mile - divide by 1000 for spec.pricingBonds
         maxPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
         minPerImpression = '', // BigNumStr // OBSOLETE - TODO: remove
         targeting = [], // {tag: '', score: 0} // OBSOLETE - TODO: remove
@@ -41,6 +42,7 @@ class Campaign extends Base {
         this.adUnits = adUnits
         this.validators = validators
         this.pricingBounds = pricingBounds
+        this.pricingBoundsCPMUserInput = pricingBoundsCPMUserInput
         this.maxPerImpression = maxPerImpression
         this.minPerImpression = minPerImpression
         this.targeting = targeting
@@ -106,6 +108,8 @@ class Campaign extends Base {
             title: this.title,
             targetingRules: this.targetingRules,
             audienceInput: this.audienceInputMarket,
+            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
+            pricingBounds: this.pricingBounds
         })
     }
 
@@ -114,6 +118,8 @@ class Campaign extends Base {
             title: this.title,
             targetingRules: this.targetingRules,
             audienceInput: this.audienceInputMarket,
+            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
+            pricingBounds: this.pricingBounds,
             modified: this.modified,
         })
     }

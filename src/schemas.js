@@ -9,7 +9,7 @@ const {
     addressRegex,
     signatureRegex,
     hashRegex,
-    campaignAddrRegex
+    // campaignAddrRegex
 } = require('./validations').Regexes
 const validModes = Object.keys(SignatureModes).map(key => SignatureModes[key])
 const roles = ['advertiser', 'publisher']
@@ -19,9 +19,29 @@ const roles = ['advertiser', 'publisher']
 const errors = require('./errors')
 const targetUrlSchema = Joi.string().regex(/^((http:\/\/)|(https:\/\/))[\S]+/).uri({ scheme: ['http', 'https'], allowQuerySquareBrackets: true })
 const numericString = Joi.string().regex(/^\d+$/)
+const numericStringFloat = Joi.string().regex(/^(\d|\.)+$/)
 const slotMinPerImpression = Joi.object().allow(null).pattern(/^/, numericString).optional().error(new Error(errors.SLOT_MIN_PER_IMPR))
+
 // TODO: bump celebrate/joi version to add tlsd validations (joi 16+) for slot website
 // That will require update of using .allow([]) (it is not allowed at joi 16+)
+
+const pricingBoundsSchema = Joi.object()
+    .allow(null)
+    .optional()
+    .keys()
+    .pattern(
+        /^(IMPRESSION|CLICK)$/,
+        Joi.object({ min: numericString.required(), max: numericString.required() })
+    )
+
+const pricingBoundsUserInputPMSchema = Joi.object()
+    .allow(null)
+    .optional()
+    .keys()
+    .pattern(
+        /^(IMPRESSION|CLICK)$/,
+        Joi.object({ min: numericStringFloat.required(), max: numericStringFloat.required() })
+    )
 
 module.exports = {
     adSlotPost: {
@@ -40,7 +60,7 @@ module.exports = {
             version: Joi.string().min(1).max(69).required().error(new Error(errors.SLOT_RULES_VERSION_ERR)),
             inputs: Joi.object().required().error(new Error(errors.SLOT_RULES_INPUTS_ERR)),
         }).allow(null).optional(),
-        website: Joi.string().required().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR)),
+        website: Joi.string().required().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https'] }).error(new Error(errors.SLOT_WEBSITE_ERR)),
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
         modified: Joi.allow(null).error(new Error(errors.MODIFIED_NOT_NULL_ERR))
     },
@@ -55,7 +75,7 @@ module.exports = {
             inputs: Joi.object().required().error(new Error(errors.SLOT_RULES_INPUTS_ERR)),
         }).allow(null).optional(),
         archived: Joi.bool().optional().error(new Error(errors.ARCHIVED_ERR)),
-        website: Joi.string().allow('').optional().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https']}).error(new Error(errors.SLOT_WEBSITE_ERR)),
+        website: Joi.string().allow('').optional().regex(/^(https:\/\/)[\S]+/).uri({ scheme: ['http', 'https'] }).error(new Error(errors.SLOT_WEBSITE_ERR)),
         // modified: set it on the server
     },
     adUnitPost: {
@@ -109,7 +129,9 @@ module.exports = {
         audienceInput: Joi.object().keys({
             version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
             inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
-        }).allow(null).optional()
+        }).allow(null).optional(),
+        pricingBoundsCPMUserInput: pricingBoundsUserInputPMSchema,
+        pricingBounds: pricingBoundsSchema,
     },
     account: {
         email: Joi.string().email({ allowUnicode: false }).required().error(new Error(errors.ACCOUNT_EMAIL_ERR)),
@@ -119,6 +141,7 @@ module.exports = {
         version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),
         inputs: Joi.object().required().error(new Error(errors.AUDIENCE_INPUTS_ERR)),
         title: Joi.string().allow(null).min(3).max(300).optional().error(new Error(errors.AUDIENCE_TITLE_ERR)),
+        pricingBoundsCPMUserInput: pricingBoundsUserInputPMSchema
     },
     audiencePut: {
         version: Joi.string().min(1).max(69).required().error(new Error(errors.AUDIENCE_VERSION_ERR)),

@@ -237,11 +237,7 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
         if (multiplier !== 1 || isTopSelectedTier) {
 
             const price = isTopSelectedTier ? userPricingBounds.max : userPricingBounds.min * multiplier
-            console.log('price', price)
-
             const tierPrice = getClampedNumber(price, userPricingBounds.min, userPricingBounds.max)
-            console.log('tierPrice', tierPrice)
-
 
             rules.push({
                 if: [
@@ -256,6 +252,7 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
     return rules
 }
 
+// pricingBounds per action BN string
 const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTiersCoefficients, pricingBounds, decimals }) => {
     if (audienceInput.version === '1') {
         const { inputs } = audienceInput
@@ -307,11 +304,20 @@ const slotRulesInputToTargetingRules = ({ rulesInput, suggestedMinCPM, decimals 
     throw new Error('INVALID_RULES_INPUT_VERSION')
 }
 
-const useInputValuePerMileToTokenValue = (value, decimals) => {
-    return parseUnits(value, decimals).div(1000).toString()
+const userInputValuePerMileToTokenValue = ({ value, decimals, divBy = 1, mulBy = 1 } = {}) => {
+    return parseUnits(value, decimals)
+        .mul(mulBy || 1)
+        .div(1000)
+        .div(divBy || 1)
+        .toString()
 }
 
-const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals }) => {
+const bondPerActionToUserInputPerMileValue = (actionValue, decimals = 0) => {
+    // hax instead bigNumberify
+    return formatUnits(parseUnits(actionValue, 0).mul(1000), decimals).toString()
+}
+
+const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals, minCoef = 1, maxCoef = 1 }) => {
     if (!pricingBounds) {
         throw new Error('ERR_PRICING_BOUNDS_NOT_PROVIDED')
     } else if (!pricingBounds.IMPRESSION) {
@@ -320,13 +326,29 @@ const userInputPricingBoundsPerMileToRulesValue = ({ pricingBounds, decimals }) 
 
     const pricingBoundsInRuleValue = {
         IMPRESSION: {
-            min: useInputValuePerMileToTokenValue(pricingBounds.IMPRESSION.min, decimals),
-            max: useInputValuePerMileToTokenValue(pricingBounds.IMPRESSION.max, decimals)
+            min: userInputValuePerMileToTokenValue({ value: pricingBounds.IMPRESSION.min, decimals, divBy: minCoef }),
+            max: userInputValuePerMileToTokenValue({ value: pricingBounds.IMPRESSION.max, decimals, mulBy: maxCoef })
         }
-
     }
 
     return pricingBoundsInRuleValue
+}
+
+const pricingBondsToUserInputPerMile = ({ pricingBounds, decimals }) => {
+    if (!pricingBounds) {
+        throw new Error('ERR_PRICING_BOUNDS_NOT_PROVIDED')
+    } else if (!pricingBounds.IMPRESSION) {
+        throw new Error('ERR_PRICING_BOUNDS_IMPRESSION_NOT_PROVIDED')
+    }
+
+    const pricingBoundsCPMUserInput = {
+        IMPRESSION: {
+            min: bondPerActionToUserInputPerMileValue(pricingBounds.IMPRESSION.min, decimals),
+            max: bondPerActionToUserInputPerMileValue(pricingBounds.IMPRESSION.max, decimals)
+        }
+    }
+
+    return pricingBoundsCPMUserInput
 }
 
 module.exports = {
@@ -338,5 +360,8 @@ module.exports = {
     audienceInputToTargetingRules,
     slotRulesInputToTargetingRules,
     getSuggestedPricingBounds,
-    userInputPricingBoundsPerMileToRulesValue
+    userInputPricingBoundsPerMileToRulesValue,
+    userInputValuePerMileToTokenValue,
+    pricingBondsToUserInputPerMile,
+    bondPerActionToUserInputPerMileValue,
 }

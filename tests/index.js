@@ -159,4 +159,34 @@ tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
 	t.end()
 })
 
+tape('Testing pricing bounds helpers', (t) => {
+	const decimals = 18
+
+	// per 100 impressions
+	const userInputPB = {
+		IMPRESSION: {
+			min: '0.1',
+			max: '0.69'
+		}
+	}
+
+	// per 1 impression
+	const specPricingBounds = {
+		IMPRESSION: {
+			min: '100000000000000',
+			max: '690000000000000'
+		}
+	}
+
+	const specFromUserInput = helpers.userInputPricingBoundsPerMileToRulesValue({ pricingBounds: userInputPB, decimals })
+	const userInputFormSpecBounds = helpers.pricingBondsToUserInputPerMile({pricingBounds: specPricingBounds, decimals})
+
+	t.equals(specFromUserInput.IMPRESSION.min, specPricingBounds.IMPRESSION.min, 'userInputPricingBoundsPerMileToRulesValue min OK')
+	t.equals(specFromUserInput.IMPRESSION.max, specPricingBounds.IMPRESSION.max, 'userInputPricingBoundsPerMileToRulesValue max OK')
+	t.equals(userInputFormSpecBounds.IMPRESSION.min, userInputPB.IMPRESSION.min, 'userInputFormSpecBounds min OK')
+	t.equals(userInputFormSpecBounds.IMPRESSION.max, userInputPB.IMPRESSION.max, 'userInputFormSpecBounds max OK')
+	t.end()
+
+})
+
 

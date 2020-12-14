@@ -32,7 +32,7 @@ const audienceInput1 = {
         },
         "devices": {
             "in": [
-                "GROUP_MOBILE"
+                "GROUP_ANDROID"
             ],
             "apply": "in"
         },

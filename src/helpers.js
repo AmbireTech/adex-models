@@ -62,7 +62,7 @@ const inputCountriesToRuleCountries = (inputCountries = []) => {
 // by userAgentOS
 const inputDevicesToRuleDevices = (inputDevices = []) => {
     const ruleDevices = inputDevices.reduce((all, d) => {
-        const agentOs = OsGroups[d] ? OsGroups[d].oss : [c]
+        const agentOs = OsGroups[d] ? OsGroups[d].oss : [d]
         return all.concat(agentOs)
     }, [])
         .filter((c, i, all) => all.indexOf(c) === i)

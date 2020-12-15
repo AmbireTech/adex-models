@@ -100,6 +100,7 @@ class Campaign extends Base {
         return  this.audienceInput && this.audienceInput.version && Object.keys(this.audienceInput.inputs).length ? this.deepCopyObj({
             version: this.audienceInput.version,
             inputs: this.audienceInput.inputs,
+            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput
         }) : null
     }
 
@@ -108,8 +109,6 @@ class Campaign extends Base {
             title: this.title,
             targetingRules: this.targetingRules,
             audienceInput: this.audienceInputMarket,
-            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
-            pricingBounds: this.pricingBounds
         })
     }
 
@@ -118,8 +117,6 @@ class Campaign extends Base {
             title: this.title,
             targetingRules: this.targetingRules,
             audienceInput: this.audienceInputMarket,
-            pricingBoundsCPMUserInput: this.pricingBoundsCPMUserInput,
-            pricingBounds: this.pricingBounds,
             modified: this.modified,
         })
     }

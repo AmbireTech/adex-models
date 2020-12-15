@@ -225,6 +225,10 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
 
     const rules = []
 
+    rules.push(
+        { set: ['price.IMPRESSION', { bn: parseUnits(userPricingBounds.min.toFixed(8), decimals).toString() }] }
+    )
+
     // Add price rules for each tier
     Object.values(selectedTiers).forEach(tier => {
         const multiplier = (normalizedCountryTiersCoefficients[tier.ruleValue])

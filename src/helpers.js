@@ -180,13 +180,14 @@ const getSelectedCountryTiersFormAudienceInput = (location) => {
         )
     } else if (apply === 'nin') {
         return Object.fromEntries(Object.entries(CountryTiers)
-            .filter(([key, value]) => {
-                return !location.nin.includes(key) || !value.countries.every(x => location.nin.includes(x))
-            })
             .map(([key, value]) => {
-                const countries = [...value.countries].filter(x => !location.nin.includes(x))
+                const countries = location.nin.includes(key) ? [] : [...value.countries].filter(x => !location.nin.includes(x))
                 return [key, { ...value, countries }]
-            }))
+            })
+            .filter(([key, value]) => {
+                return !!value.countries.length
+            })
+        )
     }
 
     return { ...CountryTiers }
@@ -202,7 +203,6 @@ const getPriceRulesV1 = ({ audienceInput, countryTiersCoefficients, pricingBound
     }
 
     const selectedTiers = getSelectedCountryTiersFormAudienceInput(location)
-
     const selectedTiersOrdered = Object.entries(countryTiersCoefficients)
         .filter(([key, value]) => !!selectedTiers[key])
         .sort((a, b) => a[1] - b[1])
@@ -260,6 +260,8 @@ const audienceInputToTargetingRules = ({ audienceInput, minByCategory, countryTi
         const allCountriesSelected = location.apply === 'allin' || areAllCountriesSelected(location[location.apply])
         const allDevicesSelected = devices.apply === 'allin' || areAllDevicesSelected(devices[devices.apply])
         const rules = [
+            // Set base price - required for cpm update
+            { set: ['price.IMPRESSION', { bn: pricingBounds.IMPRESSION.min }] },
             ...(!allCountriesSelected ? [{ onlyShowIf: { [location.apply]: [inputCountriesToRuleCountries(location[location.apply]), { get: 'country' }] } }] : []),
             ...(allCountriesSelected && location.apply === 'in' ? [] : []),
             ...(allCountriesSelected && location.apply === 'nin' ? [{ onlyShowIf: false }] : []),

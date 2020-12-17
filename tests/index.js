@@ -1,11 +1,30 @@
 const { Joi } = require('celebrate')
 const tape = require('tape')
 const { evaluateMultiple } = require('adex-adview-manager/lib/rules')
+const { getPricingBounds } = require('adex-adview-manager/lib/helpers')
 const schemas = require('../src/schemas')
 const testData = require('./testData')
 const errors = require('../src/errors')
 const helpersTestData = require('./helpersTestData')
 const helpers = require('../src/helpers')
+
+
+
+const DEFAULT_CAMPAIGN_SPEC = {
+	pricingBounds: {
+		IMPRESSION: {
+			min: '10000000000000',
+			max: '15000000000000000'
+		}
+	}
+}
+
+const [minPrice, maxPrice] = getPricingBounds({ spec: { ...DEFAULT_CAMPAIGN_SPEC } })
+
+const defaultRulesOutput = {
+	show: true,
+	'price.IMPRESSION': minPrice,
+}
 
 tape('Testing schema for POSTing ad slots', (t) => {
 	t.equals(Joi.validate(testData.workingSlot.marketAdd, schemas.adSlotPost).error, null, 'No error for normal slot')
@@ -105,56 +124,57 @@ tape('Testing getSuggestedPricingBounds', (t) => {
 })
 
 tape('Testing audienceInputToTargetingRules with getPriceRulesV1', (t) => {
-	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1, decimals, pricingBounds: pricingBounds1 })[4].if[1].set[1].bn, '300000000000000000', 'set exact price when no difference between min and max')
-	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1, decimals, pricingBounds: pricingBounds2 })[4].if[1].set[1].bn, '2400000000000000000', 'set exact price when no difference between min and max (higher numbers)')
-	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4, decimals, pricingBounds: pricingBounds4 })[5].if[1].set[1].bn, '7500000000000000000', 'set max price to top tier countries')
+	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1, decimals, pricingBounds: pricingBounds1 })[5].if[1].set[1].bn, '300000000000000000', 'set exact price when no difference between min and max')
+	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput1, decimals, pricingBounds: pricingBounds2 })[5].if[1].set[1].bn, '2400000000000000000', 'set exact price when no difference between min and max (higher numbers)')
+	t.equals(helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput4, decimals, pricingBounds: pricingBounds4 })[6].if[1].set[1].bn, '7500000000000000000', 'set max price to top tier countries')
 
 	// 0.6 - 1.5 all tiers
 	const rules = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput7, decimals, pricingBounds: pricingBounds6 })
 
 	// return tier rules ordered by top tier
 	// TIER_1 max - 1.5
-	t.equals(rules[3].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier countries with 4 tiers selected')
+	t.equals(rules[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier countries with 4 tiers selected')
 	// TIER_2 0.6(min) * 2.5 = 1.5
-	t.equals(rules[4].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2')
+	t.equals(rules[5].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2')
 	// TIER_3 0.6(min) * 1.5 = 0.9
-	t.equals(rules[5].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
+	t.equals(rules[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
 
 	// User agent test
-	t.equals(rules[6].onlyShowIf.in[0][0], 'Android', 'should have Android in user agent')
-	t.equals(rules[6].onlyShowIf.in[1].get, 'userAgentOS', 'should get userAgentOS')
-	t.equals(rules[7], undefined, 'no rule for min tier as this is the default min price')
-	t.doesNotThrow(() => evaluateMultiple({}, {}, rules), 'rules are evaluated with no errors')
+	t.equals(rules[7].onlyShowIf.in[0][0], 'Android', 'should have Android in user agent')
+	t.equals(rules[7].onlyShowIf.in[1].get, 'userAgentOS', 'should get userAgentOS')
+	t.equals(rules[8], undefined, 'no rule for min tier as this is the default min price')
+	t.doesNotThrow(() => evaluateMultiple({}, { ...defaultRulesOutput }, rules), 'rules are evaluated with no errors')
 
 	// 0.6 - 1.5 all tiers
 	const rulesWithSingleCountryInAllTiers = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput8, decimals, pricingBounds: pricingBounds6 })
 
 	// return tier rules ordered by top tier
 	// TIER_1 DE max - 1.5
-	t.equals(rulesWithSingleCountryInAllTiers[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier country with 4 tiers selected')
+	t.equals(rulesWithSingleCountryInAllTiers[5].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier country with 4 tiers selected')
 	// TIER_2  GD 0.6(min) * 2.5 = 1.5
-	t.equals(rulesWithSingleCountryInAllTiers[5].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2 country')
+	t.equals(rulesWithSingleCountryInAllTiers[6].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2 country')
 
 	// TIER_3 BA 0.6(min) * 1.5 = 0.9
-	t.equals(rulesWithSingleCountryInAllTiers[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3 country')
+	t.equals(rulesWithSingleCountryInAllTiers[7].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3 country')
 
-	t.equals(rulesWithSingleCountryInAllTiers[8], undefined, 'no rule for min tier country as this is the default min price')
+	t.equals(rulesWithSingleCountryInAllTiers[9], undefined, 'no rule for min tier country as this is the default min price')
 
-	t.doesNotThrow(() => evaluateMultiple({}, {}, rulesWithSingleCountryInAllTiers), 'rulesWithSingleCountryInAllTiers are evaluated with no errors')
+	t.doesNotThrow(() => evaluateMultiple({}, { ...defaultRulesOutput }, rulesWithSingleCountryInAllTiers), 'rulesWithSingleCountryInAllTiers are evaluated with no errors')
 
 	// 0.6  nin t1 1 country t3 min 0.6 * 1, max 0.6 * 2.5 - suggested but used { min: 0.6, max: 1.5 } pricingBounds6
 	const rulesWithNinLocation = helpers.audienceInputToTargetingRules({ minByCategory, countryTiersCoefficients, audienceInput: audienceInput9, decimals, pricingBounds: pricingBounds6 })
 
 	// return tier rules ordered by top tier
-	// TIER_1 max - 1.5
-	t.equals(rulesWithNinLocation[4].if[1].set[1].bn, '1500000000000000000', 'set max price to top tier countries with 4 tiers selected')
+	// base price
+	t.equals(rulesWithNinLocation[0].set[0], 'price.IMPRESSION', 'set min.IMPRESSION as base price')
+	t.equals(rulesWithNinLocation[0].set[1].bn, '600000000000000000', 'set min.IMPRESSION to be min price')
 	// TIER_2 0.6(min) * 2.5 = 1.5
-	t.equals(rulesWithNinLocation[5].if[1].set[1].bn, '1500000000000000000', 'set min * coefficient for middle tier 2')
+	t.equals(rulesWithNinLocation[5].if[1].set[1].bn, '1500000000000000000', 'set max for middle tier 2')
 	// TIER_3 0.6(min) * 1.5 = 0.9
 	t.equals(rulesWithNinLocation[6].if[1].set[1].bn, '900000000000000000', 'set min * coefficient for middle tier 3')
-	t.equals(rulesWithNinLocation[6].if[0].in.includes('BG'), false, 'excluded single country is not included in price rule')
+	t.equals(rulesWithNinLocation[5].if[0].in.includes('BG'), false, 'excluded single country is not included in price rule')
 	t.equals(rulesWithNinLocation[8], undefined, 'no rule for min tier as this is the default min price')
-	t.doesNotThrow(() => evaluateMultiple({}, {}, rulesWithNinLocation), 'rulesWithNinLocation are evaluated with no errors')
+	t.doesNotThrow(() => evaluateMultiple({}, { ...defaultRulesOutput }, rulesWithNinLocation), 'rulesWithNinLocation are evaluated with no errors')
 
 	t.end()
 })
@@ -179,7 +199,7 @@ tape('Testing pricing bounds helpers', (t) => {
 	}
 
 	const specFromUserInput = helpers.userInputPricingBoundsPerMileToRulesValue({ pricingBounds: userInputPB, decimals })
-	const userInputFormSpecBounds = helpers.pricingBondsToUserInputPerMile({pricingBounds: specPricingBounds, decimals})
+	const userInputFormSpecBounds = helpers.pricingBondsToUserInputPerMile({ pricingBounds: specPricingBounds, decimals })
 
 	t.equals(specFromUserInput.IMPRESSION.min, specPricingBounds.IMPRESSION.min, 'userInputPricingBoundsPerMileToRulesValue min OK')
 	t.equals(specFromUserInput.IMPRESSION.max, specPricingBounds.IMPRESSION.max, 'userInputPricingBoundsPerMileToRulesValue max OK')

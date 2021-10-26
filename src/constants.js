@@ -286,6 +286,11 @@ const valueToKey = (obj) => {
 	}, {})
 }
 
+const WalletIdentityPrivilegeLevel = {
+	Allowed: true,
+	NotAllowed: false,
+}
+
 module.exports = {
 	SignatureModes,
 	SignaturePrefixes,
@@ -305,4 +310,5 @@ module.exports = {
 	UA_BROWSERS,
 	UA_OS,
 	OsGroups,
+	WalletIdentityPrivilegeLevel
 }
